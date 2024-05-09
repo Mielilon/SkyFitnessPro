@@ -41,7 +41,7 @@ export default function CoursePage() {
           })}
         </div>
       </section>
-      <section className="z-10 mt-[156px] lg:mt-[102px]">
+      <section className="z-10 mt-[156px] lg:mt-[102px] md:mt-[256px]">
         <div className="rounded-[30px] p-[40px] md:p-[30px] lg:p-10 bg-white shadow-def">
           <div className="max-w-[465px] flex flex-col ">
             <h2 className="text-[32px] md:text-5xl text-black font-roboto-500 leading-none mb-[28px]">
@@ -58,13 +58,17 @@ export default function CoursePage() {
             </div>
             <Button title="Добавить курс" />
           </div>
-          <div className="relative md:z-10 -z-10 md:bottom-[550px] bottom-[650px] md:left-[0px] left-[60px] flex justify-end">
+          <div className="relative lg:z-10 -z-10 flex justify-end
+          lg:bottom-[550px] md:bottom-[730px] bottom-[650px] 
+          lg:left-[0px] md:left-[30px] left-[60px] ">
               <Image
-                className="[clip:rect(auto,auto,390px,auto)] absolute -right-[30px] top-[200px]"
-                src="/img/greenLine.svg"
-                alt="green line"
-                width={670}
-                height={390}
+                className="[clip:rect(auto,auto,390px,auto)] lg:[clip:rect(auto,auto,450px,auto)] 
+                right-[35px] top-[70px] absolute 
+                lg:-right-[40px] lg:top-[140px] md:-right-[30px] md:top-[130px] "
+                src="/img/lines.svg"
+                alt="green and black line"
+                width={738}
+                height={574}
               />
               <Image
                 className="absolute"
