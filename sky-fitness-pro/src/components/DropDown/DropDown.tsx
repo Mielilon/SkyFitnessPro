@@ -10,7 +10,7 @@ export default function DropDown() {
       </div>
       <div className="w-[206px] flex flex-col gap-2.5">
         <Button title="Мой профиль" />
-        <ButtonLink title="Выйти" link={"/pages"} />
+        <ButtonLink title="Выйти" link={"/"} />
       </div>
     </div>
   )
