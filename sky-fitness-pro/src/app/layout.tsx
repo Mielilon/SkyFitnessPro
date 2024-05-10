@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Roboto} from "next/font/google";
+import { Roboto } from "next/font/google";
 import localFont from "next/font/local";
 
 import "./globals.css";
+import Wrapper from "@/components/Wrapper/Wrapper";
+import Header from "@/components/Header/Header";
 
 const roboto_400 = Roboto({
   weight: "400",
@@ -30,7 +32,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto_400.variable} ${roboto_500.variable} ${stratosSkyeng.variable}`}>{children}</body>
+      <body className={`${roboto_400.variable} ${roboto_500.variable} ${stratosSkyeng.variable}`}>
+        <Wrapper>
+          <Header />
+          {children}
+        </Wrapper>
+      </body>
     </html>
   );
 }
