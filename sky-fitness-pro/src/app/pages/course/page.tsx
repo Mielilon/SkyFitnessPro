@@ -29,7 +29,7 @@ export default function CoursePage() {
           })}
         </div>
       </section>
-      <section>
+      <section className="z-10">
         <h2 className="font-roboto-500 text-black text-2xl md:text-5xl mb-[24px] lg:mb-[40px]">Направления:</h2>
         <div className="p-[30px] flex flex-col gap-y-[20px] md:grid md:grid-cols-2 md:gap-y-[22px] lg:grid-cols-3 w-auto h-[336px] md:h-[195px] lg:h-[146px] rounded-[30px] bg-lime">
           {coursePractice.map((el) => {
@@ -41,46 +41,45 @@ export default function CoursePage() {
           })}
         </div>
       </section>
-      <section className=" mt-[156px] lg:mt-[102px]">
-        <div className="relative z-30 rounded-[30px] p-[40px] md:p-[30px] lg:p-10 bg-white shadow-def">
-        <div className="max-w-[465px] flex flex-col ">
-          <h2 className="text-[32px] md:text-5xl text-black font-roboto-500 leading-none mb-[28px]">
-            Начните путь <br /> к новому телу
-          </h2>
-          <div className="mb-[28px] h-[178px]">
-            {workoutDescription.map((el) => {
-              return (<>
-                <ul className="flex flex-col list-inside">
-                  <li className="list-disc space-y-3 font-roboto-400 text-lg md:text-2xl text-[#585959] leading-none md:pl-6" key={el}>{el}</li>
-                </ul>
-              </>)
-            })}
+      <section className="z-10 mt-[156px] lg:mt-[102px] md:mt-[256px]">
+        <div className="rounded-[30px] p-[40px] md:p-[30px] lg:p-10 bg-white shadow-def">
+          <div className="max-w-[465px] flex flex-col ">
+            <h2 className="text-[32px] md:text-5xl text-black font-roboto-500 leading-none mb-[28px]">
+              Начните путь <br /> к новому телу
+            </h2>
+            <div className="mb-[28px] h-[178px]">
+              {workoutDescription.map((el) => {
+                return (<>
+                  <ul className="flex flex-col list-inside">
+                    <li className="list-disc space-y-3 font-roboto-400 text-lg md:text-2xl text-[#585959] leading-none md:pl-6" key={el}>{el}</li>
+                  </ul>
+                </>)
+              })}
+            </div>
+            <Button title="Добавить курс" />
           </div>
-          <Button title="Добавить курс" />
-        </div>
-        </div>
-        <div className="absolute z-20">
-          <Image
-            className="relative left-[67px] bottom-[690px] "
-            src="/img/Runner.svg"
-            alt="runner"
-            width={519}
-            height={539} />
-          <Image
-            className="absolute -top-[600px] right-[170px]"
-            src="/img/blackLine.svg"
-            alt="black line"
-            width={50}
-            height={42} />
-          <Image
-            className="absolute z-10 bottom-[700px] left-[30px]"
-            src="/img/greenLine.svg"
-            alt="green line"
-            width={670}
-            height={390} />
+          <div className="relative lg:z-10 -z-10 flex justify-end
+          lg:bottom-[550px] md:bottom-[730px] bottom-[650px] 
+          lg:left-[0px] md:left-[30px] left-[60px] ">
+              <Image
+                className="[clip:rect(auto,auto,390px,auto)] lg:[clip:rect(auto,auto,450px,auto)] 
+                right-[35px] top-[70px] absolute 
+                lg:-right-[40px] lg:top-[140px] md:-right-[30px] md:top-[130px] "
+                src="/img/lines.svg"
+                alt="green and black line"
+                width={738}
+                height={574}
+              />
+              <Image
+                className="absolute"
+                src="/img/Runner.svg"
+                alt="runner"
+                width={519}
+                height={539}
+              />
+          </div>
         </div>
       </section>
-
     </>
   );
 }
