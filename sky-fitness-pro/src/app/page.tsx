@@ -6,11 +6,11 @@ export default function MainCoursesPage() {
   return (
     <>
       <div id="top" className="flex flex-row mb-[58px] items-end space-x-7">
-        <h1 className="font-roboto-500 text-[32px] md:text-[40px]/[60px] xl:text-[60px]/[60px] text-pretty">
+        <h1 className="font-roboto-500 max-w-[840px] text-[32px] md:text-[40px]/[60px] xl:text-[60px]/[60px] text-pretty">
           Начните заниматься спортом
           <br /> и улучшите качество жизни
         </h1>
-        <svg className="hidden sm:block sm:h-[120px]">
+        <svg className="hidden lg:block sm:h-[120px]">
           <use xlinkHref={`/img/sprite.svg#icon-notice`}></use>
         </svg>
       </div>

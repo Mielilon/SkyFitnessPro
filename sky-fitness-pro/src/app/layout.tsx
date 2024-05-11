@@ -33,8 +33,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto_400.variable} ${roboto_500.variable} ${stratosSkyeng.variable}`}>
+        <Header />
         <Wrapper>
-          <Header />
           {children}
         </Wrapper>
       </body>

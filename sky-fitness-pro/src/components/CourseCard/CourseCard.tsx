@@ -14,10 +14,10 @@ export default function CourseCard() {
         />
         {/* В зависимости от добавленного курса будет меняться svg картинка */}
 
-        {/* <svg className="absolute left-[310px] top-[20px] z-10">
+        {/* <svg className="absolute -right-[250px] top-[20px] z-10">
           <use xlinkHref={`/img/sprite.svg#icon-plus`}></use>
         </svg> */}
-        <svg className="absolute left-[310px] top-[20px] z-10">
+        <svg className="absolute -right-[250px] top-[20px] z-10">
           <use xlinkHref={`/img/sprite.svg#icon-minus`}></use>
         </svg>
       </div>
