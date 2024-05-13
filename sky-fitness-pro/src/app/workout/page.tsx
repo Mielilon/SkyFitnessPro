@@ -1,12 +1,20 @@
+"use client";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Button from "@/components/Button/Button";
+import ProgressForm from "@/components/ProgressForm/ProgressForm";
 import Title from "@/components/Title/Title";
 import VideoComponent from "@/components/Video/Video";
 import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
-import { breadcrumbsItems, workoutProgress } from "@/lib/data";
-import { Suspense } from "react";
+import { breadcrumbsItems, labels, workoutProgress } from "@/lib/data";
+import { Suspense, useState } from "react";
 
 export default function WorkoutPage() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function toggleProgressForm() {
+    setIsOpen((prevState) => !prevState);
+  }
+
   return (
     <>
       <section>
@@ -35,9 +43,13 @@ export default function WorkoutPage() {
           })}
         </div>
         <div className="lg:w-[320px] max-w-[283px] w-auto mt-10">
-          <Button title="Заполнить свой прогресс" />
+          <Button
+            title="Заполнить свой прогресс"
+            onClick={toggleProgressForm}
+          />
         </div>
       </section>
+       {isOpen && <ProgressForm labels={labels} />}
     </>
   );
 }
