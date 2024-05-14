@@ -3,7 +3,7 @@ import Button from "../Button/Button";
 
 export default function CourseCard() {
   return (
-    <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px]">
+    <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
       <div>
         <Image
           className="rounded-[30px]"
