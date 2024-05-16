@@ -27,7 +27,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal
 }: Readonly<{
+  modal: React.ReactNode;
   children: React.ReactNode;
 }>) {
   return (
@@ -35,7 +37,10 @@ export default function RootLayout({
       <body className={`${roboto_400.variable} ${roboto_500.variable} ${stratosSkyeng.variable}`}>
         <Header />
         <Wrapper>
+          <Header />
+          <div id="modal-root" />
           {children}
+          {modal}
         </Wrapper>
       </body>
     </html>
