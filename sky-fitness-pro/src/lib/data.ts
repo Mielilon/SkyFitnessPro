@@ -102,7 +102,7 @@ export const workouts = [
     day: "4",
   },
   { name: "Йога на каждый день", description: "Гибкость спины", day: "5" },
-  { name: "Йога на каждый день", description: "и тд", day: "6" },
+  { name: "Йога на каждый день", description: "строчка для проверки", day: "6" },
   { name: "Йога на каждый день", description: "и тп", day: "7" },
   { name: "Йога на каждый день", description: "и тд", day: "8" },
   { name: "Йога на каждый день", description: "что-то ещё", day: "9" },
