@@ -8,15 +8,17 @@ import { workouts } from "@/lib/data";
 
 export default function SelectWorkout() {
     const listItems = workouts.map((workout) =>
-        <li className="lg:h-[74px] h-[64px]"><div className="flex">
-            <InputCheckbox />
-            <div>
-                <p className="font-roboto-400 lg:text-[24px] text-[18px]">{workout.description}</p>
-                <p className="font-roboto-400 lg:text-[16px] text-[14px]">{workout.name} / {workout.day} день</p>
+        <>
+            <li className="lg:h-[74px] h-[64px]"><div className="flex">
+                <InputCheckbox />
+                <div>
+                    <p className="font-roboto-400 lg:text-[24px] text-[18px]">{workout.description}</p>
+                    <p className="font-roboto-400 lg:text-[16px] text-[14px]">{workout.name} / {workout.day} день</p>
+                </div>
             </div>
-        </div>
-            <hr className="mt-[8px] ml-[10px] lg:w-[354px] w-[257px] text-[#C4C4C4]" />
-        </li>
+                <hr className="mt-[8px] ml-[10px] lg:w-[354px] w-[257px] text-[#C4C4C4]" />
+            </li>
+        </>
     );
     return (
         <>

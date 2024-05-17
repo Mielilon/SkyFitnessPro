@@ -37,7 +37,6 @@ export default function RootLayout({
       <body className={`${roboto_400.variable} ${roboto_500.variable} ${stratosSkyeng.variable}`}>
         <Header />
         <Wrapper>
-          <Header />
           <div id="modal-root" />
           {children}
           {modal}
