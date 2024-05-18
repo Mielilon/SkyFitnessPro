@@ -1,17 +1,22 @@
 import Image from "next/image";
 import Button from "../Button/Button";
 
-export default function CourseCard() {
+type CourseCardType = {
+  imgURL: string,
+  title: string,
+}
+
+export default function CourseCard({ imgURL, title }: CourseCardType) {
   return (
     <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
       <div>
-        <Image
-          className="rounded-[30px]"
-          src="/img/yoga.png"
-          alt="yoga"
-          width={360}
-          height={350}
-        />
+          <Image
+            className="rounded-[30px]"
+            src={`/img/${imgURL}.jpeg`}
+            alt={`${imgURL}`}
+            width={360}
+            height={350}
+          />
         {/* В зависимости от добавленного курса будет меняться svg картинка */}
 
         {/* <svg className="absolute w-[27px] right-[20px] top-[20px] z-10">
@@ -22,7 +27,7 @@ export default function CourseCard() {
         </svg>
       </div>
       <div className="flex flex-col px-[30px] py-[25px] gap-y-5">
-        <h2 className="text-[32px]">Стретчинг</h2>
+        <h2 className="text-[32px]">{title}</h2>
         <div className="flex flex-wrap gap-1.5">
           <div className="flex shrink-0 items-center gap-x-1.5 bg-[#F7F7F7] rounded-[30px] p-[10px]">
             <svg className="w-[16px] h-[16px]">
