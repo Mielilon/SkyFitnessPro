@@ -6,9 +6,10 @@ import Button from "../Button/Button";
 import SVG from "../SVG/SVG";
 import { useState } from "react";
 import DropDown from "../DropDown/DropDown";
+import ButtonLink from "../ButtonLink/ButtonLink";
 
 export default function Header() {
-  const isAuth = false;
+  const isAuth = true;
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -28,18 +29,20 @@ export default function Header() {
         </div>
         {isAuth ?
           <div className="w-[103px]">
-            <Button title='Войти' />
+            <Link href="/signin">
+              <Button title='Войти' />
+            </Link>
           </div>
           : (<>
-          <div className="relative">
-            <div onClick={toggleDropdown} className="relative top-0 left-0 flex flex-row justify-end gap-4 md:justify-between items-center w-[170px] h-[50px]">
-              <SVG icon="icon-user" className="w-[42px] h-[42px]" />
-              <div className="flex items-center">
-                <p className="hidden md:block text-2xl font-roboto-400 pr-[11px]">Сергей</p>
-               <SVG icon="icon-arrow" className={isOpen ? "w-[14px] h-[9px] rotate-180 cursor-pointer" : "w-[14px] h-[9px] cursor-pointer"} />
+            <div className="relative">
+              <div onClick={toggleDropdown} className="relative top-0 left-0 flex flex-row justify-end gap-4 md:justify-between items-center w-[170px] h-[50px]">
+                <SVG icon="icon-user" className="w-[42px] h-[42px]" />
+                <div className="flex items-center">
+                  <p className="hidden md:block text-2xl font-roboto-400 pr-[11px]">Сергей</p>
+                  <SVG icon="icon-arrow" className={isOpen ? "w-[14px] h-[9px] rotate-180 cursor-pointer" : "w-[14px] h-[9px] cursor-pointer"} />
+                </div>
               </div>
-            </div>
-            {isOpen && ( <DropDown />)}
+              {isOpen && (<DropDown />)}
             </div>
           </>)}
       </div>

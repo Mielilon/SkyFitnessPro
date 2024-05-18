@@ -1,21 +1,15 @@
-
 import Button from "@/components/Button/Button";
 import CourseCard from "@/components/CourseCard/CourseCard";
-import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, ref } from "firebase/database";
+import { onValue, ref } from "firebase/database";
 import Link from "next/link";
-import { firebaseConfig } from '../app/firebase'
+import { database } from "./firebase";
 
 export default function MainCoursesPage() {
   let coursesArray: any[] = [];
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-  console.log("object");
   const coursesDB = ref(database, 'courses');
   onValue(coursesDB, (snapshot) => {
     if (snapshot.exists()) {
       coursesArray = Object.entries(snapshot.val());
-      console.log(coursesArray);
     } else {
       alert('Извините, курсы не найдены, либо нет подключения к интернету')
       return

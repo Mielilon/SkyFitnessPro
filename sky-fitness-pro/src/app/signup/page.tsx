@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import { signUp } from '../api';
 
 export type ErrorType = {
   email: string[];
@@ -46,8 +47,23 @@ export default function SignUpPage() {
   //     });
   // }
 
+  const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const { result, error } = await signUp(userData.email, userData.password);
+
+    if (error) {
+        return console.log(error)
+    }
+    // else successful
+    if(result) {
+    console.log(result.user.uid)
+    }
+    return router.replace("/profile")
+}
+
   return (
-    <WrapperModal>
+    <WrapperModal onSubmit={(event) => handleForm(event)}>
       <div className="mb-[34px]">
         <FormInput
           type="text"
@@ -94,7 +110,7 @@ export default function SignUpPage() {
 
       <div className="space-y-2.5">
         <Button
-          onClick={() => console.log("object")}
+          type="submit"
           title="Зарегистрироваться"
         />
         <ButtonLink title="Войти" link="/signin" />
