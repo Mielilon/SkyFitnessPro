@@ -21,7 +21,7 @@ export function Modal({ children }: { children: React.ReactNode }) {
   }
 
   return createPortal(
-      <dialog onClick={() => onDismiss()} ref={dialogRef} className="fixed rounded-[30px] left-[calc(50%-(340px/2))] md:left-[calc(50%-(370px/2))] top-[calc(50%-(439px/2))]" onClose={onDismiss}>
+      <dialog  ref={dialogRef} className="fixed rounded-[30px] left-[calc(50%-(340px/2))] md:left-[calc(50%-(370px/2))] top-[calc(50%-(439px/2))]" onClose={onDismiss}>
         <div className="mx-auto max-w-[100%] bg-[rgba(0, 0, 0, 0.157)]">
           <form
             className="max-w-[366px] bg-[#FFFFFF] rounded-[30px] px-[31px] md:px-[40px] py-[40px]"

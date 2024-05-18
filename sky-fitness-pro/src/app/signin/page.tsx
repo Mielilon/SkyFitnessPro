@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import { signIn } from "../api";
 
 export type ErrorType = {
   detail: string;
@@ -47,10 +48,23 @@ export default function SignInPage() {
   //       setError(JSON.parse(error.message));
   //     });
   // }
+  const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
+    const { result, error } = await signIn(userData.email, userData.password);
+
+    if (error) {
+        return console.log(error)
+    }
+    // else successful
+    if(result) {
+    console.log(result.user.uid)
+    }
+    return router.replace("/")
+}
   return (
     <>
-      <WrapperModal>
+      <WrapperModal onSubmit={(event) => handleForm(event)}>
         <div className="mb-[34px]">
           <FormInput
             value={userData.email}
@@ -86,7 +100,9 @@ export default function SignInPage() {
         </div>
 
         <div className="space-y-2.5">
-          <Button onClick={() => console.log("object")} title="Войти" />
+          <Button
+          type="submit" 
+          title="Войти" />
           <ButtonLink title="Зарегистрироваться" link="/signup" />
         </div>
       </WrapperModal>

@@ -50,9 +50,7 @@ export default function CoursePage() {
         </div>
         <div className="sm:mt-[53px] mt-[23px] sm:mb-[31px] mb-[12px] sm:text-[40px] text-[24px] font-bold">Мои курсы</div>
         <div className="flex flex-wrap flex-row gap-[41px]">
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
+          
         </div>
       </div>
     </>
