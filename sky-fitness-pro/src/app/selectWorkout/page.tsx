@@ -2,10 +2,6 @@ import Button from "@/components/Button/Button";
 import InputCheckbox from "@/components/InputCheckbox/InputCheckbox";
 import { workouts } from "@/lib/data";
 
-
-
-
-
 export default function SelectWorkout() {
     const listItems = workouts.map((workout) =>
         <>
