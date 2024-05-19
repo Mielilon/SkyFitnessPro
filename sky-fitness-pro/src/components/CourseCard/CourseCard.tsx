@@ -7,22 +7,18 @@ type CourseCardType = {
 }
 
 export default function CourseCard({ imgURL, title }: CourseCardType) {
+
   return (
     <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
-      <div>
-          <Image
-            className="rounded-[30px]"
-            src={`/img/${imgURL}.jpeg`}
-            alt={`${imgURL}`}
-            width={360}
-            height={350}
-          />
-        {/* В зависимости от добавленного курса будет меняться svg картинка */}
-
-        {/* <svg className="absolute w-[27px] right-[20px] top-[20px] z-10">
-          <use xlinkHref={`/img/sprite.svg#icon-plus`}></use>
-        </svg> */}
-        <svg className="absolute w-[27px] right-[20px] top-[20px] z-10">
+      <div className='relative'>
+        <Image
+          className='rounded-[30px] object-fill'
+          src={`/img/${imgURL}.png`}
+          alt={`${imgURL}`}
+          width={350}
+          height={360}
+        />
+        <svg className={`absolute w-[27px] right-[20px] z-10`} viewBox="0 0 27 27">
           <use xlinkHref={`/img/sprite.svg#icon-minus`}></use>
         </svg>
       </div>
