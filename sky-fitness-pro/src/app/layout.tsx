@@ -28,11 +28,15 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
   signin,
-  signup
+  signup,
+  reset_password,
+  reset_password_email,
 }: Readonly<{
   signin: React.ReactNode;
   children: React.ReactNode;
   signup: React.ReactNode;
+  reset_password: React.ReactNode;
+  reset_password_email: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -43,6 +47,8 @@ export default function RootLayout({
           {children}
           {signin}
           {signup}
+          {reset_password}
+          {reset_password_email}
         </Wrapper>
       </body>
     </html>

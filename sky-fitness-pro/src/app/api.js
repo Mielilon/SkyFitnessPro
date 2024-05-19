@@ -37,4 +37,19 @@ export async function logOut() {
  catch (e) {
   error = e;
 }
+
+}
+
+export async function ChangePassword( password) {
+  let result = null,
+    error = null;
+  // try {
+  //   result = await createUserWithEmailAndPassword(auth, email, password);
+    
+
+  // } catch (e) {
+  //   error = e;
+  // }
+
+  return { result, error };
 }

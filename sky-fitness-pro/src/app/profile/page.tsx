@@ -2,6 +2,7 @@ import Image from "next/image";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import CourseCard from "@/components/CourseCard/CourseCard";
+import Link from "next/link";
 
 export default function CoursePage() {
   return (
@@ -39,7 +40,13 @@ export default function CoursePage() {
               </div>
               <div className="flex flex-wrap flex-row sm:space-x-[10px] space-x-0 sm:gap-0 gap-[15px]">
                 <div className="sm:w-[192px] w-[283px]">
-                  <Button title="Изменить пароль" />
+                  <Link href="/reset_password">
+                    <button
+                      className="justify-self-center font-roboto-400 rounded-full w-full h-[52px] px-5 bg-[#BCEC30] text-lg text-[#000000] hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]"
+                    >
+                      Изменить пароль
+                    </button>
+                  </Link>
                 </div>
                 <div className="sm:w-[192px] w-[283px]">
                   <ButtonLink title="Выйти" link="/" />
@@ -50,7 +57,7 @@ export default function CoursePage() {
         </div>
         <div className="sm:mt-[53px] mt-[23px] sm:mb-[31px] mb-[12px] sm:text-[40px] text-[24px] font-bold">Мои курсы</div>
         <div className="flex flex-wrap flex-row gap-[41px]">
-          
+
         </div>
       </div>
     </>
