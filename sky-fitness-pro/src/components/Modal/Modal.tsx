@@ -15,7 +15,6 @@ export function Modal({ children }: { children: React.ReactNode }) {
   }, []);
 
   function onDismiss(e: React.MouseEvent<HTMLDialogElement, MouseEvent>) {
-    console.log(e.target);
     if (dialogRef.current === e.target) {
       router.back();
     }
