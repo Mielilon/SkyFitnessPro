@@ -1,45 +1,77 @@
+"use client";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import CourseCard from "@/components/CourseCard/CourseCard";
+import { useEffect, useState } from "react";
+import { User, getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { app } from "../firebase";
 
-export default function CoursePage() {
+export default function ProfilePage() {
+  const [user, setUser] = useState<User | null>(null);
+  const auth = getAuth(app);
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log(user);
+        console.log(user.email);
+        setUser(user);
+      } else {
+        setUser(user);
+      }
+    });
+  }, [auth]);
+  const handleReset = () => { 
+    const email = user?.email || "";
+    sendPasswordResetEmail(auth, email) 
+      .then(() => { 
+        console.log("success"); 
+      }) 
+      .catch((error) => { 
+        const errorCode = error.code; 
+        const errorMessage = error.message; 
+        console.log("An error has occured: ", errorCode, errorMessage); 
+      }); 
+  };
   return (
     <>
       <div className="box-border bg-[#FAFAFA]">
-        <div className="sm:mt-[0px] mt-[36px] sm:mb-[31px] mb-[19px] sm:text-[40px] text-[24px] font-bold">Профиль</div>
+        <div className="sm:mt-[0px] mt-[36px] sm:mb-[31px] mb-[19px] sm:text-[40px] text-[24px] font-bold">
+          Профиль
+        </div>
         <div
           className="bg-[#FFFFFF]
                     rounded-[30px] 
                     sm:w-[1160px] w-[343px]
                     sm:h-[257px] h-[453px]
                     sm:px-[30px] px-[10px]
-                    py-[30px]">
+                    py-[30px]"
+        >
           <div className="flex flex-wrap flex-row sm:space-x-[33px]">
-            <div className="relative 
+            <div
+              className="relative 
                         sm:w-[197px] w-[141px] 
                         sm:h-[197px] h-[141px]
-                        sm:mx-[0px] mx-[90px]">
-              <Image
-                fill
-                src="/img/no_foto.png"
-                alt="no foto"
-              />
+                        sm:mx-[0px] mx-[90px]"
+            >
+              <Image fill src="/img/no_foto.png" alt="no foto" />
             </div>
-            <div className="flex flex-col 
+            <div
+              className="flex flex-col 
                         sm:gap-[20px] gap-[13px]
                         sm:mt-0 mt-[22px]
-                        sm:ml-0 ml-[19px]">
+                        sm:ml-0 ml-[19px]"
+            >
               <div className="sm:text-[32px] text-[24px] font-bold">
-                Сергей
+                {user?.email?.split("@")[0]}
               </div>
               <div className="flex flex-col gap-[2px]">
-                <p className="sm:text-[18px] text-[16px]">Логин: sergey.petrov96</p>
-                <p className="sm:text-[18px] text-[16px]">Пароль: 4fkhdj880d</p>
+                <p className="sm:text-[18px] text-[16px]">{`Логин: ${user?.email}`}</p>
+                <p className="sm:text-[18px] text-[16px]">{`Пароль: ********`}</p>
               </div>
               <div className="flex flex-wrap flex-row sm:space-x-[10px] space-x-0 sm:gap-0 gap-[15px]">
                 <div className="sm:w-[192px] w-[283px]">
-                  <Button title="Изменить пароль" />
+                  <Button title="Изменить пароль" onClick={handleReset}/>
                 </div>
                 <div className="sm:w-[192px] w-[283px]">
                   <ButtonLink title="Выйти" link="/" />
@@ -48,11 +80,11 @@ export default function CoursePage() {
             </div>
           </div>
         </div>
-        <div className="sm:mt-[53px] mt-[23px] sm:mb-[31px] mb-[12px] sm:text-[40px] text-[24px] font-bold">Мои курсы</div>
-        <div className="flex flex-wrap flex-row gap-[41px]">
-          
+        <div className="sm:mt-[53px] mt-[23px] sm:mb-[31px] mb-[12px] sm:text-[40px] text-[24px] font-bold">
+          Мои курсы
         </div>
+        <div className="flex flex-wrap flex-row gap-[41px]"></div>
       </div>
     </>
-  )
+  );
 }

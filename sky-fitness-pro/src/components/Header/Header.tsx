@@ -6,7 +6,7 @@ import Button from "../Button/Button";
 import SVG from "../SVG/SVG";
 import { useEffect, useState } from "react";
 import DropDown from "../DropDown/DropDown";
-import { User, getAuth, onAuthStateChanged } from "firebase/auth";
+import { User, getAuth} from "firebase/auth";
 import { app } from "@/app/firebase";
 
 export default function Header() {
@@ -20,7 +20,10 @@ export default function Header() {
   useEffect(() => {
     const auth = getAuth(app);
     auth.onAuthStateChanged((user) => {
+     
       if (user) {
+        console.log(user);
+        console.log(user.email);
         setUser(user);
       } else {
         setUser(user);
@@ -51,7 +54,7 @@ export default function Header() {
                 <SVG icon="icon-user" className="w-[42px] h-[42px]" />
                 <div className="flex items-center">
                   <p className="hidden md:block text-2xl font-roboto-400 pr-[11px]">
-                    Сергей
+                    {user.email}
                   </p>
                   <SVG
                     icon="icon-arrow"
@@ -63,7 +66,7 @@ export default function Header() {
                   />
                 </div>
               </div>
-              {isOpen && <DropDown />}
+              {isOpen  && <DropDown name={user.email} email={user.email}/>}
             </div>
           </>
         ) : (
