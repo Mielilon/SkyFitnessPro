@@ -35,6 +35,7 @@ export default function SignInPage() {
 
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    event.stopPropagation()
 
     const { result, error } = await signIn(userData.email, userData.password);
 
@@ -86,7 +87,7 @@ export default function SignInPage() {
       </div>
 
       <div className="space-y-2.5">
-        <Button onClick={() => console.log("object")} title="Войти" />
+        <Button type={"submit"} title="Войти" />
         <ButtonLink title="Зарегистрироваться" link="/signup" />
       </div>
       </WrapperModal>

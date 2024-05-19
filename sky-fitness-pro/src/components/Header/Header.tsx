@@ -4,18 +4,29 @@ import Image from "next/image";
 import logoImg from "./logo.svg"
 import Button from "../Button/Button";
 import SVG from "../SVG/SVG";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DropDown from "../DropDown/DropDown";
-import ButtonLink from "../ButtonLink/ButtonLink";
 
+import { useAuthContext } from "@/context/AuthContext";
+// type User = {
+//   id: number;
+//   name: string;
+//   email: string;
+//   // add other properties if needed 
+// }
 export default function Header() {
-  const isAuth = true;
+  const { user } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isAuth, setIsAuth] = useState(false);
+  console.log(isAuth);
   const toggleDropdown = () => {
     setIsOpen((prevState) => !prevState);
   };
 
+  useEffect(() => {
+    if (user) { setIsAuth(true) }
+    else { setIsAuth(false) }
+  }, [user])
   return (
     <>
       <div className="py-14 flex justify-between mx-auto lg:max-w-[1440px] px-4 lg:px-[140px]">
@@ -28,12 +39,7 @@ export default function Header() {
           <p className="hidden md:block pt-3.5 text-[#585959]">Онлайн-тренировки для занятий дома</p>
         </div>
         {isAuth ?
-          <div className="w-[103px]">
-            <Link href="/signin">
-              <Button title='Войти' />
-            </Link>
-          </div>
-          : (<>
+          (<>
             <div className="relative">
               <div onClick={toggleDropdown} className="relative top-0 left-0 flex flex-row justify-end gap-4 md:justify-between items-center w-[170px] h-[50px]">
                 <SVG icon="icon-user" className="w-[42px] h-[42px]" />
@@ -44,7 +50,14 @@ export default function Header() {
               </div>
               {isOpen && (<DropDown />)}
             </div>
-          </>)}
+          </>)
+          :
+          (<div className="w-[103px]">
+            <Link href="/signin">
+              <Button title='Войти' />
+            </Link>
+          </div>)
+        }
       </div>
     </>
   )

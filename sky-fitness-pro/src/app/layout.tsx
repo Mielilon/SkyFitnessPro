@@ -1,6 +1,8 @@
+'use client'
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import localFont from "next/font/local";
+import {AuthContextProvider} from "../context/AuthContext"
 
 import "./globals.css";
 import Wrapper from "@/components/Wrapper/Wrapper";
@@ -37,13 +39,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto_400.variable} ${roboto_500.variable} ${stratosSkyeng.variable}`}>
-        <Header />
-        <Wrapper>
-          <div id="modal-root" className="flex justify-center "/>
-          {children}
-          {signin}
-          {signup}
-        </Wrapper>
+        <AuthContextProvider>
+          <Header />
+          <Wrapper>
+            <div id="modal-root" className="flex justify-center " />
+            {children}
+            {signin}
+            {signup}
+          </Wrapper>
+        </AuthContextProvider>
       </body>
     </html>
   );
