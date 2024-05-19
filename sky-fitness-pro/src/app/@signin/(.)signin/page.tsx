@@ -5,7 +5,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
-import { Modal } from "./modal";
+import WrapperModal from "@/components/WrapperModal/WrapperModal";
+import { signIn } from "@/app/api";
+import { Modal } from "@/components/Modal/Modal";
 
 export type ErrorType = {
   detail: string;
@@ -31,25 +33,24 @@ export default function SignInPage() {
     password: [],
   });
 
-  // function handelLoginBtnClick() {
-  //   setError({ detail: "", email: [], password: [] });
-  //   signIn({ email: userData.email, password: userData.password })
-  //     .then((resUserData) => {
-  //       dispatch(setLoginData(resUserData));
-  //     })
-  //     .then(() =>
-  //       getTokens({ email: userData.email, password: userData.password })
-  //     )
-  //     .then(() => {
-  //       router.replace("/");
-  //     })
-  //     .catch((error) => {
-  //       setError(JSON.parse(error.message));
-  //     });
-  // }
+  const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const { result, error } = await signIn(userData.email, userData.password);
+
+    if (error) {
+        return console.log(error)
+    }
+    // else successful
+    if(result) {
+    console.log(result.user.uid)
+    }
+    return router.replace("/")
+}
 
   return (
     <Modal>
+      <WrapperModal onSubmit={(event) => handleForm(event)}>
       <div className="mb-[34px]">
         <FormInput
           value={userData.email}
@@ -88,6 +89,7 @@ export default function SignInPage() {
         <Button onClick={() => console.log("object")} title="Войти" />
         <ButtonLink title="Зарегистрироваться" link="/signup" />
       </div>
+      </WrapperModal>
     </Modal>
   );
 }
