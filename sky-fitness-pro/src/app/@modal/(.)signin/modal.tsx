@@ -4,7 +4,8 @@ import { type ElementRef, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import SVG from "@/components/SVG/SVG";
+import Image from "next/image";
+import logoImg from "../../../../public/logo.svg"
 
 export function Modal({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -28,10 +29,7 @@ export function Modal({ children }: { children: React.ReactNode }) {
             action="#"
           >
             <Link href="/">
-              <SVG
-                className="w-[222px] h-[35px] mb-12 mx-auto"
-                icon="icon-form-logo"
-              />
+            <Image src={logoImg} alt="logo" width={222} height={35} className="mb-12 mx-auto w-auto h-auto" />
             </Link>
             {children}
           </form>
