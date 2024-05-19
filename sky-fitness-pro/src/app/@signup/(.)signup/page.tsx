@@ -6,37 +6,40 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
-import { signIn } from "@/app/api";
+import { signIn, signUp } from "@/app/api";
 import { Modal } from "@/components/Modal/Modal";
 
 export type ErrorType = {
-  detail: string;
   email: string[];
   password: string[];
+  repeatPassword: string[];
 };
 
-export type DataUserType = {
+export type RegistrationUserType = {
   email: string;
   password: string;
+  repeatPassword: string;
 };
 
 export default function SignInPage() {
   const router = useRouter();
-  const [userData, setUserData] = useState<DataUserType>({
-    email: "",
-    password: "",
-  });
-
   const [errorText, setError] = useState<ErrorType>({
+    repeatPassword: [],
     email: [],
-    detail: "",
     password: [],
   });
+
+  const [userData, setUserData] = useState<RegistrationUserType>({
+    email: "",
+    password: "",
+    repeatPassword: "",
+  });
+
 
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const { result, error } = await signIn(userData.email, userData.password);
+    const { result, error } = await signUp(userData.email, userData.password);
 
     if (error) {
         return console.log(error)
@@ -45,7 +48,7 @@ export default function SignInPage() {
     if(result) {
     console.log(result.user.uid)
     }
-    return router.replace("/")
+    return router.replace("/profile")
 }
 
   return (
@@ -53,21 +56,17 @@ export default function SignInPage() {
       <WrapperModal onSubmit={(event) => handleForm(event)}>
       <div className="mb-[34px]">
         <FormInput
+          type="text"
+          name="login"
+          placeholder="Эл. почта"
           value={userData.email}
           onChange={(e) => {
             setUserData({ ...userData, email: e.target.value });
           }}
-          type="text"
-          name="login"
-          placeholder="Логин"
         />
 
-        {/* протестить вариант отображения ошибки с одним условием, смотря, что будет приходить */}
         <p className="text-red-500 mb-[4px]">
           {errorText.email ? errorText.email[0] : ""}
-        </p>
-        <p className="text-red-500 mb-[4px]">
-          {errorText.detail ? errorText.detail : ""}
         </p>
 
         <FormInput
@@ -83,12 +82,30 @@ export default function SignInPage() {
         <p className="text-red-500 mb-[4px]">
           {errorText.password ? errorText.password[0] : ""}
         </p>
+
+        <FormInput
+          onChange={(e) =>
+            setUserData({ ...userData, repeatPassword: e.target.value })
+          }
+          value={userData.repeatPassword}
+          type="password"
+          name="password"
+          placeholder="Повторите пароль"
+        />
+
+        <p className="text-red-500 mb-[4px]">
+          {errorText.repeatPassword ? errorText.repeatPassword[0] : ""}
+        </p>
       </div>
 
       <div className="space-y-2.5">
-        <Button onClick={() => console.log("object")} title="Войти" />
-        <ButtonLink title="Зарегистрироваться" link="/signup" />
+        <Button
+          type="submit"
+          title="Зарегистрироваться"
+        />
+        <ButtonLink title="Войти" link="/signin" />
       </div>
+
       </WrapperModal>
     </Modal>
   );
