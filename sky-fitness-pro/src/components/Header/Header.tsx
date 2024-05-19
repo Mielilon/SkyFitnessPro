@@ -4,18 +4,11 @@ import Image from "next/image";
 import logoImg from "./logo.svg"
 import Button from "../Button/Button";
 import SVG from "../SVG/SVG";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DropDown from "../DropDown/DropDown";
 
-import { useAuthContext } from "@/context/AuthContext";
-// type User = {
-//   id: number;
-//   name: string;
-//   email: string;
-//   // add other properties if needed 
-// }
+
 export default function Header() {
-  const { user } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   console.log(isAuth);
@@ -23,10 +16,6 @@ export default function Header() {
     setIsOpen((prevState) => !prevState);
   };
 
-  useEffect(() => {
-    if (user) { setIsAuth(true) }
-    else { setIsAuth(false) }
-  }, [user])
   return (
     <>
       <div className="py-14 flex justify-between mx-auto lg:max-w-[1440px] px-4 lg:px-[140px]">
