@@ -6,6 +6,7 @@ import Link from "next/link";
 import { database } from "./firebase";
 import { useEffect, useState } from "react";
 
+
 type CoursesArrayType = [string, CourseType][];
 type CourseType = {
   _id: string;
@@ -19,6 +20,7 @@ type CourseType = {
 };
 
 export default function MainCoursesPage() {
+
   const [courses, setCourses] = useState<CoursesArrayType>([]);
   useEffect(() => {
   const coursesDB = ref(database, 'courses');
