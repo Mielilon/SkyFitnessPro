@@ -1,14 +1,17 @@
 import Image from "next/image";
 import Button from "../Button/Button";
+import Link from "next/link";
 
 type CourseCardType = {
   imgURL: string,
   title: string,
+  id: string,
 }
 
-export default function CourseCard({ imgURL, title }: CourseCardType) {
+export default function CourseCard({ imgURL, title, id }: CourseCardType) {
   return (
     <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
+      <Link href={`/course/${id}`}>
       <div>
           <Image
             className="rounded-[30px]"
@@ -54,6 +57,7 @@ export default function CourseCard({ imgURL, title }: CourseCardType) {
           <Button title="Test" />
         </div>
       </div>
+      </Link>
     </div>
   );
 }

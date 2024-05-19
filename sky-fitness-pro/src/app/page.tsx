@@ -1,20 +1,37 @@
+"use client";
 import Button from "@/components/Button/Button";
 import CourseCard from "@/components/CourseCard/CourseCard";
 import { onValue, ref } from "firebase/database";
 import Link from "next/link";
 import { database } from "./firebase";
+import { useEffect, useState } from "react";
+
+type CoursesArrayType = [string, CourseType][];
+type CourseType = {
+  _id: string;
+  description: string;
+  directions: string[];
+  fitting: string[];
+  nameEN: string;
+  nameRU: string;
+  order: number;
+  workouts: string[];
+};
 
 export default function MainCoursesPage() {
-  let coursesArray: any[] = [];
+  const [courses, setCourses] = useState<CoursesArrayType>([]);
+  useEffect(() => {
   const coursesDB = ref(database, 'courses');
   onValue(coursesDB, (snapshot) => {
     if (snapshot.exists()) {
-      coursesArray = Object.entries(snapshot.val());
+    const  coursesArray: CoursesArrayType = Object.entries(snapshot.val());
+    setCourses(coursesArray);
     } else {
       alert('Извините, курсы не найдены, либо нет подключения к интернету')
       return
     }
   })
+  }, [])
 
   return (
     <>
@@ -30,10 +47,10 @@ export default function MainCoursesPage() {
       </div>
       <div className="flex flex-wrap gap-x-10 gap-y-8">
 
-        {coursesArray.map((course) => {
+        {courses.map((course) => {
           console.log(course[1].nameRU);
           return (
-            <CourseCard key={course[1]._id} imgURL={course[1].nameEN} title={course[1].nameRU} />
+            <CourseCard key={course[1]._id} id={course[1]._id} imgURL={course[1].nameEN} title={course[1].nameRU} />
           )
         })}
       </div>
