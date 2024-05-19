@@ -45,20 +45,6 @@ export const labels = [
   "Сколько раз вы сделали наклоны назад?",
   "Сколько раз вы сделали поднятие ног, согнутых в коленях?",
 ];
-export const breadcrumbsItems = [
-  {
-    label: "Красота и здоровье",
-    path: "/workout/beauty&health",
-  },
-  {
-    label: " Йога на каждый день",
-    path: "/workout/beauty&health/yoga-for-every-day",
-  },
-  {
-    label: "2 день",
-    path: "/workout/beauty&health/yoga-for-every-day/second-day",
-  },
-];
 
 export const aboutCourse = [
   {

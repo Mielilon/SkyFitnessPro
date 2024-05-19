@@ -5,10 +5,18 @@ import ProgressForm from "@/components/ProgressForm/ProgressForm";
 import Title from "@/components/Title/Title";
 import VideoComponent from "@/components/Video/Video";
 import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
-import { breadcrumbsItems, labels, workoutProgress } from "@/lib/data";
+import { labels, workoutProgress } from "@/lib/data";
 import { Suspense, useState } from "react";
 
-export default function WorkoutPage() {
+type WorkoutPageType = {
+  params: {
+    id: string;
+  };
+};
+
+export default function WorkoutPage({params}: WorkoutPageType) {
+  const wokoutId = params.id;
+  console.log(wokoutId);
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleProgressForm() {
@@ -21,12 +29,12 @@ export default function WorkoutPage() {
         <Title label={"Йога"} />
         <Breadcrumbs
           /* Красота и здоровье / Йога на каждый день / 2 день */
-          items={breadcrumbsItems}
+          text="Красота и здоровье / Йога на каждый день / 2 день"
         />
       </section>
       <section className="h-[189px] md:min-h-fit lg:h-[639px] rounded-[30px] mb-6 lg:mb-10">
         <Suspense fallback={<p>Loading video...</p>}>
-          <VideoComponent />
+          <VideoComponent videoURL="https://www.youtube.com/embed/v-xTLFDhoD0" />
         </Suspense>
       </section>
       <section className="rounded-[30px] p-[30px] lg:p-10 bg-white shadow-def ">
@@ -49,7 +57,7 @@ export default function WorkoutPage() {
           />
         </div>
       </section>
-       {isOpen && <ProgressForm labels={labels} />}
+      {isOpen && <ProgressForm labels={labels} />}
     </>
   );
 }
