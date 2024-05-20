@@ -22,7 +22,7 @@ export default function Header() {
         <div>
           <Link href={"/"}>
             <div>
-              <Image src={logoImg} alt="logo" width={220} height={35} />
+              <Image src={logoImg} className="w-[220px] h-[35px]" alt="logo" width={220} height={35} />
             </div>
           </Link>
           <p className="hidden md:block pt-3.5 text-[#585959]">Онлайн-тренировки для занятий дома</p>
