@@ -87,7 +87,7 @@ export default function SignInPage() {
       </div>
 
       <div className="space-y-2.5">
-        <Button type={"submit"} title="Войти" />
+        <Button type={"submit"} title="Войти" onClick={() => router.back()}/>
         <ButtonLink title="Зарегистрироваться" link="/signup" />
       </div>
       </WrapperModal>
