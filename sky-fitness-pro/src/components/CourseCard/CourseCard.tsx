@@ -8,17 +8,39 @@ type CourseCardType = {
 
 export default function CourseCard({ imgURL, title }: CourseCardType) {
 
+  let imageStyles;
+
+  switch (title) {
+    case 'Йога':
+      imageStyles = 'top-[60px] right-[60px]';
+      break;
+    case 'Стретчинг':
+      imageStyles = 'top-[70px] right-[70px]';
+      break;
+    case 'Танцевальный фитнес':
+      imageStyles = 'top-[40px] right-[40px]';
+      break;
+    case 'Степ-аэробика':
+      imageStyles = 'rounded-[30px]';
+      break;
+    case 'Бодифлекс':
+      imageStyles = 'w-auto h-auto rounded-[30px]';
+      break;
+    default:
+      break;
+  }
+
   return (
     <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
-      <div className='relative'>
+      <div>
         <Image
-          className='rounded-[30px] object-fill'
+          className={imageStyles}
           src={`/img/${imgURL}.png`}
           alt={`${imgURL}`}
           width={350}
           height={360}
         />
-        <svg className={`absolute w-[27px] right-[20px] z-10`} viewBox="0 0 27 27">
+        <svg className='absolute w-[27px] right-[20px] z-10' viewBox="0 0 27 27">
           <use xlinkHref={`/img/sprite.svg#icon-minus`}></use>
         </svg>
       </div>
