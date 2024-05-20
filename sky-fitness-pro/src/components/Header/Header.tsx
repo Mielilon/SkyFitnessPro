@@ -63,7 +63,7 @@ export default function Header() {
                   />
                 </div>
               </div>
-              {isOpen  && <DropDown name={user.email} email={user.email}/>}
+              {isOpen  && <DropDown user={user} email={user.email}/>}
             </div>
           </>
         ) : (
