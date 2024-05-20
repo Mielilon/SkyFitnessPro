@@ -19,11 +19,8 @@ export default function Header() {
 
   useEffect(() => {
     const auth = getAuth(app);
-    auth.onAuthStateChanged((user) => {
-     
+    auth.onAuthStateChanged((user) => {    
       if (user) {
-        console.log(user);
-        console.log(user.email);
         setUser(user);
       } else {
         setUser(user);
