@@ -8,12 +8,6 @@ import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import { signIn } from "../api";
 
-export type ErrorType = {
-  detail: string;
-  email: string[];
-  password: string[];
-};
-
 export type DataUserType = {
   email: string;
   password: string;
@@ -21,47 +15,25 @@ export type DataUserType = {
 
 export default function SignInPage() {
   const router = useRouter();
+  const [errorText, setError] = useState("");
   const [userData, setUserData] = useState<DataUserType>({
     email: "",
     password: "",
   });
 
-  const [errorText, setError] = useState<ErrorType>({
-    email: [],
-    detail: "",
-    password: [],
-  });
-
-  // function handelLoginBtnClick() {
-  //   setError({ detail: "", email: [], password: [] });
-  //   signIn({ email: userData.email, password: userData.password })
-  //     .then((resUserData) => {
-  //       dispatch(setLoginData(resUserData));
-  //     })
-  //     .then(() =>
-  //       getTokens({ email: userData.email, password: userData.password })
-  //     )
-  //     .then(() => {
-  //       router.replace("/");
-  //     })
-  //     .catch((error) => {
-  //       setError(JSON.parse(error.message));
-  //     });
-  // }
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
+    if (!userData.email || !userData.password) return;
 
-    const { result, error } = await signIn(userData.email, userData.password);
+    const { error } = await signIn(userData);
 
     if (error) {
-        return console.log(error)
+      return setError("Логин и пароль не совпадают, попробуйте еще раз");
     }
-    // else successful
-    if(result) {
-    console.log(result.user.uid)
-    }
-    return router.replace("/")
-}
+
+    return router.replace("/");
+  };
+
   return (
     <>
       <WrapperModal onSubmit={(event) => handleForm(event)}>
@@ -76,14 +48,6 @@ export default function SignInPage() {
             placeholder="Логин"
           />
 
-          {/* протестить вариант отображения ошибки с одним условием, смотря, что будет приходить */}
-          <p className="text-red-500 mb-[4px]">
-            {errorText.email ? errorText.email[0] : ""}
-          </p>
-          <p className="text-red-500 mb-[4px]">
-            {errorText.detail ? errorText.detail : ""}
-          </p>
-
           <FormInput
             onChange={(e) =>
               setUserData({ ...userData, password: e.target.value })
@@ -94,15 +58,11 @@ export default function SignInPage() {
             placeholder="Пароль"
           />
 
-          <p className="text-red-500 mb-[4px]">
-            {errorText.password ? errorText.password[0] : ""}
-          </p>
+          <p className="text-rose-500 text-center mt-1">{errorText}</p>
         </div>
 
         <div className="space-y-2.5">
-          <Button
-          type="submit" 
-          title="Войти" />
+          <Button type="submit" title="Войти" />
           <ButtonLink title="Зарегистрироваться" link="/signup" />
         </div>
       </WrapperModal>
