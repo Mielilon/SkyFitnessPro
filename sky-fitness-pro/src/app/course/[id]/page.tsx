@@ -25,7 +25,6 @@ type CourseType = {
 
 export default function CoursePage({ params }: CoursePageType) {
   const courseId = params.id;
-  console.log(courseId);
   const [course, setCourse] = useState<CourseType>({
     _id: "",
     description: "",
@@ -43,9 +42,7 @@ export default function CoursePage({ params }: CoursePageType) {
     onValue(courseDbRef, (snapshot) => {
       if (snapshot.exists()) {
         const courseData = snapshot.val();
-        console.log(courseData);
         setCourse(courseData);
-
       } else {
         alert("Извините, курсы не найдены, либо нет подключения к интернету");
         return;
@@ -53,7 +50,6 @@ export default function CoursePage({ params }: CoursePageType) {
     });
   }, [courseId]);
   useEffect(() => {
-    console.log(course.nameEN);
     switch (course.nameEN) {
       case "BodyFlex":
         setColor("bg-purple");
@@ -73,8 +69,7 @@ export default function CoursePage({ params }: CoursePageType) {
       default:
         setColor("bg-yellow");
     }
-
-  }, [course])
+  }, [course]);
 
   return (
     <>
@@ -86,11 +81,13 @@ export default function CoursePage({ params }: CoursePageType) {
         </h1>
         <Image
           className="absolute top-[45px] right-[10px] lg:right-[1px] md:right-[10px] lg:top-[-80px] md:top-[10px]
+          w-[360px] h-[350px]
   lg:w-[410px] lg:h-[400px]"
           src={`/img/${course.nameEN}.jpeg`}
           alt="yoga"
           width={360}
           height={350}
+          priority={true}
         />
       </section>
       <section className="my-[40px] lg:my-[60px] ">
@@ -116,21 +113,18 @@ export default function CoursePage({ params }: CoursePageType) {
           Направления:
         </h2>
         <div className="p-[30px] flex flex-col gap-y-[20px] md:grid md:grid-cols-2 md:gap-y-[22px] lg:grid-cols-3 w-auto h-[336px] md:h-[195px] lg:h-[146px] rounded-[30px] bg-lime">
-          {course.directions.map((el, i) => {
-            console.log(color);
-            return (
-              <>
-                <ul className="">
-                  <li
-                    className="before:content-['\2726'] font-roboto-500 text-lg md:text-2xl text-black"
-                    key={i}
-                  >
-                    <span className="relative left-8">{el}</span>
-                  </li>
-                </ul>
-              </>
-            );
-          })}
+          <ul className="">
+            {course.directions.map((el, i) => {
+              return (
+                <li
+                  className="before:content-['\2726'] font-roboto-500 text-lg md:text-2xl text-black"
+                  key={i}
+                >
+                  <span className="relative left-8">{el}</span>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </section>
       <section className="z-10 mt-[156px] lg:mt-[102px] md:mt-[256px]">
@@ -140,20 +134,18 @@ export default function CoursePage({ params }: CoursePageType) {
               Начните путь <br /> к новому телу
             </h2>
             <div className="mb-[28px] h-[178px]">
-              {workoutDescription.map((el) => {
-                return (
-                  <>
-                    <ul className="flex flex-col list-inside">
-                      <li
-                        className="list-disc space-y-3 font-roboto-400 text-lg md:text-2xl text-[#585959] leading-none md:pl-6"
-                        key={el}
-                      >
-                        {el}
-                      </li>
-                    </ul>
-                  </>
-                );
-              })}
+              <ul className="flex flex-col list-inside">
+                {workoutDescription.map((el) => {
+                  return (
+                    <li
+                      className="list-disc space-y-3 font-roboto-400 text-lg md:text-2xl text-[#585959] leading-none md:pl-6"
+                      key={el}
+                    >
+                      {el}
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
             <Button title="Добавить курс" />
           </div>
@@ -164,7 +156,7 @@ export default function CoursePage({ params }: CoursePageType) {
           >
             <Image
               className="[clip:rect(auto,auto,390px,auto)] lg:[clip:rect(auto,auto,450px,auto)] 
-        right-[35px] top-[70px] absolute 
+        right-[35px] top-[70px] absolute w-[738px] h-[574px]
         lg:-right-[40px] lg:top-[140px] md:-right-[30px] md:top-[130px] "
               src="/img/lines.svg"
               alt="green and black line"
@@ -172,7 +164,7 @@ export default function CoursePage({ params }: CoursePageType) {
               height={574}
             />
             <Image
-              className="absolute"
+              className="absolute w-[519px] h-[539px]"
               src="/img/Runner.svg"
               alt="runner"
               width={519}
