@@ -56,7 +56,6 @@ export default function ResetPage() {
   };
 
   return (
-    <>
     <WrapperModal onSubmit={(e) => handleUpdatePassword(e)}>
       <div className="mb-[34px]">
         <FormInput
@@ -84,6 +83,5 @@ export default function ResetPage() {
         <Button title="Подтвердить" type="submit" />
       </div>
     </WrapperModal>
-    </>
   );
 }

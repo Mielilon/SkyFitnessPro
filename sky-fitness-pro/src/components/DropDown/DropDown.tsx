@@ -2,19 +2,20 @@
 import { logOut } from "@/app/api";
 import Button from "../Button/Button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type DropDownType = {
   name: string | null;
   email: string | null;
 }
 
-export default function DropDown({name, email}: DropDownType) {
+export default function DropDown({ name, email }: DropDownType) {
   const router = useRouter();
   const handleLogout = () => {
     console.log("проверка выхода");
     logOut().then(() => {
-      
-      router.replace("/");
+
+      router.replace("/reset");
       console.log("Signed out successfully")
     }).catch((error) => {
       // An error happened. 
@@ -31,7 +32,6 @@ export default function DropDown({name, email}: DropDownType) {
         <button className="rounded-full border border-black w-full h-[52px] px-5 bg-transparent text-lg text-[#000000] hover:bg-[#F7F7F7] active:bg-[#E9ECED]"
           onClick={handleLogout}
         >
-
           Выйти
         </button>
       </div>

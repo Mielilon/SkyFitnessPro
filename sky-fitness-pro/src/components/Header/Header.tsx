@@ -46,7 +46,7 @@ export default function Header() {
             <div className="relative">
               <div
                 onClick={toggleDropdown}
-                className="relative top-0 left-0 flex flex-row justify-end gap-4 md:justify-between items-center w-[170px] h-[50px]"
+                className="relative top-0 left-0 flex flex-row justify-end gap-4 md:justify-between items-center h-[50px]"
               >
                 <SVG icon="icon-user" className="w-[42px] h-[42px]" />
                 <div className="flex items-center">
