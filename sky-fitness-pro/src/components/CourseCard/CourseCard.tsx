@@ -5,20 +5,20 @@ import Link from "next/link";
 type CourseCardType = {
   imgURL: string,
   title: string,
-  id: string,
 }
 
-export default function CourseCard({ imgURL, title, id }: CourseCardType) {
+export default function CourseCard({ imgURL, title}: CourseCardType) {
   return (
     <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
-      <Link href={`/course/${id}`}>
+
       <div>
           <Image
-            className="rounded-[30px]"
+            className="rounded-[30px] w-[360px] h-[350px]"
             src={`/img/${imgURL}.jpeg`}
             alt={`${imgURL}`}
             width={360}
             height={350}
+            priority={true}
           />
         {/* В зависимости от добавленного курса будет меняться svg картинка */}
 
@@ -57,7 +57,7 @@ export default function CourseCard({ imgURL, title, id }: CourseCardType) {
           <Button title="Test" />
         </div>
       </div>
-      </Link>
+
     </div>
   );
 }

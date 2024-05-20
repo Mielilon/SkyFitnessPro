@@ -23,21 +23,24 @@ export default function MainCoursesPage() {
 
   const [courses, setCourses] = useState<CoursesArrayType>([]);
   useEffect(() => {
-  const coursesDB = ref(database, 'courses');
-  onValue(coursesDB, (snapshot) => {
-    if (snapshot.exists()) {
-    const  coursesArray: CoursesArrayType = Object.entries(snapshot.val());
-    setCourses(coursesArray);
-    } else {
-      alert('Извините, курсы не найдены, либо нет подключения к интернету')
-      return
-    }
-  })
-  }, [])
+    const coursesDB = ref(database, "courses");
+    onValue(coursesDB, (snapshot) => {
+      if (snapshot.exists()) {
+        const coursesArray: CoursesArrayType = Object.entries(snapshot.val());
+        setCourses(coursesArray);
+      } else {
+        alert("Извините, курсы не найдены, либо нет подключения к интернету");
+        return;
+      }
+    });
+  }, []);
 
   return (
     <>
-      <div id="top" className="flex flex-row lg:mb-[50px] mb-[34px] items-end space-x-7">
+      <div
+        id="top"
+        className="flex flex-row lg:mb-[50px] mb-[34px] items-end space-x-7"
+      >
         {/* <Link href="/signin">Modal</Link> */}
         <h1 className="font-roboto-500 max-w-[840px] text-[32px] md:text-[40px]/[60px] xl:text-[60px]/[60px] text-pretty">
           Начните заниматься спортом
@@ -48,12 +51,12 @@ export default function MainCoursesPage() {
         </svg>
       </div>
       <div className="flex flex-wrap gap-x-10 gap-y-8">
-
         {courses.map((course) => {
-          console.log(course[1].nameRU);
           return (
-            <CourseCard key={course[1]._id} id={course[1]._id} imgURL={course[1].nameEN} title={course[1].nameRU} />
-          )
+            <Link key={course[1]._id} href={`/course/${course[1]._id}`}>
+              <CourseCard imgURL={course[1].nameEN} title={course[1].nameRU} />
+            </Link>
+          );
         })}
       </div>
       <div className="flex self-center w-[140px] mt-8">

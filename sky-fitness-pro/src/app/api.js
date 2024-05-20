@@ -1,6 +1,5 @@
-import { ref } from "firebase/database";
-import app, { database } from "./firebase";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {app} from "./firebase";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 const auth = getAuth(app);
 export async function signUp(email, password) {

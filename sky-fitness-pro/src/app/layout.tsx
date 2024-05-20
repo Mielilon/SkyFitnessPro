@@ -28,22 +28,28 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
   signin,
-  signup
+  signup,
+  reset_password,
+  reset_password_email,
 }: Readonly<{
   signin: React.ReactNode;
   children: React.ReactNode;
   signup: React.ReactNode;
+  reset_password: React.ReactNode;
+  reset_password_email: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={`${roboto_400.variable} ${roboto_500.variable} ${stratosSkyeng.variable}`}>
-          <Header />
-          <Wrapper>
-            <div id="modal-root" className="flex justify-center " />
-            {children}
-            {signin}
-            {signup}
-          </Wrapper>
+        <Header />
+        <Wrapper>
+          <div id="modal-root" className="flex justify-center "/>
+          {children}
+          {signin}
+          {signup}
+          {reset_password}
+          {reset_password_email}
+        </Wrapper>
       </body>
     </html>
   );
