@@ -1,13 +1,12 @@
-"use client"
-import { Modal } from "@/components/Modal/Modal";
-import SVG from "@/components/SVG/SVG";
+"use client";
+import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import SVG from "@/components/SVG/SVG";
 
 
-export default function resetPasswordEmail() {
+export default function NewPasswordPage() {
+
     return (
-        <Modal>
             <div className="mx-auto max-w-[100%]">
                 <div className="mx-auto px-[calc(50%-(366px/2))]">
                     <form className="w-[337px] md:w-[366px] bg-[#FFFFFF] rounded-[30px] px-[31px] md:px-[40px] py-[40px]" action="#">
@@ -19,6 +18,5 @@ export default function resetPasswordEmail() {
                     </form>
                 </div>
             </div>
-        </Modal>
-    );
+);
 }

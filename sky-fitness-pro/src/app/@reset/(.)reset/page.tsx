@@ -1,14 +1,11 @@
 "use client";
 import { useState } from "react";
-
 import { useRouter } from "next/navigation";
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import FormInput from "@/components/FormInput/FormInput";
-import Button from "@/components/Button/Button";
-
 import { ChangePassword } from "../../api";
 import { Modal } from "@/components/Modal/Modal";
-import Link from "next/link";
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
 
 
 export type ErrorPasswordType = {
@@ -20,7 +17,7 @@ export type ChangePasswordType = {
     password: string;
     repeatPassword: string;
 };
-export default function resetPassword() {
+export default function ResetPage() {
 
     const [errorText, setError] = useState<ErrorPasswordType>({
         repeatPassword: [],
@@ -33,7 +30,6 @@ export default function resetPassword() {
     });
 
     const router = useRouter();
-
 
     const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -85,13 +81,7 @@ export default function resetPassword() {
                 </div>
 
                 <div className="space-y-2.5">
-                    <Link href="/reset_password_email">
-                        <button
-                            className="justify-self-center font-roboto-400 rounded-full w-full h-[52px] px-5 bg-[#BCEC30] text-lg text-[#000000] hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]"
-                        >
-                            Подтвердить
-                        </button>
-                    </Link>
+                    <ButtonLink title='Подтвердить' link="/new_password" />
                 </div>
             </WrapperModal>
         </Modal>
