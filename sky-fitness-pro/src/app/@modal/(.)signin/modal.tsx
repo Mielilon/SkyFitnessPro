@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
-import logoImg from "../../../../public/logo.svg"
+import logoImg from "../../../../public/img/logo.svg"
 
 export function Modal({ children }: { children: React.ReactNode }) {
   const router = useRouter();

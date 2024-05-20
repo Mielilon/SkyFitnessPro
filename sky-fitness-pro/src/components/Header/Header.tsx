@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link";
 import Image from "next/image";
-import logoImg from "../../../public/logo.svg"
+import logoImg from "../../../public/img/logo.svg"
 import Button from "../Button/Button";
 import SVG from "../SVG/SVG";
 import { useState } from "react";

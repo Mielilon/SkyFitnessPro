@@ -9,22 +9,28 @@ type CourseCardType = {
 export default function CourseCard({ imgURL, title }: CourseCardType) {
 
   let imageStyles;
+  let bgColor;
 
   switch (title) {
     case 'Йога':
-      imageStyles = 'top-[60px] right-[60px]';
+      bgColor = 'bg-yellow';
+      imageStyles = 'absolute top-[0px] right-[5px] object-cover w-[360px] h-[360px] scale-[1.65]';
       break;
     case 'Стретчинг':
-      imageStyles = 'top-[70px] right-[70px]';
+      bgColor = 'bg-blueDark';
+      imageStyles = 'absolute top-[114px] right-[5px] object-contain w-[360px] h-[360px] [clip:rect(auto,auto,220px,auto)] scale-[1.65]';
       break;
     case 'Танцевальный фитнес':
-      imageStyles = 'top-[40px] right-[40px]';
+      bgColor = 'bg-orange';
+      imageStyles = 'absolute top-[215px] right-[5px] object-cover w-[360px] h-[360px] [clip:rect(auto,auto,165px,auto)] scale-[2.4]';
       break;
     case 'Степ-аэробика':
-      imageStyles = 'rounded-[30px]';
+      bgColor = 'bg-salmon';
+      imageStyles = 'absolute bottom-[279px] right-[5px] object-contain w-[360px] h-[360px] [clip:rect(215px,246px,auto,127px)] scale-[2.8]';
       break;
     case 'Бодифлекс':
-      imageStyles = 'w-auto h-auto rounded-[30px]';
+      bgColor = 'bg-purple';
+      imageStyles = 'absolute bottom-[76px] right-[30px] object-cover w-[360px] h-[360px] [clip:rect(115px,auto,auto,auto)] scale-[1.6]';
       break;
     default:
       break;
@@ -32,15 +38,17 @@ export default function CourseCard({ imgURL, title }: CourseCardType) {
 
   return (
     <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
-      <div>
-        <Image
-          className={imageStyles}
-          src={`/img/${imgURL}.png`}
-          alt={`${imgURL}`}
-          width={350}
-          height={360}
-        />
-        <svg className='absolute w-[27px] right-[20px] z-10' viewBox="0 0 27 27">
+      <div className="relative">
+        <div className={`${bgColor} w-[360px] h-[360px] rounded-[30px]`}>
+          <Image
+            className={imageStyles}
+            src={`/img/${imgURL}.png`}
+            alt={`${imgURL}`}
+            width={350}
+            height={360}
+          />
+        </div>
+        <svg className='absolute w-[27px] right-[22px] top-[22px] z-10' viewBox="0 0 27 27">
           <use xlinkHref={`/img/sprite.svg#icon-minus`}></use>
         </svg>
       </div>
