@@ -4,8 +4,14 @@ import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import CourseCard from "@/components/CourseCard/CourseCard";
 import { useEffect, useState } from "react";
-import { User, getAuth, sendPasswordResetEmail } from "firebase/auth";
+import {
+  User,
+  getAuth,
+  sendPasswordResetEmail,
+  updatePassword,
+} from "firebase/auth";
 import { app } from "../firebase";
+
 
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
@@ -21,17 +27,32 @@ export default function ProfilePage() {
       }
     });
   }, [auth]);
-  const handleReset = () => { 
-    const email = user?.email || "";
-    sendPasswordResetEmail(auth, email) 
-      .then(() => { 
-        console.log("success"); 
-      }) 
-      .catch((error) => { 
-        const errorCode = error.code; 
-        const errorMessage = error.message; 
-        console.log("An error has occured: ", errorCode, errorMessage); 
-      }); 
+
+  const handleUpdatePassword = () => {
+    const currentUser = auth.currentUser;
+    const newPassword = "1234rewq";
+    console.log(currentUser);
+    if (currentUser !== null) {
+      updatePassword(currentUser, newPassword)
+        .then(() => {
+          // Update successful.
+          console.log("success1");
+        })
+        .catch((error) => {
+          // An error ocurred
+          // ...
+        });
+    }
+    // const email = user?.email || "";
+    // sendPasswordResetEmail(auth, email)
+    //   .then(() => {
+    //     console.log("success");
+    //   })
+    //   .catch((error) => {
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //     console.log("An error has occured: ", errorCode, errorMessage);
+    //   });
   };
   return (
     <>
@@ -71,7 +92,7 @@ export default function ProfilePage() {
               </div>
               <div className="flex flex-wrap flex-row sm:space-x-[10px] space-x-0 sm:gap-0 gap-[15px]">
                 <div className="sm:w-[192px] w-[283px]">
-                  <Button title="Изменить пароль" onClick={handleReset}/>
+                  <Button title="Изменить пароль" onClick={handleUpdatePassword} />
                 </div>
                 <div className="sm:w-[192px] w-[283px]">
                   <ButtonLink title="Выйти" link="/" />
