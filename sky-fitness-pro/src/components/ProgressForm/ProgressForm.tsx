@@ -3,11 +3,9 @@ import { useState } from "react";
 import Button from "../Button/Button";
 import FieldProgressForm from "./FieldProgressForm";
 import SuccessModal from "../SuccessModal/SuccessModal";
+import { labels } from "@/lib/data";
 
-type ProgressFormType = {
-  labels: string[];
-};
-export default function ProgressForm({ labels }: ProgressFormType) {
+export default function ProgressForm() {
   const [isOpen, setIsOpen] = useState(false);
 
   function closeSuccessModal() {

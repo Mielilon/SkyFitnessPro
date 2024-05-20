@@ -28,11 +28,13 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
   signin,
-  signup
+  signup,
+  progress
 }: Readonly<{
   signin: React.ReactNode;
   children: React.ReactNode;
   signup: React.ReactNode;
+  progress: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -43,6 +45,7 @@ export default function RootLayout({
           {children}
           {signin}
           {signup}
+          {progress}
         </Wrapper>
       </body>
     </html>

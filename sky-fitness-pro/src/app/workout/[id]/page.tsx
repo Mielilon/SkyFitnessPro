@@ -5,7 +5,7 @@ import ProgressForm from "@/components/ProgressForm/ProgressForm";
 import Title from "@/components/Title/Title";
 import VideoComponent from "@/components/Video/Video";
 import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
-import { labels, workoutProgress } from "@/lib/data";
+import { workoutProgress } from "@/lib/data";
 import { Suspense, useState } from "react";
 
 type WorkoutPageType = {
@@ -57,7 +57,7 @@ export default function WorkoutPage({params}: WorkoutPageType) {
           />
         </div>
       </section>
-      {isOpen && <ProgressForm labels={labels} />}
+      {isOpen && <ProgressForm />}
     </>
   );
 }
