@@ -29,14 +29,14 @@ export default function RootLayout({
   children,
   signin,
   signup,
-  reset_password,
-  reset_password_email,
+  reset,
+  new_password,
 }: Readonly<{
   signin: React.ReactNode;
   children: React.ReactNode;
   signup: React.ReactNode;
-  reset_password: React.ReactNode;
-  reset_password_email: React.ReactNode;
+  reset: React.ReactNode;
+  new_password: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -47,8 +47,8 @@ export default function RootLayout({
           {children}
           {signin}
           {signup}
-          {reset_password}
-          {reset_password_email}
+          {reset}
+          {new_password}
         </Wrapper>
       </body>
     </html>

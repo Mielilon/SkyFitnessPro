@@ -1,89 +1,90 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Modal } from "@/components/Modal/Modal";
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import FormInput from "@/components/FormInput/FormInput";
-import { ChangePassword } from "../../api";
-import { Modal } from "@/components/Modal/Modal";
-import ButtonLink from "@/components/ButtonLink/ButtonLink";
-
-
-export type ErrorPasswordType = {
-    password: string[];
-    repeatPassword: string[];
-};
+// import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import { getAuth, updatePassword } from "firebase/auth";
+import { app } from "../../firebase";
+import Button from "@/components/Button/Button";
 
 export type ChangePasswordType = {
-    password: string;
-    repeatPassword: string;
+  password: string;
+  repeatPassword: string;
 };
 export default function ResetPage() {
+  const router = useRouter();
+  const auth = getAuth(app);
 
-    const [errorText, setError] = useState<ErrorPasswordType>({
-        repeatPassword: [],
-        password: [],
-    });
+  const [error, setError] = useState("");
+  const [newPassword, setNewPassword] = useState<ChangePasswordType>({
+    password: "",
+    repeatPassword: "",
+  });
 
-    const [userData, setUserData] = useState<ChangePasswordType>({
-        password: "",
-        repeatPassword: "",
-    });
+  const handleUpdatePassword = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    const router = useRouter();
-
-    const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-
-        const { result, error } = await ChangePassword(userData.password);
-
-        if (error) {
-            return console.log(error)
-        }
-
-        if (result) {
-
-        }
-        return router.replace("/profile")
+    if (newPassword.password.length < 6) {
+      return setError("Не менее 6 символов");
+    }
+    if (!newPassword.password) {
+      return setError("Введите пароль");
+    }
+    if (!newPassword.repeatPassword) {
+      return setError("Повторите пароль");
+    }
+    if (newPassword.password !== newPassword.repeatPassword) {
+      return setError("Пароли не совпадают");
     }
 
-    return (
-        <Modal>
-            <WrapperModal onSubmit={(event) => handleForm(event)}>
-                <div className="mb-[34px]">
+    const currentUser = auth.currentUser;
 
-                    <FormInput
-                        onChange={(e) =>
-                            setUserData({ ...userData, password: e.target.value })
-                        }
-                        value={userData.password}
-                        type="password"
-                        name="password"
-                        placeholder="Новый пароль"
-                    />
+    if (currentUser !== null) {
+      updatePassword(currentUser, newPassword.password)
+        .then(() => {
+          // Update successful.
+          console.log("success1");
+          return router.replace("/profile");
+        })
+        .catch((error) => {
+          // An error ocurred
+          // ...
+        });
+    }
+  };
 
-                    <p className="text-red-500 mb-[4px]">
-                        {errorText.password ? errorText.password[0] : ""}
-                    </p>
+  return (
+    <Modal>
+      <WrapperModal onSubmit={(e) => handleUpdatePassword(e)}>
+        <div className="mb-[34px]">
+          <FormInput
+            onChange={(e) =>
+              setNewPassword({ ...newPassword, password: e.target.value })
+            }
+            value={newPassword.password}
+            type="password"
+            name="password"
+            placeholder="Новый пароль"
+          />
 
-                    <FormInput
-                        onChange={(e) =>
-                            setUserData({ ...userData, repeatPassword: e.target.value })
-                        }
-                        value={userData.repeatPassword}
-                        type="password"
-                        name="password"
-                        placeholder="Повторите пароль"
-                    />
+          <FormInput
+            onChange={(e) =>
+              setNewPassword({ ...newPassword, repeatPassword: e.target.value })
+            }
+            value={newPassword.repeatPassword}
+            type="password"
+            name="password"
+            placeholder="Повторите пароль"
+          />
+          <p className="text-red mb-[4px]">{error ? error : ""}</p>
+        </div>
 
-                    <p className="text-red-500 mb-[4px]">
-                        {errorText.repeatPassword ? errorText.repeatPassword[0] : ""}
-                    </p>
-                </div>
-
-                <div className="space-y-2.5">
-                    <ButtonLink title='Подтвердить' link="/new_password" />
-                </div>
-            </WrapperModal>
-        </Modal>
-    );
+        <div className="space-y-2.5">
+          <Button title="Подтвердить" type="submit" />
+        </div>
+      </WrapperModal>
+    </Modal>
+  );
 }
