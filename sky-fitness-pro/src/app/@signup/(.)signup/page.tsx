@@ -6,14 +6,10 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
-import { signIn, signUp } from "@/app/api";
+import { signUp } from "@/app/api";
 import { Modal } from "@/components/Modal/Modal";
+import { getErrorText } from "@/utils/getErrorText";
 
-export type ErrorType = {
-  email: string[];
-  password: string[];
-  repeatPassword: string[];
-};
 
 export type RegistrationUserType = {
   email: string;
@@ -23,11 +19,7 @@ export type RegistrationUserType = {
 
 export default function SignInPage() {
   const router = useRouter();
-  const [errorText, setError] = useState<ErrorType>({
-    repeatPassword: [],
-    email: [],
-    password: [],
-  });
+  const [errorText, setError] = useState("");
 
   const [userData, setUserData] = useState<RegistrationUserType>({
     email: "",
@@ -35,21 +27,24 @@ export default function SignInPage() {
     repeatPassword: "",
   });
 
-
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const { result, error } = await signUp(userData.email, userData.password);
+    if (!userData.email || !userData.password || !userData.repeatPassword)
+      return;
+
+    if (userData.password !== userData.repeatPassword) {
+      return setError("Пароли не совпадают");
+    }
+
+    const { error } = await signUp(userData);
 
     if (error) {
-        return console.log(error)
+      return getErrorText({ errorCode: error, fncSetErrorText: setError });
     }
-    // else successful
-    if(result) {
-    console.log(result.user.uid)
-    }
-    return router.replace("/profile")
-}
+
+    return router.replace("/profile");
+  };
 
   return (
     <Modal>
@@ -65,10 +60,6 @@ export default function SignInPage() {
           }}
         />
 
-        <p className="text-red-500 mb-[4px]">
-          {errorText.email ? errorText.email[0] : ""}
-        </p>
-
         <FormInput
           onChange={(e) =>
             setUserData({ ...userData, password: e.target.value })
@@ -78,10 +69,6 @@ export default function SignInPage() {
           name="password"
           placeholder="Пароль"
         />
-
-        <p className="text-red-500 mb-[4px]">
-          {errorText.password ? errorText.password[0] : ""}
-        </p>
 
         <FormInput
           onChange={(e) =>
@@ -93,16 +80,11 @@ export default function SignInPage() {
           placeholder="Повторите пароль"
         />
 
-        <p className="text-red-500 mb-[4px]">
-          {errorText.repeatPassword ? errorText.repeatPassword[0] : ""}
-        </p>
+        <p className="text-rose-500 mt-1 text-center">{errorText}</p>
       </div>
 
       <div className="space-y-2.5">
-        <Button
-          type="submit"
-          title="Зарегистрироваться"
-        />
+        <Button type="submit" title="Зарегистрироваться" />
         <ButtonLink title="Войти" link="/signin" />
       </div>
 
