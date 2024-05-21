@@ -5,12 +5,25 @@ import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import CourseCard from "@/components/CourseCard/CourseCard";
 import { useEffect, useState } from "react";
 import { User, getAuth } from "firebase/auth";
-import { app } from "../firebase";
+import { app, database } from "../firebase";
 import Link from "next/link";
+import { child, get, onValue, ref } from "firebase/database";
+import { TupleType } from "@/utils/writeUserData";
+
+type CourseType = {
+  _id: string;
+  nameEN: string;
+  nameRU: string;
+  workouts: TupleType[];
+};
+
+type CoursesArrayType = [string, CourseType][];
 
 export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const auth = getAuth(app);
+  const [courses, setCourses] = useState<CoursesArrayType>([]);
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -21,12 +34,31 @@ export default function ProfilePage() {
     });
   }, [auth]);
 
+  useEffect(() => {
+    if (!auth.currentUser?.uid) return;
+    return onValue(
+      ref(database, `users/${auth.currentUser?.uid}/courses`),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const arrAllWorkouts: CoursesArrayType = Object.entries(
+            snapshot.val()
+          );
+          setCourses(arrAllWorkouts);
+        } else {
+          console.log("No data available");
+        }
+      }
+    );
+  }, [auth.currentUser?.uid]);
+
+  console.log(courses);
+
   return (
     <>
       <div className="box-border bg-[#FAFAFA]">
-        <div className="sm:mt-[0px] mt-[36px] sm:mb-[31px] mb-[19px] sm:text-[40px] text-[24px] font-bold">
+        <h2 className="sm:mt-[0px] mt-[36px] sm:mb-[31px] mb-[19px] sm:text-[40px] text-[24px] font-bold">
           Профиль
-        </div>
+        </h2>
         <div
           className="bg-[#FFFFFF]
                     rounded-[30px] 
@@ -68,10 +100,22 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
-        <div className="sm:mt-[53px] mt-[23px] sm:mb-[31px] mb-[12px] sm:text-[40px] text-[24px] font-bold">
+        <h2 className="sm:mt-[53px] mt-[23px] sm:mb-[31px] mb-[12px] sm:text-[40px] text-[24px] font-bold">
           Мои курсы
+        </h2>
+        <div className="flex flex-wrap flex-row gap-[41px]">
+          {courses.map((course) => {
+            return (
+              <CourseCard
+                key={course[0]}
+                title={course[1].nameRU}
+                imgURL={course[1].nameEN}
+                isSubscribed={true}
+                courseId={course[0]}
+              />
+            );
+          })}
         </div>
-        <div className="flex flex-wrap flex-row gap-[41px]"></div>
       </div>
     </>
   );

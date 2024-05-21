@@ -33,7 +33,7 @@ export default function SignInPage() {
       return setError("Логин и пароль не совпадают, попробуйте еще раз");
     }
 
-    return router.replace("/");
+    return router.back();
   };
 
   return (

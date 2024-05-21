@@ -24,7 +24,7 @@ export default function MainCoursesPage() {
   const [courses, setCourses] = useState<CoursesArrayType>([]);
   useEffect(() => {
     const coursesDB = ref(database, "courses");
-    onValue(coursesDB, (snapshot) => {
+    return onValue(coursesDB, (snapshot) => {
       if (snapshot.exists()) {
         const coursesArray: CoursesArrayType = Object.entries(snapshot.val());
         setCourses(coursesArray);
@@ -54,7 +54,7 @@ export default function MainCoursesPage() {
         {courses.map((course) => {
           return (
             <Link key={course[1]._id} href={`/course/${course[1]._id}`}>
-              <CourseCard imgURL={course[1].nameEN} title={course[1].nameRU} />
+              <CourseCard courseId={course[1]._id} isSubscribed={false} imgURL={course[1].nameEN} title={course[1].nameRU} />
             </Link>
           );
         })}

@@ -84,7 +84,7 @@ export default function SignInPage() {
       </div>
 
       <div className="space-y-2.5">
-        <Button type="submit" title="Зарегистрироваться" />
+        <Button type="submit" title="Зарегистрироваться" onClick={() => router.back()} />
         <ButtonLink title="Войти" link="/signin" />
       </div>
 

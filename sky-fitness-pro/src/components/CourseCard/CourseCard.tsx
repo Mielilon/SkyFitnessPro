@@ -1,33 +1,46 @@
 import Image from "next/image";
 import Button from "../Button/Button";
 import Link from "next/link";
+import WorkoutProgress from "../WorkoutProgress/WorkoutProgress";
+import { removeSubscribedCourse } from "@/utils/removeSubscribedCourse";
 
 type CourseCardType = {
-  imgURL: string,
-  title: string,
-}
+  imgURL: string;
+  title: string;
+  isSubscribed: boolean;
+  progress?: number;
+  courseId: string;
+};
 
-export default function CourseCard({ imgURL, title}: CourseCardType) {
+export default function CourseCard({
+  courseId,
+  progress = 0,
+  isSubscribed,
+  imgURL,
+  title,
+}: CourseCardType) { 
+
   return (
     <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
-
       <div>
-          <Image
-            className="rounded-[30px] w-[360px] h-[325px]"
-            src={`/img/${imgURL}.jpeg`}
-            alt={`${imgURL}`}
-            width={360}
-            height={325}
-            priority={true}
-          />
-        {/* В зависимости от добавленного курса будет меняться svg картинка */}
+        <Image
+          className="rounded-[30px] w-[360px] h-[325px]"
+          src={`/img/${imgURL}.jpeg`}
+          alt={`${imgURL}`}
+          width={360}
+          height={325}
+          priority={true}
+        />
 
-        {/* <svg className="absolute w-[27px] right-[20px] top-[20px] z-10">
-          <use xlinkHref={`/img/sprite.svg#icon-plus`}></use>
-        </svg> */}
-        <svg className="absolute w-[27px] right-[20px] top-[20px] z-10">
-          <use xlinkHref={`/img/sprite.svg#icon-minus`}></use>
-        </svg>
+        {isSubscribed ? (
+          <svg onClick={() => removeSubscribedCourse(courseId)} className="absolute w-[27px] right-[20px] top-[20px] z-10">
+            <use xlinkHref={`/img/sprite.svg#icon-minus`}></use>
+          </svg>
+        ) : (
+          <svg className="absolute w-[27px] right-[20px] top-[20px] z-10">
+            <use xlinkHref={`/img/sprite.svg#icon-plus`}></use>
+          </svg>
+        )}
       </div>
       <div className="flex flex-col px-[30px] py-[25px] gap-y-5">
         <h2 className="font-roboto-500 text-[32px]">{title}</h2>
@@ -51,13 +64,15 @@ export default function CourseCard({ imgURL, title}: CourseCardType) {
             <p className="text-base">Сложность</p>
           </div>
         </div>
-        <div className="space-y-10">
-          {/* Здесь будет прогресс, жду Таню */}
-          {/* <WorkoutStep title={} progress={}/> */}
-          <Button title="Test" />
-        </div>
+        {isSubscribed && (
+          <div className="flex flex-col gap-10">
+            <WorkoutProgress title="Прогресс" progress={progress} />
+            <Link href={`/selection/${courseId}`}>
+              <Button title="Продолжить" />
+            </Link>
+          </div>
+        )}
       </div>
-
     </div>
   );
 }
