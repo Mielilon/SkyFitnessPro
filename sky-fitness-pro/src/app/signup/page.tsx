@@ -6,13 +6,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
-import { signUp } from '../api';
-
-export type ErrorType = {
-  email: string[];
-  password: string[];
-  repeatPassword: string[];
-};
+import { signUp } from "../api";
+import { getErrorText } from "@/utils/getErrorText";
 
 export type RegistrationUserType = {
   email: string;
@@ -21,11 +16,8 @@ export type RegistrationUserType = {
 };
 
 export default function SignUpPage() {
-  const [errorText, setError] = useState<ErrorType>({
-    repeatPassword: [],
-    email: [],
-    password: [],
-  });
+  const router = useRouter();
+  const [errorText, setError] = useState("");
 
   const [userData, setUserData] = useState<RegistrationUserType>({
     email: "",
@@ -33,34 +25,24 @@ export default function SignUpPage() {
     repeatPassword: "",
   });
 
-  const router = useRouter();
-  // function handleRegistrationBtnClick() {
-  //   setError({ username: [], email: [], password: [] });
-  //   signUp({
-  //     email: userData.email,
-  //     password: userData.password,
-  //     userName: userData.userName,
-  //   })
-  //     .then(() => router.replace("/signin"))
-  //     .catch((error) => {
-  //       setError(JSON.parse(error.message));
-  //     });
-  // }
-
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const { result, error } = await signUp(userData.email, userData.password);
+    if (!userData.email || !userData.password || !userData.repeatPassword)
+      return;
+
+    if (userData.password !== userData.repeatPassword) {
+      return setError("Пароли не совпадают");
+    }
+
+    const { error } = await signUp(userData);
 
     if (error) {
-        return console.log(error)
+      return getErrorText({ errorCode: error, fncSetErrorText: setError });
     }
-    // else successful
-    if(result) {
-    console.log(result.user.uid)
-    }
-    return router.replace("/profile")
-}
+
+    return router.replace("/profile");
+  };
 
   return (
     <WrapperModal onSubmit={(event) => handleForm(event)}>
@@ -75,10 +57,6 @@ export default function SignUpPage() {
           }}
         />
 
-        <p className="text-red-500 mb-[4px]">
-          {errorText.email ? errorText.email[0] : ""}
-        </p>
-
         <FormInput
           onChange={(e) =>
             setUserData({ ...userData, password: e.target.value })
@@ -88,10 +66,6 @@ export default function SignUpPage() {
           name="password"
           placeholder="Пароль"
         />
-
-        <p className="text-red-500 mb-[4px]">
-          {errorText.password ? errorText.password[0] : ""}
-        </p>
 
         <FormInput
           onChange={(e) =>
@@ -103,16 +77,11 @@ export default function SignUpPage() {
           placeholder="Повторите пароль"
         />
 
-        <p className="text-red-500 mb-[4px]">
-          {errorText.repeatPassword ? errorText.repeatPassword[0] : ""}
-        </p>
+        <p className="text-rose-500 mt-1 text-center">{errorText}</p>
       </div>
 
       <div className="space-y-2.5">
-        <Button
-          type="submit"
-          title="Зарегистрироваться"
-        />
+        <Button type="submit" title="Зарегистрироваться" />
         <ButtonLink title="Войти" link="/signin" />
       </div>
     </WrapperModal>
