@@ -1,10 +1,12 @@
 "use client";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
-import { aboutCourse, coursePractice, workoutDescription } from "@/lib/data";
-import { database } from "@/app/firebase";
+import { workoutDescription } from "@/lib/data";
+import { app, database } from "@/app/firebase";
 import { onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
+import { writeUserData } from "@/utils/writeUserData";
 
 type CoursePageType = {
   params: {
@@ -12,7 +14,7 @@ type CoursePageType = {
   };
 };
 
-type CourseType = {
+export type CourseType = {
   _id: string;
   description: string;
   directions: string[];
@@ -35,11 +37,15 @@ export default function CoursePage({ params }: CoursePageType) {
     order: 0,
     workouts: ["", "", ""],
   });
+
   const [color, setColor] = useState("bg-yellow");
+
+  const auth = getAuth(app);
+  const currentUser = auth.currentUser;
 
   useEffect(() => {
     const courseDbRef = ref(database, "courses/" + courseId);
-    onValue(courseDbRef, (snapshot) => {
+    return onValue(courseDbRef, (snapshot) => {
       if (snapshot.exists()) {
         const courseData = snapshot.val();
         setCourse(courseData);
@@ -112,19 +118,18 @@ export default function CoursePage({ params }: CoursePageType) {
         <h2 className="font-roboto-500 text-black text-2xl md:text-5xl mb-[24px] lg:mb-[40px]">
           Направления:
         </h2>
-          <ul className="p-[30px] flex flex-col gap-y-[20px] md:flex-row md:flex-wrap md:gap-y-[22px]  rounded-[30px] bg-lime">
-            {course.directions.map((el, i) => {
-              return (
-                <li
-                  className="before:content-['\2726'] font-roboto-500 text-lg md:text-2xl text-black md:pr-[127px] md:grow md:text-center"
-                  key={i}
-                >
-                  <span className="relative left-8">{el}</span>
-                </li>
-              );
-            })}
-          </ul>
-        
+        <ul className="p-[30px] flex flex-col gap-y-[20px] md:flex-row md:flex-wrap md:gap-y-[22px]  rounded-[30px] bg-lime">
+          {course.directions.map((el, i) => {
+            return (
+              <li
+                className="before:content-['\2726'] font-roboto-500 text-lg md:text-2xl text-black md:pr-[127px] md:grow md:text-center"
+                key={i}
+              >
+                <span className="relative left-8">{el}</span>
+              </li>
+            );
+          })}
+        </ul>
       </section>
       <section className="z-10 mt-[156px] lg:mt-[102px] md:mt-[256px]">
         <div className="rounded-[30px] p-[40px] md:p-[30px] lg:p-10 bg-white shadow-def">
@@ -146,7 +151,12 @@ export default function CoursePage({ params }: CoursePageType) {
                 })}
               </ul>
             </div>
-            <Button title="Добавить курс" />
+            <Button
+              title="Добавить курс"
+              onClick={() =>
+                writeUserData({ userId: currentUser?.uid, courseId, course })
+              }
+            />
           </div>
           <div
             className="relative lg:z-10 -z-10 flex justify-end

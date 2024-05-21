@@ -2,7 +2,6 @@
 import { logOut } from "@/app/api";
 import Button from "../Button/Button";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { User } from "firebase/auth";
 
 type DropDownType = {
@@ -30,7 +29,7 @@ export default function DropDown({ user, email }: DropDownType) {
         <p className="font-skyeng text-lg text-[gray]">{email}</p>
       </div>
       <div className="w-[206px] flex flex-col gap-2.5">
-        <Button title="Мой профиль" />
+        <Button title="Мой профиль" onClick={() => router.replace("/profile")}/>
         <button className="rounded-full border border-black w-full h-[52px] px-5 bg-transparent text-lg text-[#000000] hover:bg-[#F7F7F7] active:bg-[#E9ECED]"
           onClick={handleLogout}
         >
