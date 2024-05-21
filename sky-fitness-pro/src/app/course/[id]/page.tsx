@@ -112,12 +112,11 @@ export default function CoursePage({ params }: CoursePageType) {
         <h2 className="font-roboto-500 text-black text-2xl md:text-5xl mb-[24px] lg:mb-[40px]">
           Направления:
         </h2>
-        <div className="p-[30px] flex flex-col gap-y-[20px] md:grid md:grid-cols-2 md:gap-y-[22px] lg:grid-cols-3 w-auto h-[336px] md:h-[195px] lg:h-[146px] rounded-[30px] bg-lime">
-          <ul className="">
+          <ul className="p-[30px] flex flex-col gap-y-[20px] md:flex-row md:flex-wrap md:gap-y-[22px]  rounded-[30px] bg-lime">
             {course.directions.map((el, i) => {
               return (
                 <li
-                  className="before:content-['\2726'] font-roboto-500 text-lg md:text-2xl text-black"
+                  className="before:content-['\2726'] font-roboto-500 text-lg md:text-2xl text-black md:pr-[127px] md:grow md:text-center"
                   key={i}
                 >
                   <span className="relative left-8">{el}</span>
@@ -125,7 +124,7 @@ export default function CoursePage({ params }: CoursePageType) {
               );
             })}
           </ul>
-        </div>
+        
       </section>
       <section className="z-10 mt-[156px] lg:mt-[102px] md:mt-[256px]">
         <div className="rounded-[30px] p-[40px] md:p-[30px] lg:p-10 bg-white shadow-def">

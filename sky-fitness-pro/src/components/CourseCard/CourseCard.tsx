@@ -13,11 +13,11 @@ export default function CourseCard({ imgURL, title}: CourseCardType) {
 
       <div>
           <Image
-            className="rounded-[30px] w-[360px] h-[350px]"
+            className="rounded-[30px] w-[360px] h-[325px]"
             src={`/img/${imgURL}.jpeg`}
             alt={`${imgURL}`}
             width={360}
-            height={350}
+            height={325}
             priority={true}
           />
         {/* В зависимости от добавленного курса будет меняться svg картинка */}
@@ -30,7 +30,7 @@ export default function CourseCard({ imgURL, title}: CourseCardType) {
         </svg>
       </div>
       <div className="flex flex-col px-[30px] py-[25px] gap-y-5">
-        <h2 className="text-[32px]">{title}</h2>
+        <h2 className="font-roboto-500 text-[32px]">{title}</h2>
         <div className="flex flex-wrap gap-1.5">
           <div className="flex shrink-0 items-center gap-x-1.5 bg-[#F7F7F7] rounded-[30px] p-[10px]">
             <svg className="w-[16px] h-[16px]">
