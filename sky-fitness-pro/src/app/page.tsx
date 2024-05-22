@@ -53,9 +53,7 @@ export default function MainCoursesPage() {
       <div className="flex flex-wrap gap-x-10 gap-y-8">
         {courses.map((course) => {
           return (
-            <Link key={course[1]._id} href={`/course/${course[1]._id}`}>
-              <CourseCard courseId={course[1]._id} isSubscribed={false} imgURL={course[1].nameEN} title={course[1].nameRU} />
-            </Link>
+              <CourseCard key={course[1]._id} courseId={course[1]._id} course={course[1]} isSubscribed={false} imgURL={course[1].nameEN} title={course[1].nameRU} />
           );
         })}
       </div>
