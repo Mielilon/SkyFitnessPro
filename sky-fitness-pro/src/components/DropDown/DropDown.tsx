@@ -7,9 +7,10 @@ import { User } from "firebase/auth";
 type DropDownType = {
   user: User | null;
   email: string | null;
+  toggleDropdown: () => void;
 }
 
-export default function DropDown({ user, email }: DropDownType) {
+export default function DropDown({ toggleDropdown, user, email }: DropDownType) {
   const router = useRouter();
   const handleLogout = () => {
     console.log("проверка выхода");
@@ -29,9 +30,9 @@ export default function DropDown({ user, email }: DropDownType) {
         <p className="font-skyeng text-lg text-[gray]">{email}</p>
       </div>
       <div className="w-[206px] flex flex-col gap-2.5">
-        <Button title="Мой профиль" onClick={() => router.replace("/profile")}/>
+        <Button title="Мой профиль" onClick={() => {router.replace("/profile"); toggleDropdown()}}/>
         <button className="rounded-full border border-black w-full h-[52px] px-5 bg-transparent text-lg text-[#000000] hover:bg-[#F7F7F7] active:bg-[#E9ECED]"
-          onClick={handleLogout}
+          onClick={() => {handleLogout(); toggleDropdown()}
         >
           Выйти
         </button>
