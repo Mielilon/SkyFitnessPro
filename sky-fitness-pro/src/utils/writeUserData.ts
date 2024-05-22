@@ -8,11 +8,11 @@ type WriteUserDataType = {
   course: CourseType;
 };
 
-export type TupleType = [string, { name: string; video: string; _id: string }];
-
+export type WorkoutType = [string, { name: string; video: string; _id: string, exercises: ExerciseType[] }];
+export type ExerciseType = {name: string, quantity: number };
 export async function writeUserData({ userId, courseId, course }: WriteUserDataType) {
 
-  let arrAllWorkouts: TupleType[] = [];
+  let arrAllWorkouts: WorkoutType[] = [];
 
   await get(child(ref(database), "workouts"))
     .then((snapshot) => {
@@ -29,6 +29,9 @@ export async function writeUserData({ userId, courseId, course }: WriteUserDataT
   const workoutsList = arrAllWorkouts.filter((workout) =>
     course.workouts.includes(workout[0])
   );
+
+  // const workoutNames = workoutsList
+  //   .map((workout) => workout[1].name).sort();
 
   await set(ref(database, "users/" + userId + "/courses/" + courseId), {
     _id: course._id,

@@ -1,6 +1,6 @@
 type WorkoutProgressType = {
     title: string;
-    progress: number;
+    progress: number | string;
 }
 export default function WorkoutProgress({title, progress}: WorkoutProgressType) {
   return (
