@@ -41,7 +41,7 @@ export default function CourseCard({
 
   return (
     <div onClick={() => router.replace(`/course/${courseId}`)} className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
-      <div title="А вот и я!">
+      <div>
         <Image
           className="rounded-[30px]"
           src={`/img/${imgURL}.png`}
