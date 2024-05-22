@@ -1,4 +1,5 @@
 "use client";
+import { app, database } from "@/app/firebase";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Button from "@/components/Button/Button";
 import ProgressForm from "@/components/ProgressForm/ProgressForm";
@@ -6,7 +7,9 @@ import Title from "@/components/Title/Title";
 import VideoComponent from "@/components/Video/Video";
 import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
 import { labels, workoutProgress } from "@/lib/data";
-import { Suspense, useState } from "react";
+import { getAuth } from "firebase/auth";
+import { get, child, onValue, ref } from "firebase/database";
+import { Suspense, useEffect, useState } from "react";
 
 type WorkoutPageType = {
   params: {
@@ -15,13 +18,41 @@ type WorkoutPageType = {
 };
 
 export default function WorkoutPage({ params }: WorkoutPageType) {
-  const wokoutId = params.id;
-  console.log(wokoutId);
+  const workoutId = params.id;
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleProgressForm() {
     setIsOpen((prevState) => !prevState);
   }
+  const auth = getAuth(app);
+ useEffect(() => {
+  return onValue(
+    ref(database, `workouts/${workoutId}/exercises/`),
+    (snapshot) => {
+      if (snapshot.exists()) {
+        const workoutList: any = Object.values(
+          snapshot.val()
+        )
+        console.log(workoutList);
+      } else {
+        console.log("No data available");
+      }
+    }
+  );
+}, [workoutId]);
+
+  // get(child(ref(database), `workouts/${workoutId}/exercises`))
+  //   .then((snapshot) => {
+  //     if (snapshot.exists()) {
+  //     const arrAllWorkouts = Object.entries(snapshot.val());
+  //     console.log(arrAllWorkouts);
+  //     } else {
+  //       console.log("No data available");
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
 
   return (
     <>

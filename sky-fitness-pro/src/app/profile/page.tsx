@@ -7,14 +7,14 @@ import { useEffect, useState } from "react";
 import { User, getAuth } from "firebase/auth";
 import { app, database } from "../firebase";
 import Link from "next/link";
-import { child, get, onValue, ref } from "firebase/database";
-import { TupleType } from "@/utils/writeUserData";
+import { onValue, ref } from "firebase/database";
+import { WorkoutType } from "@/utils/writeUserData";
 
 type CourseType = {
   _id: string;
   nameEN: string;
   nameRU: string;
-  workouts: TupleType[];
+  workouts: WorkoutType[];
 };
 
 type CoursesArrayType = [string, CourseType][];
@@ -50,8 +50,6 @@ export default function ProfilePage() {
       }
     );
   }, [auth.currentUser?.uid]);
-
-  console.log(courses);
 
   return (
     <>
