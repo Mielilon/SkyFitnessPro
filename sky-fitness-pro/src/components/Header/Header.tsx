@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import logoImg from "./logo.svg";
+import logoImg from "../../../public/img/logo.svg";
 import Button from "../Button/Button";
 import SVG from "../SVG/SVG";
 import { useEffect, useState } from "react";
@@ -30,7 +30,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="py-14 flex justify-between mx-auto lg:max-w-[1440px] px-4 lg:px-[140px]">
+      <div className="py-[43px] flex justify-between mx-auto lg:max-w-[1440px] px-4 lg:px-[140px]">
         <div>
           <Link href={"/"}>
             <div>
