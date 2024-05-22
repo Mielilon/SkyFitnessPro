@@ -60,7 +60,7 @@ export default function CourseCard({
             <use xlinkHref={`/img/sprite.svg#icon-plus`}></use>
           </svg>
         )}
-        
+
       </div>
       <div className="flex flex-col px-[30px] py-[25px] gap-y-5">
         <h2 className="font-roboto-500 text-[32px]">{title}</h2>
@@ -88,7 +88,7 @@ export default function CourseCard({
           <div className="flex flex-col gap-10">
             <WorkoutProgress title="Прогресс" progress={progress} />
             <Link href={`/selection/${courseId}`}>
-              <Button title="Продолжить" onClick={() => router.replace(``)} />
+              <Button title="Продолжить" />
             </Link>
           </div>
         )}
