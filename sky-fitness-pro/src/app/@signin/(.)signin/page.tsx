@@ -8,6 +8,7 @@ import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import { signIn } from "@/app/api";
 import { Modal } from "@/components/Modal/Modal";
+import Link from "next/link";
 
 export type DataUserType = {
   email: string;
@@ -16,21 +17,22 @@ export type DataUserType = {
 
 export default function SignInPage() {
   const router = useRouter();
-  const [errorText, setError] = useState("");
+  const [errorText, setError] = useState(false);
   const [userData, setUserData] = useState<DataUserType>({
     email: "",
     password: "",
   });
 
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
-
     event.preventDefault();
+    setError(false);
+
     if (!userData.email || !userData.password) return;
 
     const { error } = await signIn(userData);
 
     if (error) {
-      return setError("Логин и пароль не совпадают, попробуйте еще раз");
+      return setError(true);
     }
 
     return router.back();
@@ -60,7 +62,12 @@ export default function SignInPage() {
             placeholder="Пароль"
           />
 
-          <p className="text-rose-500 text-center mt-1">{errorText}</p>
+          {errorText && (
+            <p className="text-rose-500 text-center mt-1">
+              Логин и пароль не совпадают.{" "}
+              <Link className="underline" href="/new_password">Восстановить пароль?</Link>
+            </p>
+          )}
         </div>
 
         <div className="space-y-2.5">
