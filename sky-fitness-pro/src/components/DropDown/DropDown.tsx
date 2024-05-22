@@ -32,7 +32,7 @@ export default function DropDown({ toggleDropdown, user, email }: DropDownType) 
       <div className="w-[206px] flex flex-col gap-2.5">
         <Button title="Мой профиль" onClick={() => {router.replace("/profile"); toggleDropdown()}}/>
         <button className="rounded-full border border-black w-full h-[52px] px-5 bg-transparent text-lg text-[#000000] hover:bg-[#F7F7F7] active:bg-[#E9ECED]"
-          onClick={() => {handleLogout(); toggleDropdown()}
+          onClick={() => {handleLogout(); toggleDropdown()}}
         >
           Выйти
         </button>
