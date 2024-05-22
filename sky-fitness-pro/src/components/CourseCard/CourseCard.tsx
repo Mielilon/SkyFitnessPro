@@ -14,7 +14,7 @@ type CourseCardType = {
   isSubscribed: boolean;
   progress?: number;
   courseId: string;
-  course: CourseType;
+  course?: CourseType;
 };
 
 export default function CourseCard({
@@ -30,9 +30,9 @@ export default function CourseCard({
 
   async function handlerAddCourse(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
     e.stopPropagation();
-
+    
     const userId = getAuth(); 
-
+    if (!course) return;
     if (!userId.currentUser) return router.replace("/signin");
 
     await writeUserData({ userId: userId.currentUser?.uid, courseId, course })
@@ -87,7 +87,7 @@ export default function CourseCard({
         {isSubscribed && (
           <div className="flex flex-col gap-10">
             <WorkoutProgress title="Прогресс" progress={progress} />
-            <Link href={`/selection/${courseId}`}>
+            <Link onClick={(e) => e.stopPropagation()} href={`/selection/${courseId}`}>
               <Button title="Продолжить" />
             </Link>
           </div>
