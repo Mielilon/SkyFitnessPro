@@ -28,7 +28,7 @@ export default function CourseCard({
 
   const router = useRouter();
 
-  async function handlerAddCourse(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+  async function handlerAddCourse(e: React.BaseSyntheticEvent<MouseEvent, EventTarget & SVGSVGElement, EventTarget>) {
     e.stopPropagation();
     
     const userId = getAuth(); 
