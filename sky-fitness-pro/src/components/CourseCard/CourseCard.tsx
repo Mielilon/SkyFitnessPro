@@ -53,11 +53,17 @@ export default function CourseCard({
 
         {isSubscribed ? (
           <svg onClick={() => removeSubscribedCourse(courseId)} className="absolute w-[27px] right-[20px] top-[20px] z-10">
+            <g>
+              <title>Удалить курс</title>
             <use xlinkHref={`/img/sprite.svg#icon-minus`}></use>
+            </g>
           </svg>
         ) : (
           <svg onClick={(e) => handlerAddCourse(e)} className="absolute w-[27px] right-[20px] top-[20px] z-10">
+            <g>
+              <title>Добавить курс</title>
             <use xlinkHref={`/img/sprite.svg#icon-plus`}></use>
+            </g>
           </svg>
         )}
 
