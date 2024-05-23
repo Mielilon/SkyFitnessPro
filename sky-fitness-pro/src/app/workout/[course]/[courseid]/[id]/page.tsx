@@ -21,7 +21,10 @@ type WorkoutPageType = {
 };
 
 export default function WorkoutPage({ params }: WorkoutPageType) {
-  const workoutId = params.id;
+  const [workoutId, setWorkoutId] = useState("");
+  useEffect(() => {
+    setWorkoutId(params.id);
+  }, [params]);
   const courseName = params.course;
   const courseId = params.courseid;
   const [isOpen, setIsOpen] = useState(false);
@@ -59,15 +62,13 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
   useEffect(() => {
     if (!auth.currentUser?.uid) return;
     return onValue(
-      ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/workouts`),
+      ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}`),
       (snapshot) => {
         if (snapshot.exists()) {
-          const workoutsList: any = Object.values(snapshot.val());
-          const workoutData = workoutsList.filter((workout: UserWorkoutType) =>
-            workout[0] === workoutId
-          )        
-          setWorkout(workoutData[0][1]);
-          setExercises(workoutData[0][1].exercises)
+          const workoutData: any = Object.values(snapshot.val());        
+          setWorkout(workoutData);
+          console.log(workoutData.exercises);
+          // setExercises(workoutData.exercises)
         } else {
           console.log("No data available");
         }

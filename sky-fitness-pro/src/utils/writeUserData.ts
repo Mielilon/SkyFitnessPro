@@ -41,15 +41,34 @@ export async function writeUserData({
   const workoutsList = arrAllWorkouts.filter((workout) =>
     course.workouts.includes(workout[0])
   );
-
+  type Tasdf = [string, {}];
   // const workoutNames = workoutsList
   //   .map((workout) => workout[1].name).sort();
+
+  type NewWorkoutContentType = {
+    [key: string]: {
+      _id: string;
+      name: string;
+      progress: number;
+      video: string;
+      exercises: ExerciseType[];
+    };
+  };
+
+    let newWorkoutslist: NewWorkoutContentType = {};
+    Object.values(workoutsList).forEach((workout) => {
+    const workoutNewContent = { ...workout[1], progress: 0 };
+    const newKey: string = workout[0];
+    const newKeyNext = newWorkoutslist[newKey as keyof NewWorkoutContentType];
+    newWorkoutslist[newKey] = workoutNewContent;
+  });
+  console.log(newWorkoutslist);
 
   await set(ref(database, "users/" + userId + "/courses/" + courseId), {
     _id: course._id,
     nameEN: course.nameEN,
     nameRU: course.nameRU,
-    workouts: workoutsList,
+    workouts: newWorkoutslist,
     progress: 0,
   });
 }
