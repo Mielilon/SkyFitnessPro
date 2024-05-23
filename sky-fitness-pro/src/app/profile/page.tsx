@@ -8,13 +8,13 @@ import { User, getAuth } from "firebase/auth";
 import { app, database } from "../firebase";
 import Link from "next/link";
 import { onValue, ref } from "firebase/database";
-import { WorkoutType } from "@/utils/writeUserData";
+import { UserWorkoutType } from "@/utils/writeUserData";
 
 type CourseType = {
   _id: string;
   nameEN: string;
   nameRU: string;
-  workouts: WorkoutType[];
+  workouts: UserWorkoutType[];
 };
 
 type CoursesArrayType = [string, CourseType][];
