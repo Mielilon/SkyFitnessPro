@@ -14,7 +14,7 @@ type CourseCardType = {
   isSubscribed: boolean;
   progress?: number;
   courseId: string;
-  course: CourseType;
+  course?: CourseType;
 };
 
 export default function CourseCard({
@@ -28,11 +28,11 @@ export default function CourseCard({
 
   const router = useRouter();
 
-  async function handlerAddCourse(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+  async function handlerAddCourse(e: React.BaseSyntheticEvent<MouseEvent, EventTarget & SVGSVGElement, EventTarget>) {
     e.stopPropagation();
-
+    
     const userId = getAuth(); 
-
+    if (!course) return;
     if (!userId.currentUser) return router.replace("/signin");
 
     await writeUserData({ userId: userId.currentUser?.uid, courseId, course })
@@ -54,10 +54,12 @@ export default function CourseCard({
         {isSubscribed ? (
           <svg onClick={() => removeSubscribedCourse(courseId)} className="absolute w-8 h-8 right-[20px] top-[20px] z-10">
             <use xlinkHref={`/img/sprite.svg#icon-minus`}></use>
+            </g>
           </svg>
         ) : (
           <svg onClick={(e) => handlerAddCourse(e)} className="absolute w-8 h-8 right-[20px] top-[20px] z-10">
             <use xlinkHref={`/img/sprite.svg#icon-plus`}></use>
+            </g>
           </svg>
         )}
 
@@ -87,7 +89,7 @@ export default function CourseCard({
         {isSubscribed && (
           <div className="flex flex-col gap-10">
             <WorkoutProgress title="Прогресс" progress={progress} />
-            <Link href={`/selection/${courseId}`}>
+            <Link onClick={(e) => e.stopPropagation()} href={`/selection/${courseId}`}>
               <Button title="Продолжить" />
             </Link>
           </div>

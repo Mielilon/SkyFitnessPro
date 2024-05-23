@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import logoImg from "./logo.svg";
+import logoImg from "../../../public/img/logo.svg";
 import Button from "../Button/Button";
 import SVG from "../SVG/SVG";
 import { useEffect, useState } from "react";
@@ -65,7 +65,7 @@ export default function Header() {
                   />
                 </div>
               </div>
-              {isOpen  && <DropDown user={user} email={user.email}/>}
+              {isOpen  && <DropDown toggleDropdown={toggleDropdown} user={user} email={user.email}/>}
             </div>
           </>
         ) : (
