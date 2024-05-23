@@ -82,17 +82,17 @@ export default function CoursePage({ params }: CoursePageType) {
       <section
         className={`relative w-auto h-[389px] lg:h-[310px] rounded-[30px] ${color} overflow-hidden`}
       >
-        <h1 className="font-roboto-500 hidden 2xl:text-2xl md:text-6xl md:block font-medium text-white mb-[10px] pt-[40px] pl-[40px]">
+        <h1 className="font-roboto-500 hidden md:text-4xl lg:text-6xl  md:block font-medium text-white mb-[10px] pt-[40px] pl-[40px]">
           {course.nameRU}
         </h1>
         <Image
           className="absolute top-[45px] right-[10px] lg:right-[1px] md:right-[10px] lg:top-[-80px] md:top-[10px]
           w-[360px] h-[350px]
   lg:w-[410px] lg:h-[400px]"
-          src={`/img/${course.nameEN}.jpeg`}
+          src={`/img/${course.nameEN}.png`}
           alt="yoga"
-          width={360}
-          height={350}
+          width={560}
+          height={550}
           priority={true}
         />
       </section>
@@ -118,14 +118,14 @@ export default function CoursePage({ params }: CoursePageType) {
         <h2 className="font-roboto-500 text-black text-2xl md:text-5xl mb-[24px] lg:mb-[40px]">
           Направления:
         </h2>
-        <ul className="p-[30px] flex flex-col gap-y-[20px] md:flex-row md:flex-wrap md:gap-y-[22px]  rounded-[30px] bg-lime">
+        <ul className="bg-lime   rounded-[30px] flex flex-col  gap-y-[20px] lg:flex-row flex-wrap md:gap-y-[22px] p-[30px] ">
           {course.directions.map((el, i) => {
             return (
               <li
-                className="before:content-['\2726'] font-roboto-500 text-lg md:text-2xl text-black md:pr-[127px] md:grow md:text-center"
+                className="md:w-1/3  before:content-['\2726'] font-roboto-500 text-lg xl:text-2xl text-black "
                 key={i}
               >
-                <span className="relative left-8">{el}</span>
+                <span className="relative left-2">{el}</span>
               </li>
             );
           })}

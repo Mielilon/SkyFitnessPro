@@ -25,8 +25,8 @@ export default function DropDown({ user, email }: DropDownType) {
   return (
     <div className="absolute right-0 z-10 mt-3 md:mt-6 bg-white rounded-[30px] w-[266px] h-[258px] flex flex-col items-center gap-8">
       <div className="w-[206px] flex flex-col gap-2.5 text-center mt-[24px]">
-        <p className="font-skyeng text-lg">{userName}</p>
-        <p className="font-skyeng text-lg text-[gray]">{email}</p>
+        <p className="font-roboto-400 text-lg">{userName}</p>
+        <p className="font-roboto-400 text-lg text-[gray]">{email}</p>
       </div>
       <div className="w-[206px] flex flex-col gap-2.5">
         <Button title="Мой профиль" onClick={() => router.replace("/profile")}/>
