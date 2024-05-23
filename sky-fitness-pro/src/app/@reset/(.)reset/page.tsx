@@ -46,6 +46,7 @@ export default function ResetPage() {
         .then(() => {
           // Update successful.
           console.log("success1");
+          
           return router.replace("/profile");
         })
         .catch((error) => {

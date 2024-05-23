@@ -9,6 +9,7 @@ import { app, database } from "../firebase";
 import Link from "next/link";
 import { onValue, ref } from "firebase/database";
 import { WorkoutType } from "@/utils/writeUserData";
+import { useAppDispatch, useAppSelector } from "@/components/hooks/hooks";
 
 type CourseType = {
   _id: string;
@@ -23,11 +24,13 @@ export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const auth = getAuth(app);
   const [courses, setCourses] = useState<CoursesArrayType>([]);
+  
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
+        
       } else {
         setUser(user);
       }
@@ -43,7 +46,7 @@ export default function ProfilePage() {
           const arrAllWorkouts: CoursesArrayType = Object.entries(
             snapshot.val()
           );
-          setCourses(arrAllWorkouts);
+          
         } else {
           console.log("No data available");
         }

@@ -1,10 +1,13 @@
 "use client"
 import { Modal } from "@/components/Modal/Modal";
 import SVG from "@/components/SVG/SVG";
+import { useAppSelector } from "@/components/hooks/hooks";
 import Link from "next/link";
 
 
 export default function NewPasswordPage() {
+    const userEmail = useAppSelector((store) => store.user.userData?.email);
+    console.log("Данные:"+userEmail);
     return (
         <Modal>
             <div className="mx-auto max-w-[100%]">
@@ -14,7 +17,7 @@ export default function NewPasswordPage() {
                             <SVG className="w-[222px] h-[35px] mb-5 mx-auto" icon="icon-form-logo" />
                         </Link>
                         <p className="text-[18px] text-black font-Roboto-400 text-center">
-                            Ссылка для востановления <br /> пароля отправлена <br /> на sergey.petrov96@mail.ru</p>
+                            Ссылка для востановления <br /> пароля отправлена <br /> на {userEmail}</p>
                     </form>
                 </div>
             </div>

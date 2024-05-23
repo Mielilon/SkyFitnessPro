@@ -1,5 +1,7 @@
+import { useAppDispatch } from "@/components/hooks/hooks";
 import {app} from "./firebase";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { setUser } from "@/components/store/features/userSlice";
 
 const auth = getAuth(app);
 export async function signUp({email, password}) {
@@ -17,6 +19,7 @@ export async function signUp({email, password}) {
 }
 
 export async function signIn({email, password}) {
+  
   let result = null,
     error = null;
   try {
@@ -26,7 +29,9 @@ export async function signIn({email, password}) {
     error = e.code;
   }
 
-  return { result, error };
+  return { result, 
+    error 
+    };
 }
 
 export async function logOut() {
