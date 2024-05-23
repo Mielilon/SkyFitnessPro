@@ -8,17 +8,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      // screens: {
-      //   'sm': '375px',
-      //   // => @media (min-width: 576px) { ... }
-  
-      //   'md': '768px',
-      //   // => @media (min-width: 960px) { ... }
-  
-      //   'lg': '1440px',
-      //   // => @media (min-width: 1440px) { ... }
-      // },
+      screens: {
+        'main': '1440px',
+
+      },
       backgroundImage: {
+        "notice":"url('/img/notice.png')",
+        "user-icon":"url('/img/user-icon.svg')",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
@@ -34,6 +30,7 @@ const config: Config = {
         white: "#FFFFFF",
         red: "#DB0030",
         lime: "#BCEC30",
+        "lime-hov": "#C6FF00",
         yellow: "#FFC700",
         orange: "#F7A012",
         salmon: "#FF7E65",

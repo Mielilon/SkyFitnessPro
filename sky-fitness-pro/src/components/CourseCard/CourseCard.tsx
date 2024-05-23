@@ -40,10 +40,10 @@ export default function CourseCard({
 
 
   return (
-    <div onClick={() => router.replace(`/course/${courseId}`)} className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
+    <div onClick={() => router.replace(`/course/${courseId}`)} className="relative w-[343px]  md:w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
       <div>
         <Image
-          className="rounded-[30px]"
+          className="rounded-[30px] h-[325px]"
           src={`/img/${imgURL}.png`}
           alt={`${imgURL}`}
           width={560}
@@ -52,42 +52,38 @@ export default function CourseCard({
         />
 
         {isSubscribed ? (
-          <svg onClick={() => removeSubscribedCourse(courseId)} className="absolute w-[27px] right-[20px] top-[20px] z-10">
-            <g>
-              <title>Удалить курс</title>
+          <svg onClick={() => removeSubscribedCourse(courseId)} className="absolute w-8 h-8 right-[20px] top-[20px] z-10">
             <use xlinkHref={`/img/sprite.svg#icon-minus`}></use>
             </g>
           </svg>
         ) : (
-          <svg onClick={(e) => handlerAddCourse(e)} className="absolute w-[27px] right-[20px] top-[20px] z-10">
-            <g>
-              <title>Добавить курс</title>
+          <svg onClick={(e) => handlerAddCourse(e)} className="absolute w-8 h-8 right-[20px] top-[20px] z-10">
             <use xlinkHref={`/img/sprite.svg#icon-plus`}></use>
             </g>
           </svg>
         )}
 
       </div>
-      <div className="flex flex-col px-[30px] py-[25px] gap-y-5">
-        <h2 className="font-roboto-500 text-[32px]">{title}</h2>
+      <div className="flex flex-col px-[30px] pt-6 pb-4 gap-y-[18px]">
+        <h2 className="font-roboto-500 text-[24px] lg:text-[32px] leading-8">{title}</h2>
         <div className="flex flex-wrap gap-1.5">
           <div className="flex shrink-0 items-center gap-x-1.5 bg-[#F7F7F7] rounded-[30px] p-[10px]">
             <svg className="w-[16px] h-[16px]">
               <use xlinkHref={`/img/sprite.svg#icon-calendar`}></use>
             </svg>
-            <p className="text-base">25 дней</p>
+            <p className="text-[16px] leading-[110%] lg:text-[18px]">25 дней</p>
           </div>
           <div className="flex shrink-0 items-center gap-x-1.5 bg-[#F7F7F7] rounded-[30px] p-[10px]">
             <svg className="w-[16px] h-[16px]">
               <use xlinkHref={`/img/sprite.svg#icon-time`}></use>
             </svg>
-            <p className="text-base">20-50 мин/день</p>
+            <p className="text-base leading-[110%] lg:text-[18px]">20-50 мин/день</p>
           </div>
           <div className="flex shrink-0 items-center gap-x-1.5 bg-[#F7F7F7] rounded-[30px] p-[10px]">
             <svg className="w-[16px] h-[16px]">
               <use xlinkHref={`/img/sprite.svg#icon-level`}></use>
             </svg>
-            <p className="text-base">Сложность</p>
+            <p className="text-base leading-[110%] lg:text-[18px]">Сложность</p>
           </div>
         </div>
         {isSubscribed && (
