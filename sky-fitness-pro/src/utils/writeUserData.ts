@@ -7,12 +7,23 @@ type WriteUserDataType = {
   courseId: string;
   course: CourseType;
 };
-export type UserWorkoutType = [string, { name: string; video: string; _id: string, exercises: ExerciseType[] }];
-export type ExerciseType = { name: string, quantity: number };
-export type WorkoutType = { 0: string[]; 1: string[]; 2: string[], 3: ExerciseType[] };
+export type UserWorkoutType = [
+  string,
+  { name: string; video: string; _id: string; exercises: ExerciseType[] }
+];
+export type ExerciseType = { name: string; quantity: number };
+export type WorkoutType = {
+  name: string;
+  video: string;
+  _id: string;
+  exercises: ExerciseType[];
+};
 
-export async function writeUserData({ userId, courseId, course }: WriteUserDataType) {
-
+export async function writeUserData({
+  userId,
+  courseId,
+  course,
+}: WriteUserDataType) {
   let arrAllWorkouts: UserWorkoutType[] = [];
 
   await get(child(ref(database), "workouts"))

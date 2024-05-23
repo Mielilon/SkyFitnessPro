@@ -73,7 +73,7 @@ export default function SelectionPage({ params }: SelectionPageType) {
             </ul>
           </div>
           <div className="lg:w-[390px] w-[283px]">
-            <Button title="Начать" onClick={() => router.replace(`/workout/${courseName}/${selected}`)} />
+            <Button title="Начать" onClick={() => router.replace(`/workout/${courseName}/${courseId}/${selected}`)} />
           </div>
         </div>
       </div>

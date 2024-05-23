@@ -7,7 +7,7 @@ import Title from "@/components/Title/Title";
 import VideoComponent from "@/components/Video/Video";
 import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
 import { labels } from "@/lib/data";
-import { ExerciseType, WorkoutType } from "@/utils/writeUserData";
+import { ExerciseType, UserWorkoutType, WorkoutType } from "@/utils/writeUserData";
 import { getAuth } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
 import { Suspense, useEffect, useState } from "react";
@@ -16,16 +16,19 @@ type WorkoutPageType = {
   params: {
     id: string;
     course: string;
+    courseid: string;
   };
 };
 
 export default function WorkoutPage({ params }: WorkoutPageType) {
   const workoutId = params.id;
   const courseName = params.course;
+  const courseId = params.courseid;
   const [isOpen, setIsOpen] = useState(false);
-  const [workout, setWorkout] = useState<string[] | null>(null);
+  const [workout, setWorkout] = useState<WorkoutType | null>(null);
   const [rusName, setRusName] = useState('');
   const [exercises, setExercises] = useState<ExerciseType[]>([]);
+  const auth = getAuth(app);
 
   function toggleProgressForm() {
     setIsOpen((prevState) => !prevState);
@@ -52,49 +55,38 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
     }
   }, [courseName])
 
-  const auth = getAuth(app);
+
   useEffect(() => {
+    if (!auth.currentUser?.uid) return;
     return onValue(
-      ref(database, `workouts/${workoutId}/`),
+      ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/workouts`),
       (snapshot) => {
         if (snapshot.exists()) {
-          const workoutData: any = Object.values(
-            snapshot.val()
-          )
-          setWorkout(workoutData);
-          setExercises(workoutData[1])
-          console.log(workoutData);
+          const workoutsList: any = Object.values(snapshot.val());
+          const workoutData = workoutsList.filter((workout: UserWorkoutType) =>
+            workout[0] === workoutId
+          )        
+          setWorkout(workoutData[0][1]);
+          setExercises(workoutData[0][1].exercises)
         } else {
           console.log("No data available");
         }
       }
     );
 
-  }, [workoutId]);
+  }, [auth.currentUser?.uid, workoutId, courseId]);
 
-  // get(child(ref(database), `workouts/${workoutId}/exercises`))
-  //   .then((snapshot) => {
-  //     if (snapshot.exists()) {
-  //     const arrAllWorkouts = Object.entries(snapshot.val());
-  //     console.log(arrAllWorkouts);
-  //     } else {
-  //       console.log("No data available");
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
 
   return (
     <>
       <section>
         <Title label={rusName} />
         <Breadcrumbs
-          text={workout ? workout[2] : ''}
+          text={workout ? workout.name : ''}
         />
         <div className="h-[189px] md:h-[639px] rounded-[30px] mb-6 lg:mb-10">
           <Suspense fallback={<p>Loading video...</p>}>
-          <VideoComponent videoURL={workout ? workout[3] : ''} />
+          <VideoComponent videoURL={workout ? workout.video : ''} />
           </Suspense>
         </div>
       </section>
