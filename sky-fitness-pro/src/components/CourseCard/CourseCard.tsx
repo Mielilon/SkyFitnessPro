@@ -41,7 +41,7 @@ export default function CourseCard({
 
   return (
     <div onClick={() => router.replace(`/course/${courseId}`)} className="relative w-[343px]  md:w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
-      <div>
+      <div title="">
         <Image
           className="rounded-[30px] h-[325px]"
           src={`/img/${imgURL}.png`}
@@ -54,12 +54,14 @@ export default function CourseCard({
         {isSubscribed ? (
           <svg onClick={() => removeSubscribedCourse(courseId)} className="absolute w-8 h-8 right-[20px] top-[20px] z-10">
            <g>
+              <title>Удалить курс</title>
             <use xlinkHref={`/img/sprite.svg#icon-minus`}></use>
             </g>
           </svg>
         ) : (
           <svg onClick={(e) => handlerAddCourse(e)} className="absolute w-8 h-8 right-[20px] top-[20px] z-10">
             <g>
+              <title>Добавить курс</title>
             <use xlinkHref={`/img/sprite.svg#icon-plus`}></use>
             </g>
           </svg>
