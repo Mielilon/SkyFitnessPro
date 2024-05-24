@@ -6,8 +6,9 @@ import { app, database } from "@/app/firebase";
 import { onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
-import { writeUserData } from "@/utils/writeUserData";
+import { UserWorkoutType, writeUserData } from "@/utils/writeUserData";
 import sendNotification from "@/utils/sendNotification";
+import { useRouter } from "next/navigation";
 
 type CoursePageType = {
   params: {
@@ -25,9 +26,18 @@ export type CourseType = {
   order: number;
   workouts: string[];
 };
+type UserCourseType = {
+  _id: string;
+  nameEN: string;
+  nameRU: string;
+  progress: string;
+  workouts: UserWorkoutType[];
+};
 
+type UserCoursesArrayType = [string, UserCourseType][];
 export default function CoursePage({ params }: CoursePageType) {
   const courseId = params.id;
+  const router = useRouter();
   const [course, setCourse] = useState<CourseType>({
     _id: "",
     description: "",
@@ -40,7 +50,7 @@ export default function CoursePage({ params }: CoursePageType) {
   });
 
   const [color, setColor] = useState("bg-yellow");
-
+  const [userCourses, setUserCourses] = useState<UserCourseType[]>([]);
   const auth = getAuth(app);
   const currentUser = auth.currentUser;
 
@@ -56,6 +66,24 @@ export default function CoursePage({ params }: CoursePageType) {
       }
     });
   }, [courseId]);
+
+  useEffect(() => {
+    if (!auth.currentUser?.uid) return;
+    return onValue(
+      ref(database, `users/${auth.currentUser?.uid}/courses`),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const userCourseList: UserCourseType[] = Object.values(
+            snapshot.val()
+          );
+          setUserCourses(userCourseList);
+        } else {
+          console.log("No data available");
+        }
+      }
+    );
+  }, [auth.currentUser?.uid]);
+
   useEffect(() => {
     switch (course.nameEN) {
       case "BodyFlex":
@@ -78,11 +106,12 @@ export default function CoursePage({ params }: CoursePageType) {
     }
   }, [course]);
 
-
-
   return (
     <>
-      <div id="notification-box" className="flex fixed flex-col items-center justify-center top-0 z-50 p-3">
+      <div
+        id="notification-box"
+        className="flex fixed flex-col items-center justify-center top-0 z-50 p-3"
+      >
         {/* <!-- Notification container --> */}
       </div>
       <section
@@ -157,13 +186,26 @@ export default function CoursePage({ params }: CoursePageType) {
                 })}
               </ul>
             </div>
-            <Button
-              title="Добавить курс"
-              onClick={() => {
-                writeUserData({ userId: currentUser?.uid, courseId, course })
-                sendNotification('info', 'Вы добавили курс!')
-              }}
-            />
+            {!currentUser ? (
+              <Button
+                title="Войдите, чтобы добавить курс"
+                onClick={() => router.replace("/signin")}
+              />
+            ) : userCourses.find((course) => course._id === courseId) 
+            ? (
+              <Button
+                title="Продолжить"
+                onClick={() => router.replace(`/selection/${courseId}`)}
+              />
+            ) : (
+              <Button
+                title="Добавить курс"
+                onClick={() => {
+                  writeUserData({ userId: currentUser?.uid, courseId, course });
+                  sendNotification("info", "Вы добавили курс!");
+                }}
+              />
+            )}
           </div>
           <div
             className="relative xl:z-10 -z-10 flex justify-end

@@ -88,7 +88,6 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
         if (snapshot.exists()) {
           const workoutData: any = snapshot.val();
           setWorkout(workoutData);
-          console.log(workoutData);
         } else {
           console.log("No data available");
         }
@@ -117,7 +116,7 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
               <div className="lg:w-[320px] w-[283px]" key={i}>
                 <WorkoutProgress
                   title={exercise.name}
-                  progress={exercise.quantity}
+                  progress={exercise.quantity.toString()}
                 />
               </div>
             );

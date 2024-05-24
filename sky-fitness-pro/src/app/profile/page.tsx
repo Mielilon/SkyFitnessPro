@@ -41,10 +41,10 @@ export default function ProfilePage() {
       ref(database, `users/${auth.currentUser?.uid}/courses`),
       (snapshot) => {
         if (snapshot.exists()) {
-          const arrAllWorkouts: CoursesArrayType = Object.entries(
+          const userCourseList: CoursesArrayType = Object.entries(
             snapshot.val()
           );
-          setCourses(arrAllWorkouts);
+          setCourses(userCourseList);
         } else {
           console.log("No data available");
         }
