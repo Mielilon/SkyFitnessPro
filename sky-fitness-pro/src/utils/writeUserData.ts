@@ -22,7 +22,7 @@ type NewWorkoutContentType = {
   [key: string]: {
     _id: string;
     name: string;
-    progress: number;
+    progress: string;
     video: string;
     exercises: ExerciseType[];
   };
@@ -52,18 +52,17 @@ export async function writeUserData({
   );
   let newWorkoutslist: NewWorkoutContentType = {};
   Object.values(workoutsList).forEach((workout) => {
-    const workoutNewContent = { ...workout[1], progress: 0 };
+    const workoutNewContent = { ...workout[1], progress: "0%" };
     const newKey: string = workout[0];
-    const newKeyNext = newWorkoutslist[newKey as keyof NewWorkoutContentType];
     newWorkoutslist[newKey] = workoutNewContent;
   });
-  console.log(newWorkoutslist);
+
 
   await set(ref(database, `users/${userId}/courses/${courseId}`), {
     _id: course._id,
     nameEN: course.nameEN,
     nameRU: course.nameRU,
     workouts: newWorkoutslist,
-    progress: 0,
+    progress: "0%",
   });
 }

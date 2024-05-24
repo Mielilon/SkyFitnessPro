@@ -14,6 +14,7 @@ type CourseType = {
   _id: string;
   nameEN: string;
   nameRU: string;
+  progress: string;
   workouts: UserWorkoutType[];
 };
 
@@ -109,6 +110,7 @@ export default function ProfilePage() {
                 imgURL={course[1].nameEN}
                 isSubscribed={true}
                 courseId={course[0]}
+                progress={course[1].progress}
               />
             );
           })}

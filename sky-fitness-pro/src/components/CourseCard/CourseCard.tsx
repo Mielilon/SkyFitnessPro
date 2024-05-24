@@ -12,7 +12,7 @@ type CourseCardType = {
   imgURL: string;
   title: string;
   isSubscribed: boolean;
-  progress?: number;
+  progress?: string;
   courseId: string;
   course?: CourseType;
 };
@@ -20,7 +20,7 @@ type CourseCardType = {
 export default function CourseCard({
   course,
   courseId,
-  progress = 0,
+  progress = "0",
   isSubscribed,
   imgURL,
   title,

@@ -68,7 +68,7 @@ export default function CoursePage({ params }: CoursePageType) {
         setColor("bg-salmon");
         break;
       case "Stretching":
-        setColor("bg-blue-dark");
+        setColor("bg-blueDark");
         break;
       case "Yoga":
         setColor("bg-yellow");

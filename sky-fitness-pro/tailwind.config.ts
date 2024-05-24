@@ -30,7 +30,7 @@ const config: Config = {
         white: "#FFFFFF",
         red: "#DB0030",
         lime: "#BCEC30",
-        "lime-hov": "#C6FF00",
+        limeHover: "#C6FF00",
         yellow: "#FFC700",
         orange: "#F7A012",
         salmon: "#FF7E65",
