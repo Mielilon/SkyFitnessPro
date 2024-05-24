@@ -52,7 +52,7 @@ export async function writeUserData({
   );
   let newWorkoutslist: NewWorkoutContentType = {};
   Object.values(workoutsList).forEach((workout) => {
-    const workoutNewContent = { ...workout[1], progress: "0%" };
+    const workoutNewContent = { ...workout[1], progressWorkout: "0%" };
     const newKey: string = workout[0];
     newWorkoutslist[newKey] = workoutNewContent;
   });
@@ -63,6 +63,6 @@ export async function writeUserData({
     nameEN: course.nameEN,
     nameRU: course.nameRU,
     workouts: newWorkoutslist,
-    progress: "0%",
+    progressCourse: "0%",
   });
 }

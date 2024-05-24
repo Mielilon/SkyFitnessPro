@@ -7,10 +7,11 @@ import { ExerciseArrayType } from "@/app/workout/[course]/[courseid]/[id]/page";
 
 type ProgressFormType = {
   exercises: ExerciseArrayType[];
+  setProgressValue: React.Dispatch<React.SetStateAction<ExerciseArrayType[]>>;
+  handleSaveChanges: () => void;
 };
-export default function ProgressForm({ exercises }: ProgressFormType) {
+export default function ProgressForm({ exercises ,setProgressValue, handleSaveChanges}: ProgressFormType) {
   const [isOpen, setIsOpen] = useState(false);
-  const [progressValue, setProgressValue] = useState<ExerciseArrayType[]>([]);
 
   function closeSuccessModal() {
     setIsOpen(false);
@@ -20,11 +21,9 @@ export default function ProgressForm({ exercises }: ProgressFormType) {
     setIsOpen(true);
     setTimeout(closeSuccessModal, 3000);
   }
-  function handelOnChange() {
-    console.log("object");
-  }
 
-  useEffect(() => setProgressValue(exercises), [exercises])
+
+  useEffect(() => setProgressValue(exercises), [exercises, setProgressValue])
 
   return (
     <div className="relative">
@@ -33,7 +32,7 @@ export default function ProgressForm({ exercises }: ProgressFormType) {
           <SuccessModal />
         </div>
       ) : (
-        <form
+        <form onClick={handleSaveChanges}
           className="fixed top-[calc(50%-(487px/2))] left-[calc(50%-(343px/2))] lg:top-[calc(50%-(596px/2))] lg:left-[calc(50%-(426px/2))]
        bg-white  rounded-[30px] shadow-def w-[343px] p-[30px] lg:w-[426px] lg:p-10 "
         >
@@ -52,7 +51,7 @@ export default function ProgressForm({ exercises }: ProgressFormType) {
               );
             })}
           </fieldset>
-          <Button title="Сохранить" onClick={openSuccessModal} />
+          <Button title="Сохранить" type="submit" />
         </form>
       )}
     </div>
