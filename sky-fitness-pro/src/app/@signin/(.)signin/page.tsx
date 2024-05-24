@@ -65,7 +65,7 @@ export default function SignInPage() {
 
         <div className="space-y-2.5">
           <Button type="submit" title="Войти" />
-          <ButtonLink title="Зарегистрироваться" link="/signup" />
+          <ButtonLink onClick={() => router.replace("/signup")} title="Зарегистрироваться" link="/signup" />
         </div>
       </WrapperModal>
     </Modal>
