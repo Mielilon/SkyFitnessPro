@@ -7,7 +7,7 @@ import Title from "@/components/Title/Title";
 import VideoComponent from "@/components/Video/Video";
 import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
 import { labels } from "@/lib/data";
-import { ExerciseType, UserWorkoutType, WorkoutType } from "@/utils/writeUserData";
+import { ExerciseType, WorkoutType } from "@/utils/writeUserData";
 import { getAuth } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
 import { Suspense, useEffect, useState } from "react";
@@ -29,7 +29,7 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
   const courseId = params.courseid;
   const [isOpen, setIsOpen] = useState(false);
   const [workout, setWorkout] = useState<WorkoutType | null>(null);
-  const [rusName, setRusName] = useState('');
+  const [rusName, setRusName] = useState("");
   const [exercises, setExercises] = useState<ExerciseType[]>([]);
   const auth = getAuth(app);
 
@@ -56,38 +56,54 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
       default:
         setRusName("");
     }
-  }, [courseName])
-
+  }, [courseName]);
 
   useEffect(() => {
     if (!auth.currentUser?.uid) return;
     return onValue(
-      ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}`),
+      ref(
+        database,
+        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/exercises/`
+      ),
       (snapshot) => {
         if (snapshot.exists()) {
-          const workoutData: any = Object.values(snapshot.val());        
-          setWorkout(workoutData);
-          console.log(workoutData.exercises);
-          // setExercises(workoutData.exercises)
+          const exercisesData: any = Object.values(snapshot.val());
+          setExercises(exercisesData);
+          console.log(exercisesData);
         } else {
           console.log("No data available");
         }
       }
     );
-
   }, [auth.currentUser?.uid, workoutId, courseId]);
 
+  useEffect(() => {
+    if (!auth.currentUser?.uid) return;
+    return onValue(
+      ref(
+        database,
+        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}`
+      ),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const workoutData: any = snapshot.val();
+          setWorkout(workoutData);
+          console.log(workoutData);
+        } else {
+          console.log("No data available");
+        }
+      }
+    );
+  }, [auth.currentUser?.uid, workoutId, courseId]);
 
   return (
     <>
       <section>
         <Title label={rusName} />
-        <Breadcrumbs
-          text={workout ? workout.name : ''}
-        />
+        <Breadcrumbs text={workout ? workout.name : ""} />
         <div className="h-[189px] md:h-[639px] rounded-[30px] mb-6 lg:mb-10">
           <Suspense fallback={<p>Loading video...</p>}>
-          <VideoComponent videoURL={workout ? workout.video : ''} />
+            <VideoComponent videoURL={workout ? workout.video : ""} />
           </Suspense>
         </div>
       </section>
@@ -99,10 +115,13 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
           {exercises.map((exercise, i) => {
             return (
               <div className="lg:w-[320px] w-[283px]" key={i}>
-                <WorkoutProgress title={exercise.name} progress={exercise.quantity} />
+                <WorkoutProgress
+                  title={exercise.name}
+                  progress={exercise.quantity}
+                />
               </div>
             );
-          })} 
+          })}
         </div>
         <div className="lg:w-[320px] max-w-[283px] w-auto mt-10">
           <Button

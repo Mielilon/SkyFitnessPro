@@ -2,8 +2,8 @@
 import { app, database } from "@/app/firebase";
 import Button from "@/components/Button/Button";
 import WorkoutItem from "@/components/WorkoutItem/WorkoutItem";
-import { workouts } from "@/lib/data";
-import { UserWorkoutType, WorkoutType } from "@/utils/writeUserData";
+
+import { WorkoutType } from "@/utils/writeUserData";
 import { getAuth } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
 import { useRouter } from "next/navigation";
@@ -28,22 +28,6 @@ export default function SelectionPage({ params }: SelectionPageType) {
   }, [params]);
 
   useEffect(() => {
-    // if (!auth.currentUser?.uid) return;
-    // return onValue(
-    //   ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/workouts`),
-    //   (snapshot) => {
-    //     if (snapshot.exists()) {
-    //       const workoutList: any = Object.values(
-    //         snapshot.val()
-    //       )
-    //       setWorkouts(workoutList);
-    //       console.log(workoutList);
-    //     } else {
-    //       console.log("No data available");
-    //     }
-    //   }
-    // );
-
     if (!auth.currentUser?.uid) return;
     return onValue(
       ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/`),
@@ -52,8 +36,8 @@ export default function SelectionPage({ params }: SelectionPageType) {
           const course: any = Object.values(snapshot.val());
           setCourseName(course[1]);
           const workoutList: WorkoutType[] = Object.values(course[4]);
+          workoutList.sort((a, b) => (a.name > b.name ? 1 : -1));
           setWorkouts(workoutList);
-          console.log(workoutList);
         } else {
           console.log("No data available");
         }
@@ -71,9 +55,15 @@ export default function SelectionPage({ params }: SelectionPageType) {
           <div className="lg:w-[392px] w-[292px]  lg:h-[380px] h-[354px]">
             <ul className="h-[350px] overflow-auto">
               {workouts?.map((workout, i) => {
-                // const shortWorkoutName = workout.name.split("/")[0];
-
-                return <WorkoutItem setSelected={setSelected} workoutName={workout.name} key={i} id={workout._id} />
+                const shortWorkoutName = workout.name.split("/")[0];
+                return (
+                  <WorkoutItem
+                    setSelected={setSelected}
+                    workoutName={shortWorkoutName}
+                    key={i}
+                    id={workout._id}
+                  />
+                );
               })}
             </ul>
           </div>
