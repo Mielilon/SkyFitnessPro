@@ -3,12 +3,18 @@ import { useState } from "react";
 import Button from "../Button/Button";
 import FieldProgressForm from "./FieldProgressForm";
 import SuccessModal from "../SuccessModal/SuccessModal";
+import { ExerciseArrayType } from "@/app/workout/[course]/[courseid]/[id]/page";
 
 type ProgressFormType = {
-  labels: string[];
+  exercises: ExerciseArrayType[];
 };
-export default function ProgressForm({ labels }: ProgressFormType) {
+type ProgressValueType = {
+  id: string;
+  currentProgress: number;
+};
+export default function ProgressForm({ exercises }: ProgressFormType) {
   const [isOpen, setIsOpen] = useState(false);
+  const [progressValue, setProgressValue] = useState<ProgressValueType[]>([]);
 
   function closeSuccessModal() {
     setIsOpen(false);
@@ -18,7 +24,9 @@ export default function ProgressForm({ labels }: ProgressFormType) {
     setIsOpen(true);
     setTimeout(closeSuccessModal, 3000);
   }
-
+  function handelOnChange() {
+    console.log("object");
+  }
   return (
     <div className="relative">
       {isOpen ? (
@@ -34,8 +42,16 @@ export default function ProgressForm({ labels }: ProgressFormType) {
             Мой прогресс
           </h3>
           <fieldset className="w-[237px] lg:w-[320px] max-h-[350px]  mb-[34px] overflow-y-scroll">
-            {labels.map((label, i) => {
-              return <FieldProgressForm label={label} key={i} />;
+            {exercises.map((exercise, i) => {
+              return (
+                <FieldProgressForm
+                  label={exercise[1].name}
+                  key={i}
+                  id={exercise[0]}
+                  onChange={handelOnChange}
+                  value={progressValue[i].currentProgress}
+                />
+              );
             })}
           </fieldset>
           <Button title="Сохранить" onClick={openSuccessModal} />

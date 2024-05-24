@@ -20,6 +20,11 @@ type WorkoutPageType = {
   };
 };
 
+export type ExerciseArrayType = [
+  string,
+  ExerciseType
+]
+
 export default function WorkoutPage({ params }: WorkoutPageType) {
   const [workoutId, setWorkoutId] = useState("");
   useEffect(() => {
@@ -30,9 +35,9 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
   const [isOpen, setIsOpen] = useState(false);
   const [workout, setWorkout] = useState<WorkoutType | null>(null);
   const [rusName, setRusName] = useState("");
-  const [exercises, setExercises] = useState<ExerciseType[]>([]);
+  const [exercises, setExercises] = useState<ExerciseArrayType[]>([]);
   const auth = getAuth(app);
-
+// console.log(exercises);
   function toggleProgressForm() {
     setIsOpen((prevState) => !prevState);
   }
@@ -67,7 +72,7 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
       ),
       (snapshot) => {
         if (snapshot.exists()) {
-          const exercisesData: any = Object.values(snapshot.val());
+          const exercisesData: any = Object.entries(snapshot.val());
           setExercises(exercisesData);
           console.log(exercisesData);
         } else {
@@ -115,8 +120,8 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
             return (
               <div className="lg:w-[320px] w-[283px]" key={i}>
                 <WorkoutProgress
-                  title={exercise.name}
-                  progress={exercise.quantity.toString()}
+                  title={exercise[1].name}
+                  progress={exercise[1].quantity.toString()}
                 />
               </div>
             );
@@ -129,7 +134,7 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
           />
         </div>
       </section>
-      {isOpen && <ProgressForm labels={labels} />}
+      {isOpen && <ProgressForm  exercises={exercises} />}
     </>
   );
 }

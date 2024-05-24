@@ -1,7 +1,15 @@
 type FieldProgressFormType = {
   label: string;
+  id: string;
+  value: number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
-export default function FieldProgressForm({ label }: FieldProgressFormType) {
+export default function FieldProgressForm({
+  label,
+  id,
+  value,
+  onChange,
+}: FieldProgressFormType) {
   return (
     <label className="font-roboto-400 text-black text-[18px] font-normal ">
       {label}
@@ -11,6 +19,9 @@ export default function FieldProgressForm({ label }: FieldProgressFormType) {
         min="0"
         step="1"
         placeholder="0"
+        id={id}
+        value={value}
+        onChange={onChange}
       />
     </label>
   );
