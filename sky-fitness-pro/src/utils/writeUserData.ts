@@ -11,7 +11,7 @@ export type UserWorkoutType = [
   string,
   { name: string; video: string; _id: string; exercises: ExerciseType[] }
 ];
-export type ExerciseType = { name: string; quantity: number };
+export type ExerciseType = { name: string; quantity: number, curProgress: number };
 export type WorkoutType = {
   name: string;
   video: string;
@@ -22,7 +22,7 @@ type NewWorkoutContentType = {
   [key: string]: {
     _id: string;
     name: string;
-    progress: string;
+    progressWorkout: string;
     video: string;
     exercises: ExerciseType[];
   };

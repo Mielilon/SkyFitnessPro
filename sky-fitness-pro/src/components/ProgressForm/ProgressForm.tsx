@@ -7,10 +7,10 @@ import { ExerciseArrayType } from "@/app/workout/[course]/[courseid]/[id]/page";
 
 type ProgressFormType = {
   exercises: ExerciseArrayType[];
-  setProgressValue: React.Dispatch<React.SetStateAction<ExerciseArrayType[]>>;
+  setExercises: React.Dispatch<React.SetStateAction<ExerciseArrayType[]>>;
   handleSaveChanges: () => void;
 };
-export default function ProgressForm({ exercises ,setProgressValue, handleSaveChanges}: ProgressFormType) {
+export default function ProgressForm({ exercises ,setExercises, handleSaveChanges}: ProgressFormType) {
   const [isOpen, setIsOpen] = useState(false);
 
   function closeSuccessModal() {
@@ -23,7 +23,7 @@ export default function ProgressForm({ exercises ,setProgressValue, handleSaveCh
   }
 
 
-  useEffect(() => setProgressValue(exercises), [exercises, setProgressValue])
+  useEffect(() => setExercises(exercises), [exercises, setExercises])
 
   return (
     <div className="relative">
@@ -32,7 +32,8 @@ export default function ProgressForm({ exercises ,setProgressValue, handleSaveCh
           <SuccessModal />
         </div>
       ) : (
-        <form onClick={handleSaveChanges}
+        <>
+        <form 
           className="fixed top-[calc(50%-(487px/2))] left-[calc(50%-(343px/2))] lg:top-[calc(50%-(596px/2))] lg:left-[calc(50%-(426px/2))]
        bg-white  rounded-[30px] shadow-def w-[343px] p-[30px] lg:w-[426px] lg:p-10 "
         >
@@ -46,13 +47,14 @@ export default function ProgressForm({ exercises ,setProgressValue, handleSaveCh
                   label={exercise[1].name}
                   key={i}
                   id={exercise[0]}
-                  onChange={e => setProgressValue(prev => prev.map(item => item[1].name === exercise[1].name ? [item[1].name, {...item[1], curProgress: Number(e.target.value) }] : item))}
+                  onChange={e => setExercises(prev => prev.map(item => item[1].name === exercise[1].name ? [item[0], {...item[1], curProgress: Number(e.target.value) }] : item))}
                 />
               );
             })}
           </fieldset>
-          <Button title="Сохранить" type="submit" />
         </form>
+          <Button title="Сохранить" type="submit" onClick={handleSaveChanges}/>
+          </>
       )}
     </div>
   );

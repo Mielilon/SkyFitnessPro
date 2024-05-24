@@ -6,10 +6,9 @@ import ProgressForm from "@/components/ProgressForm/ProgressForm";
 import Title from "@/components/Title/Title";
 import VideoComponent from "@/components/Video/Video";
 import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
-import { labels } from "@/lib/data";
 import { ExerciseType, WorkoutType } from "@/utils/writeUserData";
 import { getAuth } from "firebase/auth";
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, update } from "firebase/database";
 import { Suspense, useEffect, useState } from "react";
 
 type WorkoutPageType = {
@@ -20,27 +19,26 @@ type WorkoutPageType = {
   };
 };
 
-export type ExerciseArrayType = [
-  string,
-]
+export type ExerciseArrayType = [string, ExerciseType];
 
 export default function WorkoutPage({ params }: WorkoutPageType) {
   const [workoutId, setWorkoutId] = useState("");
-  const [progressValue, setProgressValue] = useState<ExerciseArrayType[]>([]);
+  const [exercises, setExercises] = useState<ExerciseArrayType[]>([]);
   const courseName = params.course;
   const courseId = params.courseid;
   const [isOpen, setIsOpen] = useState(false);
   const [workout, setWorkout] = useState<WorkoutType | null>(null);
   const [rusName, setRusName] = useState("");
-  const [exercises, setExercises] = useState<ExerciseArrayType[]>([]);
   const auth = getAuth(app);
-// console.log(exercises);
+
   useEffect(() => {
     setWorkoutId(params.id);
   }, [params]);
+
   function toggleProgressForm() {
     setIsOpen((prevState) => !prevState);
   }
+
   useEffect(() => {
     switch (courseName) {
       case "BodyFlex":
@@ -82,9 +80,22 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
     );
   }, [auth.currentUser?.uid, workoutId, courseId]);
 
-  function handleSaveChanges() {
-    console.log(progressValue);
+  async function handleSaveChanges() {
+    const arrAvr = exercises.map((exercise) =>
+      exercise[1].curProgress < exercise[1].quantity
+        ? (exercise[1].curProgress / exercise[1].quantity) * 100
+        : 100
+    );
 
+    const progressWorkout = arrAvr.reduce((acc, number) => acc + number) / arrAvr.length;
+
+    const updatedData = exercises.map(exercise => exercise[1])
+
+
+    await update(ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/`), {progressWorkout: Math.floor(progressWorkout)})
+    await update(ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/`), {exercises: updatedData})
+
+    console.log(Math.floor(progressWorkout));
   }
 
   useEffect(() => {
@@ -121,13 +132,18 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
           Упражнения тренировки
         </h2>
         <div className="grid grid-flow-row gap-6 items-end md:grid-cols-2 md:gap-5 xl:grid-cols-3">
-          {exercises.map((exercise, i) => {
+          {exercises.length > 0 && exercises.map((exercise, i) => {
+            const arrAvr = exercises.map((exercise) =>
+              exercise[1].curProgress < exercise[1].quantity
+                ? (exercise[1].curProgress / exercise[1].quantity) * 100
+                : 100
+            );
+
+            const progressWorkout = arrAvr.reduce((acc, number) => acc + number) / arrAvr.length;
+        
             return (
               <div className="lg:w-[320px] w-[283px]" key={i}>
-                <WorkoutProgress
-                  title={exercise[1].name}
-                  progress={"0%"}
-                />
+                <WorkoutProgress title={exercise[1].name} progress={Math.floor(progressWorkout)} percentage={`${progressWorkout}%`} />
               </div>
             );
           })}
@@ -139,7 +155,13 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
           />
         </div>
       </section>
-    {isOpen && <ProgressForm setProgressValue={setProgressValue} handleSaveChanges={handleSaveChanges} exercises={exercises} />}
+      {isOpen && (
+        <ProgressForm
+          setExercises={setExercises}
+          handleSaveChanges={handleSaveChanges}
+          exercises={exercises}
+        />
+      )}
     </>
   );
 }
