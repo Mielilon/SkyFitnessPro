@@ -6,7 +6,7 @@ import { useAppSelector } from "@/components/hooks/hooks";
 
 
 export default function NewPasswordPage() {
-    const userEmail = "useAppSelector((store) => store.user.userData.email)";
+    const userEmail = useAppSelector((store) => store.user.userData?.email);
     
     console.log("Данные:"+userEmail);
     return (

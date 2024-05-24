@@ -1,16 +1,16 @@
 "use client";
 
 import FormInput from "@/components/FormInput/FormInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import { signIn } from "@/app/api";
 import { Modal } from "@/components/Modal/Modal";
-import { useAppDispatch, useAppSelector } from "@/components/hooks/hooks";
+import { useAppDispatch } from "@/components/hooks/hooks";
 
-import { User, getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { setUserDataDuble } from "@/components/store/features/userSlice";
 
 
@@ -23,7 +23,6 @@ export default function SignInPage() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [errorText, setError] = useState(false);
-  const [isOpen, setIsOpen] = useState(false)
   const [userData, setUserData] = useState<DataUserType>({
     email: "",
     password: "",

@@ -1,6 +1,6 @@
 import { DataUserType } from "@/app/signin/page";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { User, getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { User } from "firebase/auth";
 
 type InitialStateType = {
   userData: User | null,
