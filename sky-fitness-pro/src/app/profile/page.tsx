@@ -59,8 +59,7 @@ export default function ProfilePage() {
         </h2>
         <div
           className="bg-[#FFFFFF]
-                    rounded-[30px] 
-                    sm:w-[1160px] w-[343px]
+                    rounded-[30px]
                     sm:h-[257px] h-[453px]
                     sm:px-[30px] px-[10px]
                     py-[30px]"
