@@ -9,6 +9,9 @@ import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import { signIn } from "../api";
 import ModalNewPassword from "@/components/ModalNewPassword/ModalNewPasword";
 import { error } from "console";
+import { useAppDispatch } from "@/components/hooks/hooks";
+import { setUserDataDuble } from "@/components/store/features/userSlice";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 export type DataUserType = {
   email: string;
@@ -16,6 +19,7 @@ export type DataUserType = {
 };
 
 export default function SignInPage() {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [errorText, setError] = useState(false);
   const [isOpen, setIsOpen] = useState(false)
@@ -37,6 +41,25 @@ export default function SignInPage() {
 
     return router.replace("/");
   };
+
+  function toSendPasswordResetEmail(userData: DataUserType) {
+    if (userData.email) {
+      dispatch(setUserDataDuble(userData));
+      //const userEmail = useAppSelector((store) => store.user.userDataDuble?.email);
+      //console.log("Данные в форме:" + userEmail);
+      const auth = getAuth();
+      sendPasswordResetEmail(auth, userData.email)
+        .then(() => {
+          console.log("проверка");
+          router.replace("/new_password")
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+    } return
+  }
 
   return (
     <>
@@ -64,9 +87,9 @@ export default function SignInPage() {
 
           {errorText && <p className="text-rose-500 text-center mt-1">Логин и пароль не совпадают.
             <span className="underline"
-              onClick={() => setIsOpen(true)}
+              onClick={() => toSendPasswordResetEmail(userData)}
             >Восстановить пароль?</span></p>}
-          {isOpen && <ModalNewPassword email={userData.email} />}
+          
         </div>
 
         <div className="space-y-2.5">

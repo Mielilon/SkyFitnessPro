@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function NewPasswordPage() {
     const userEmail = useAppSelector((store) => store.user.userDataDuble?.email);
-    console.log("Данные мод.окна:"+userEmail);
+    
     return (
         <Modal>
             <div className="mx-auto max-w-[100%]">
