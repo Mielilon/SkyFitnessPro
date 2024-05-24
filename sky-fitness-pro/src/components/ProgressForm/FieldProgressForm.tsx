@@ -1,13 +1,11 @@
 type FieldProgressFormType = {
   label: string;
   id: string;
-  value: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 export default function FieldProgressForm({
   label,
   id,
-  value,
   onChange,
 }: FieldProgressFormType) {
   return (
@@ -20,7 +18,6 @@ export default function FieldProgressForm({
         step="1"
         placeholder="0"
         id={id}
-        value={value}
         onChange={onChange}
       />
     </label>

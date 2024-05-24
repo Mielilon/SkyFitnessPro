@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import FieldProgressForm from "./FieldProgressForm";
 import SuccessModal from "../SuccessModal/SuccessModal";
@@ -8,13 +8,9 @@ import { ExerciseArrayType } from "@/app/workout/[course]/[courseid]/[id]/page";
 type ProgressFormType = {
   exercises: ExerciseArrayType[];
 };
-type ProgressValueType = {
-  id: string;
-  currentProgress: number;
-};
 export default function ProgressForm({ exercises }: ProgressFormType) {
   const [isOpen, setIsOpen] = useState(false);
-  const [progressValue, setProgressValue] = useState<ProgressValueType[]>([]);
+  const [progressValue, setProgressValue] = useState<ExerciseArrayType[]>([]);
 
   function closeSuccessModal() {
     setIsOpen(false);
@@ -27,6 +23,9 @@ export default function ProgressForm({ exercises }: ProgressFormType) {
   function handelOnChange() {
     console.log("object");
   }
+
+  useEffect(() => setProgressValue(exercises), [exercises])
+
   return (
     <div className="relative">
       {isOpen ? (
@@ -48,8 +47,7 @@ export default function ProgressForm({ exercises }: ProgressFormType) {
                   label={exercise[1].name}
                   key={i}
                   id={exercise[0]}
-                  onChange={handelOnChange}
-                  value={progressValue[i].currentProgress}
+                  onChange={e => setProgressValue(prev => prev.map(item => item[1].name === exercise[1].name ? [item[1].name, {...item[1], curProgress: Number(e.target.value) }] : item))}
                 />
               );
             })}

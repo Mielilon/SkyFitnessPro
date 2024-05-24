@@ -18,7 +18,7 @@ type SelectionPageType = {
 export default function SelectionPage({ params }: SelectionPageType) {
   const [courseId, setCourseId] = useState("");
   const auth = getAuth(app);
-  const [workouts, setWorkouts] = useState<WorkoutType[] | null>(null);
+  const [workouts, setWorkouts] = useState<WorkoutType[]>([]);
   const [courseName, setCourseName] = useState("");
   const [selected, setSelected] = useState("");
   const router = useRouter();
