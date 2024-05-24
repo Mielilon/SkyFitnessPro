@@ -4,10 +4,15 @@ import { User, getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 type InitialStateType = {
   userData: User | null,
+  userDataDuble: DataUserType,
 }
 
 const initialState: InitialStateType = {
-  userData: null
+  userData: null,
+  userDataDuble: {
+    email: "",
+    password: ""
+  },
 }
 
 const userSlice = createSlice({
@@ -17,7 +22,11 @@ const userSlice = createSlice({
     setUserData: (state, action: PayloadAction<User>) => {
       state.userData = action.payload;
     },
-    
+    setUserDataDuble: (state, action: PayloadAction<DataUserType>) => {
+      state.userDataDuble.email = action.payload.email;
+      state.userDataDuble.password = action.payload.password;
+    },
+
   }
 });
 
@@ -26,7 +35,8 @@ const userSlice = createSlice({
 
 export const {
   setUserData,
-  
+  setUserDataDuble,
+
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

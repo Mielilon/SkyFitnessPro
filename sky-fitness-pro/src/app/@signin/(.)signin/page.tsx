@@ -11,6 +11,7 @@ import { Modal } from "@/components/Modal/Modal";
 import { useAppDispatch, useAppSelector } from "@/components/hooks/hooks";
 
 import { User, getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { setUserDataDuble } from "@/components/store/features/userSlice";
 
 
 export type DataUserType = {
@@ -45,69 +46,62 @@ export default function SignInPage() {
   };
 
 
-  useEffect(() => {
 
+
+  function toSendPasswordResetEmail(userData: DataUserType) {
     if (userData.email) {
+      dispatch(setUserDataDuble(userData));
+      //const userEmail = useAppSelector((store) => store.user.userDataDuble?.email);
+      //console.log("Данные в форме:" + userEmail);
+      const auth = getAuth();
+      sendPasswordResetEmail(auth, userData.email)
+        .then(() => {
+          console.log("проверка");
+          router.replace("/new_password")
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+    } return
+  }
 
+  return (
+    <Modal>
+      <WrapperModal onSubmit={(event) => handleForm(event)}>
+        <div className="mb-[34px]">
+          <FormInput
+            value={userData.email}
+            onChange={(e) => {
+              setUserData({ ...userData, email: e.target.value });
+            }}
+            type="text"
+            name="login"
+            placeholder="Логин"
+          />
 
-      dispatch(setUserData(userData));
-    }
-  
-    
-  }, [dispatch]);
+          <FormInput
+            onChange={(e) =>
+              setUserData({ ...userData, password: e.target.value })
+            }
+            value={userData.password}
+            type="password"
+            name="password"
+            placeholder="Пароль"
+          />
 
-function toSendPasswordResetEmail(userData: DataUserType) {
-  if (userData.email) {
+          {errorText && <p className="text-rose-500 text-center mt-1">Логин и пароль не совпадают.
+            <span className="underline"
+              onClick={() => toSendPasswordResetEmail(userData)}
+            >Восстановить пароль?</span></p>}
+        </div>
 
-    const auth = getAuth();
-    sendPasswordResetEmail(auth, userData.email)
-      .then(() => {
-        console.log("проверка");
-        router.replace("/new_password")
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-      });
-  } return
-}
-
-return (
-  <Modal>
-    <WrapperModal onSubmit={(event) => handleForm(event)}>
-      <div className="mb-[34px]">
-        <FormInput
-          value={userData.email}
-          onChange={(e) => {
-            setUserData({ ...userData, email: e.target.value });
-          }}
-          type="text"
-          name="login"
-          placeholder="Логин"
-        />
-
-        <FormInput
-          onChange={(e) =>
-            setUserData({ ...userData, password: e.target.value })
-          }
-          value={userData.password}
-          type="password"
-          name="password"
-          placeholder="Пароль"
-        />
-
-        {errorText && <p className="text-rose-500 text-center mt-1">Логин и пароль не совпадают.
-          <span className="underline"
-            onClick={() => toSendPasswordResetEmail(userData)}
-          >Восстановить пароль?</span></p>}
-      </div>
-
-      <div className="space-y-2.5">
-        <Button type="submit" title="Войти" />
-        <ButtonLink title="Зарегистрироваться" link="/signup" />
-      </div>
-    </WrapperModal>
-  </Modal>
-);
+        <div className="space-y-2.5">
+          <Button type="submit" title="Войти" />
+          <ButtonLink title="Зарегистрироваться" link="/signup" />
+        </div>
+      </WrapperModal>
+    </Modal>
+  );
 }
