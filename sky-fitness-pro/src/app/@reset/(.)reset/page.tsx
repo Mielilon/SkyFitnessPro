@@ -8,11 +8,8 @@ import FormInput from "@/components/FormInput/FormInput";
 import { getAuth, updatePassword } from "firebase/auth";
 import { app } from "../../firebase";
 import Button from "@/components/Button/Button";
+import { ChangePasswordType } from "@/types";
 
-export type ChangePasswordType = {
-  password: string;
-  repeatPassword: string;
-};
 export default function ResetPage() {
   const router = useRouter();
   const auth = getAuth(app);

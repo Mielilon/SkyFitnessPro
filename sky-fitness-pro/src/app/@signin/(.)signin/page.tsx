@@ -8,22 +8,17 @@ import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import { signIn } from "@/app/api";
 import { Modal } from "@/components/Modal/Modal";
-
-export type DataUserType = {
-  email: string;
-  password: string;
-};
+import { SignInUserDataType } from "@/types";
 
 export default function SignInPage() {
   const router = useRouter();
   const [errorText, setError] = useState("");
-  const [userData, setUserData] = useState<DataUserType>({
+  const [userData, setUserData] = useState<SignInUserDataType>({
     email: "",
     password: "",
   });
 
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
-
     event.preventDefault();
     if (!userData.email || !userData.password) return;
 
@@ -65,7 +60,11 @@ export default function SignInPage() {
 
         <div className="space-y-2.5">
           <Button type="submit" title="Войти" />
-          <ButtonLink onClick={() => router.replace("/signup")} title="Зарегистрироваться" link="/signup" />
+          <ButtonLink
+            onClick={() => router.replace("/signup")}
+            title="Зарегистрироваться"
+            link="/signup"
+          />
         </div>
       </WrapperModal>
     </Modal>

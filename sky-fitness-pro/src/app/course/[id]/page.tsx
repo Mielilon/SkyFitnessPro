@@ -9,6 +9,7 @@ import { getAuth } from "firebase/auth";
 import { UserWorkoutType, writeUserData } from "@/utils/writeUserData";
 import sendNotification from "@/utils/sendNotification";
 import { useRouter } from "next/navigation";
+import { CourseType } from "@/types";
 
 type CoursePageType = {
   params: {
@@ -16,16 +17,6 @@ type CoursePageType = {
   };
 };
 
-export type CourseType = {
-  _id: string;
-  description: string;
-  directions: string[];
-  fitting: string[];
-  nameEN: string;
-  nameRU: string;
-  order: number;
-  workouts: string[];
-};
 type UserCourseType = {
   _id: string;
   nameEN: string;
@@ -34,7 +25,6 @@ type UserCourseType = {
   workouts: UserWorkoutType[];
 };
 
-type UserCoursesArrayType = [string, UserCourseType][];
 export default function CoursePage({ params }: CoursePageType) {
   const courseId = params.id;
   const router = useRouter();

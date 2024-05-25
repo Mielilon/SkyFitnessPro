@@ -8,7 +8,7 @@ import { User, getAuth } from "firebase/auth";
 import { app, database } from "../firebase";
 import Link from "next/link";
 import { onValue, ref } from "firebase/database";
-import { UserWorkoutType } from "@/utils/writeUserData";
+import { UserWorkoutType } from "@/types";
 
 type CourseType = {
   _id: string;

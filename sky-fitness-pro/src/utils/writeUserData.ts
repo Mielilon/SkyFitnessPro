@@ -1,5 +1,5 @@
-import { CourseType } from "@/app/course/[id]/page";
 import { database } from "@/app/firebase";
+import { CourseType, ExerciseType, UserWorkoutType } from "@/types";
 import { child, get, ref, set } from "firebase/database";
 
 type WriteUserDataType = {
@@ -7,17 +7,7 @@ type WriteUserDataType = {
   courseId: string;
   course: CourseType;
 };
-export type UserWorkoutType = [
-  string,
-  { name: string; video: string; _id: string; progressWorkout: number; exercises: ExerciseType[] }
-];
-export type ExerciseType = { name: string; quantity: number, curProgress: number };
-export type WorkoutType = {
-  name: string;
-  video: string;
-  _id: string;
-  exercises: ExerciseType[];
-};
+
 type NewWorkoutContentType = {
   [key: string]: {
     _id: string;

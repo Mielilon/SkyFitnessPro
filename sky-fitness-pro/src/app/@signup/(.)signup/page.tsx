@@ -9,19 +9,13 @@ import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import { signUp } from "@/app/api";
 import { Modal } from "@/components/Modal/Modal";
 import { getErrorText } from "@/utils/getErrorText";
-
-
-export type RegistrationUserType = {
-  email: string;
-  password: string;
-  repeatPassword: string;
-};
+import { SignUpUserDataType } from "@/types";
 
 export default function SignInPage() {
   const router = useRouter();
   const [errorText, setError] = useState("");
 
-  const [userData, setUserData] = useState<RegistrationUserType>({
+  const [userData, setUserData] = useState<SignUpUserDataType>({
     email: "",
     password: "",
     repeatPassword: "",
@@ -49,45 +43,52 @@ export default function SignInPage() {
   return (
     <Modal>
       <WrapperModal onSubmit={(event) => handleForm(event)}>
-      <div className="mb-[34px]">
-        <FormInput
-          type="text"
-          name="login"
-          placeholder="Эл. почта"
-          value={userData.email}
-          onChange={(e) => {
-            setUserData({ ...userData, email: e.target.value });
-          }}
-        />
+        <div className="mb-[34px]">
+          <FormInput
+            type="text"
+            name="login"
+            placeholder="Эл. почта"
+            value={userData.email}
+            onChange={(e) => {
+              setUserData({ ...userData, email: e.target.value });
+            }}
+          />
 
-        <FormInput
-          onChange={(e) =>
-            setUserData({ ...userData, password: e.target.value })
-          }
-          value={userData.password}
-          type="password"
-          name="password"
-          placeholder="Пароль"
-        />
+          <FormInput
+            onChange={(e) =>
+              setUserData({ ...userData, password: e.target.value })
+            }
+            value={userData.password}
+            type="password"
+            name="password"
+            placeholder="Пароль"
+          />
 
-        <FormInput
-          onChange={(e) =>
-            setUserData({ ...userData, repeatPassword: e.target.value })
-          }
-          value={userData.repeatPassword}
-          type="password"
-          name="password"
-          placeholder="Повторите пароль"
-        />
+          <FormInput
+            onChange={(e) =>
+              setUserData({ ...userData, repeatPassword: e.target.value })
+            }
+            value={userData.repeatPassword}
+            type="password"
+            name="password"
+            placeholder="Повторите пароль"
+          />
 
-        <p className="text-rose-500 mt-1 text-center">{errorText}</p>
-      </div>
+          <p className="text-rose-500 mt-1 text-center">{errorText}</p>
+        </div>
 
-      <div className="space-y-2.5">
-        <Button type="submit" title="Зарегистрироваться" onClick={() => router.back()} />
-        <ButtonLink onClick={() => router.replace("/signin")} title="Войти" link="/signin" />
-      </div>
-
+        <div className="space-y-2.5">
+          <Button
+            type="submit"
+            title="Зарегистрироваться"
+            onClick={() => router.back()}
+          />
+          <ButtonLink
+            onClick={() => router.replace("/signin")}
+            title="Войти"
+            link="/signin"
+          />
+        </div>
       </WrapperModal>
     </Modal>
   );

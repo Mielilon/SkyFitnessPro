@@ -2,8 +2,8 @@
 import { app, database } from "@/app/firebase";
 import Button from "@/components/Button/Button";
 import WorkoutItem from "@/components/WorkoutItem/WorkoutItem";
+import { WorkoutType } from "@/types";
 
-import { WorkoutType } from "@/utils/writeUserData";
 import { getAuth } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
 import { useRouter } from "next/navigation";

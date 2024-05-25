@@ -7,16 +7,12 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import { signIn } from "../api";
-
-export type DataUserType = {
-  email: string;
-  password: string;
-};
+import { SignInUserDataType } from "@/types";
 
 export default function SignInPage() {
   const router = useRouter();
   const [errorText, setError] = useState("");
-  const [userData, setUserData] = useState<DataUserType>({
+  const [userData, setUserData] = useState<SignInUserDataType>({
     email: "",
     password: "",
   });

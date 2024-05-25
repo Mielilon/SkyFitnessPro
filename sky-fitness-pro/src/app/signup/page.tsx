@@ -8,18 +8,13 @@ import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import { signUp } from "../api";
 import { getErrorText } from "@/utils/getErrorText";
-
-export type RegistrationUserType = {
-  email: string;
-  password: string;
-  repeatPassword: string;
-};
+import { SignUpUserDataType } from "@/types";
 
 export default function SignUpPage() {
   const router = useRouter();
   const [errorText, setError] = useState("");
 
-  const [userData, setUserData] = useState<RegistrationUserType>({
+  const [userData, setUserData] = useState<SignUpUserDataType>({
     email: "",
     password: "",
     repeatPassword: "",
