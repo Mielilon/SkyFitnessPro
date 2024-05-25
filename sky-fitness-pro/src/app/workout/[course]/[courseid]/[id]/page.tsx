@@ -11,7 +11,7 @@ import {
   UserWorkoutType,
   WorkoutType,
 } from '@/utils/writeUserData';
-import { getAuth } from 'firebase/auth';
+import { User, getAuth } from 'firebase/auth';
 import { onValue, ref, update } from 'firebase/database';
 import { Suspense, useEffect, useState } from 'react';
 
@@ -37,6 +37,17 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
   const [isOpen, setIsOpen] = useState(false);
   const [rusName, setRusName] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(user);
+      }
+    });
+  }, [auth]);
 
   function closeSuccessModal() {
     setIsSuccess(false);

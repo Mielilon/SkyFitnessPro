@@ -4,7 +4,7 @@ import Button from '@/components/Button/Button';
 import WorkoutItem from '@/components/WorkoutItem/WorkoutItem';
 
 import { WorkoutType } from '@/utils/writeUserData';
-import { getAuth } from 'firebase/auth';
+import { User, getAuth } from 'firebase/auth';
 import { onValue, ref } from 'firebase/database';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -22,6 +22,17 @@ export default function SelectionPage({ params }: SelectionPageType) {
   const [courseName, setCourseName] = useState('');
   const [selected, setSelected] = useState('');
   const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(user);
+      }
+    });
+  }, [auth]);
 
   useEffect(() => {
     setCourseId(params.id);
