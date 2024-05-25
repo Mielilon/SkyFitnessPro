@@ -1,14 +1,14 @@
-"use client";
-import Image from "next/image";
-import Button from "@/components/Button/Button";
-import { workoutDescription } from "@/lib/data";
-import { app, database } from "@/app/firebase";
-import { onValue, ref } from "firebase/database";
-import { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
-import { UserWorkoutType, writeUserData } from "@/utils/writeUserData";
-import sendNotification from "@/utils/sendNotification";
-import { useRouter } from "next/navigation";
+'use client';
+import Image from 'next/image';
+import Button from '@/components/Button/Button';
+import { workoutDescription } from '@/lib/data';
+import { app, database } from '@/app/firebase';
+import { onValue, ref } from 'firebase/database';
+import { useEffect, useState } from 'react';
+import { getAuth } from 'firebase/auth';
+import { UserWorkoutType, writeUserData } from '@/utils/writeUserData';
+import sendNotification from '@/utils/sendNotification';
+import { useRouter } from 'next/navigation';
 
 type CoursePageType = {
   params: {
@@ -39,29 +39,29 @@ export default function CoursePage({ params }: CoursePageType) {
   const courseId = params.id;
   const router = useRouter();
   const [course, setCourse] = useState<CourseType>({
-    _id: "",
-    description: "",
-    directions: ["", "", ""],
-    fitting: ["", "", ""],
-    nameEN: "",
-    nameRU: "",
+    _id: '',
+    description: '',
+    directions: ['', '', ''],
+    fitting: ['', '', ''],
+    nameEN: '',
+    nameRU: '',
     order: 0,
-    workouts: ["", "", ""],
+    workouts: ['', '', ''],
   });
 
-  const [color, setColor] = useState("bg-yellow");
+  const [color, setColor] = useState('bg-yellow');
   const [userCourses, setUserCourses] = useState<UserCourseType[]>([]);
   const auth = getAuth(app);
   const currentUser = auth.currentUser;
 
   useEffect(() => {
-    const courseDbRef = ref(database, "courses/" + courseId);
-    return onValue(courseDbRef, (snapshot) => {
+    const courseDbRef = ref(database, 'courses/' + courseId);
+    return onValue(courseDbRef, snapshot => {
       if (snapshot.exists()) {
         const courseData = snapshot.val();
         setCourse(courseData);
       } else {
-        alert("Извините, курсы не найдены, либо нет подключения к интернету");
+        alert('Извините, курсы не найдены, либо нет подключения к интернету');
         return;
       }
     });
@@ -71,38 +71,38 @@ export default function CoursePage({ params }: CoursePageType) {
     if (!auth.currentUser?.uid) return;
     return onValue(
       ref(database, `users/${auth.currentUser?.uid}/courses`),
-      (snapshot) => {
+      snapshot => {
         if (snapshot.exists()) {
           const userCourseList: UserCourseType[] = Object.values(
-            snapshot.val()
+            snapshot.val(),
           );
           setUserCourses(userCourseList);
         } else {
-          console.log("No data available");
+          console.log('No data available');
         }
-      }
+      },
     );
   }, [auth.currentUser?.uid]);
 
   useEffect(() => {
     switch (course.nameEN) {
-      case "BodyFlex":
-        setColor("bg-purple");
+      case 'BodyFlex':
+        setColor('bg-purple');
         break;
-      case "DanceFitness":
-        setColor("bg-orange");
+      case 'DanceFitness':
+        setColor('bg-orange');
         break;
-      case "StepAirobic":
-        setColor("bg-salmon");
+      case 'StepAirobic':
+        setColor('bg-salmon');
         break;
-      case "Stretching":
-        setColor("bg-blueDark");
+      case 'Stretching':
+        setColor('bg-blueDark');
         break;
-      case "Yoga":
-        setColor("bg-yellow");
+      case 'Yoga':
+        setColor('bg-yellow');
         break;
       default:
-        setColor("bg-yellow");
+        setColor('bg-yellow');
     }
   }, [course]);
 
@@ -174,7 +174,7 @@ export default function CoursePage({ params }: CoursePageType) {
             </h2>
             <div className="mb-[28px] h-[178px] relative">
               <ul className="flex flex-col list-inside">
-                {workoutDescription.map((el) => {
+                {workoutDescription.map(el => {
                   return (
                     <li
                       className="list-disc space-y-3 font-roboto-400 text-[#585959] leading-none text-lg md:text-2xl md:pl-6"
@@ -189,10 +189,9 @@ export default function CoursePage({ params }: CoursePageType) {
             {!currentUser ? (
               <Button
                 title="Войдите, чтобы добавить курс"
-                onClick={() => router.replace("/signin")}
+                onClick={() => router.replace('/signin')}
               />
-            ) : userCourses.find((course) => course._id === courseId) 
-            ? (
+            ) : userCourses.find(course => course._id === courseId) ? (
               <Button
                 title="Продолжить"
                 onClick={() => router.replace(`/selection/${courseId}`)}
@@ -202,7 +201,7 @@ export default function CoursePage({ params }: CoursePageType) {
                 title="Добавить курс"
                 onClick={() => {
                   writeUserData({ userId: currentUser?.uid, courseId, course });
-                  sendNotification("info", "Вы добавили курс!");
+                  sendNotification('info', 'Вы добавили курс!');
                 }}
               />
             )}

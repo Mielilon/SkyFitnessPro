@@ -16,7 +16,7 @@ html {
 
 body {
   color: black;
-  background: #FAFAFA;
+  background: #fafafa;
 }
 
 @layer utilities {
@@ -62,7 +62,7 @@ input::-webkit-inner-spin-button {
   /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-input[type=number] {
+input[type='number'] {
   appearance: textfield;
 }
 ::-webkit-scrollbar {
@@ -90,10 +90,10 @@ input[type=number] {
 @font-face {
   font-family: 'StratosSkyeng';
   src:
-    local("StratosSkyeng"),
-    local("StratosSkyeng"),
-    url("../../fonts/StratosSkyeng.woff2") format("woff2"),
-    url("../../fonts/StratosSkyeng.woff") format("woff");
+    local('StratosSkyeng'),
+    local('StratosSkyeng'),
+    url('../../fonts/StratosSkyeng.woff2') format('woff2'),
+    url('../../fonts/StratosSkyeng.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }

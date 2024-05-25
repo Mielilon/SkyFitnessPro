@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import WrapperModal from "@/components/WrapperModal/WrapperModal";
-import FormInput from "@/components/FormInput/FormInput";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Button from "@/components/Button/Button";
-import ButtonLink from "@/components/ButtonLink/ButtonLink";
-import { signIn } from "../api";
+import WrapperModal from '@/components/WrapperModal/WrapperModal';
+import FormInput from '@/components/FormInput/FormInput';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Button from '@/components/Button/Button';
+import ButtonLink from '@/components/ButtonLink/ButtonLink';
+import { signIn } from '../api';
 
 export type DataUserType = {
   email: string;
@@ -15,10 +15,10 @@ export type DataUserType = {
 
 export default function SignInPage() {
   const router = useRouter();
-  const [errorText, setError] = useState("");
+  const [errorText, setError] = useState('');
   const [userData, setUserData] = useState<DataUserType>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,19 +28,19 @@ export default function SignInPage() {
     const { error } = await signIn(userData);
 
     if (error) {
-      return setError("Логин и пароль не совпадают, попробуйте еще раз");
+      return setError('Логин и пароль не совпадают, попробуйте еще раз');
     }
 
-    return router.replace("/");
+    return router.replace('/');
   };
 
   return (
     <>
-      <WrapperModal onSubmit={(event) => handleForm(event)}>
+      <WrapperModal onSubmit={event => handleForm(event)}>
         <div className="mb-[34px]">
           <FormInput
             value={userData.email}
-            onChange={(e) => {
+            onChange={e => {
               setUserData({ ...userData, email: e.target.value });
             }}
             type="text"
@@ -49,7 +49,7 @@ export default function SignInPage() {
           />
 
           <FormInput
-            onChange={(e) =>
+            onChange={e =>
               setUserData({ ...userData, password: e.target.value })
             }
             value={userData.password}

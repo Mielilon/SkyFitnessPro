@@ -1,4 +1,4 @@
-import SVG from "../SVG/SVG";
+import SVG from '../SVG/SVG';
 
 export default function SuccessModal() {
   return (
