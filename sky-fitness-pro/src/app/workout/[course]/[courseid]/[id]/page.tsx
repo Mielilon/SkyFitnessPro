@@ -26,21 +26,27 @@ type WorkoutPageType = {
 export type ExerciseArrayType = [string, ExerciseType];
 
 export default function WorkoutPage({ params }: WorkoutPageType) {
-  const [workoutId, setWorkoutId] = useState("");
-  const [courseId, setCourseId] = useState("");
-  const [courseName, setCourseName] = useState("");
+  const auth = getAuth(app);
+  const workoutId = params.id;
+  const courseId = params.courseid;
+  const courseName = params.course;
+
   const [workoutList, setWorkoutList] = useState<UserWorkoutType[]>([]);
   const [workout, setWorkout] = useState<WorkoutType | null>(null);
   const [exercises, setExercises] = useState<ExerciseArrayType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [rusName, setRusName] = useState("");
-  const auth = getAuth(app);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  useEffect(() => {
-    setWorkoutId(params.id);
-    setCourseId(params.courseid);
-    setCourseName(params.course);
-  }, [params]);
+  function closeSuccessModal() {
+    setIsSuccess(false);
+    setIsOpen(false);
+  }
+
+  function openSuccessModal() {
+    setIsSuccess(true);
+    setTimeout(closeSuccessModal, 1500);
+  }
 
   useEffect(() => {
     switch (courseName) {
@@ -103,9 +109,11 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
       }
     );
   }, [auth.currentUser?.uid, workoutId, courseId]);
+
   function toggleProgressForm() {
     setIsOpen((prevState) => !prevState);
   }
+
   async function handleSaveChanges() {
     const arrAvr = exercises.map((exercise) =>
       exercise[1].curProgress < exercise[1].quantity
@@ -146,6 +154,8 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
       ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/`),
       { progressCourse: progressCourse }
     );
+
+    openSuccessModal();
   }
 
   useEffect(() => {
@@ -216,6 +226,7 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
       </section>
       {isOpen && (
         <ProgressForm
+          isOpen={isSuccess}
           setExercises={setExercises}
           handleSaveChanges={handleSaveChanges}
           exercises={exercises}
