@@ -5,7 +5,7 @@ import { workoutDescription } from '@/lib/data';
 import { app, database } from '@/app/firebase';
 import { onValue, ref } from 'firebase/database';
 import { useEffect, useState } from 'react';
-import { getAuth } from 'firebase/auth';
+import { User, getAuth } from 'firebase/auth';
 import { UserWorkoutType, writeUserData } from '@/utils/writeUserData';
 import sendNotification from '@/utils/sendNotification';
 import { useRouter } from 'next/navigation';
@@ -50,9 +50,20 @@ export default function CoursePage({ params }: CoursePageType) {
   });
 
   const [color, setColor] = useState('bg-yellow');
+  const [user, setUser] = useState<User | null>(null);
   const [userCourses, setUserCourses] = useState<UserCourseType[]>([]);
   const auth = getAuth(app);
   const currentUser = auth.currentUser;
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(user);
+      }
+    });
+  }, [auth]);
 
   useEffect(() => {
     const courseDbRef = ref(database, 'courses/' + courseId);
@@ -102,7 +113,7 @@ export default function CoursePage({ params }: CoursePageType) {
         setColor('bg-yellow');
         break;
       default:
-        setColor('bg-yellow');
+        setColor('bg-white');
     }
   }, [course]);
 
