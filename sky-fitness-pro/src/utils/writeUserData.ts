@@ -7,12 +7,33 @@ type WriteUserDataType = {
   courseId: string;
   course: CourseType;
 };
+export type UserWorkoutType = [
+  string,
+  { name: string; video: string; _id: string; progressWorkout: number; exercises: ExerciseType[] }
+];
+export type ExerciseType = { name: string; quantity: number, curProgress: number };
+export type WorkoutType = {
+  name: string;
+  video: string;
+  _id: string;
+  exercises: ExerciseType[];
+};
+type NewWorkoutContentType = {
+  [key: string]: {
+    _id: string;
+    name: string;
+    progressWorkout: number;
+    video: string;
+    exercises: ExerciseType[];
+  };
+};
 
-export type WorkoutType = [string, { name: string; video: string; _id: string, exercises: ExerciseType[] }];
-export type ExerciseType = {name: string, quantity: number };
-export async function writeUserData({ userId, courseId, course }: WriteUserDataType) {
-
-  let arrAllWorkouts: WorkoutType[] = [];
+export async function writeUserData({
+  userId,
+  courseId,
+  course,
+}: WriteUserDataType) {
+  let arrAllWorkouts: UserWorkoutType[] = [];
 
   await get(child(ref(database), "workouts"))
     .then((snapshot) => {
@@ -29,15 +50,19 @@ export async function writeUserData({ userId, courseId, course }: WriteUserDataT
   const workoutsList = arrAllWorkouts.filter((workout) =>
     course.workouts.includes(workout[0])
   );
+  let newWorkoutslist: NewWorkoutContentType = {};
+  Object.values(workoutsList).forEach((workout) => {
+    const workoutNewContent = { ...workout[1], progressWorkout: 0 };
+    const newKey: string = workout[0];
+    newWorkoutslist[newKey] = workoutNewContent;
+  });
 
-  // const workoutNames = workoutsList
-  //   .map((workout) => workout[1].name).sort();
 
-  await set(ref(database, "users/" + userId + "/courses/" + courseId), {
+  await set(ref(database, `users/${userId}/courses/${courseId}`), {
     _id: course._id,
     nameEN: course.nameEN,
     nameRU: course.nameRU,
-    workouts: workoutsList,
-    progress: 0,
+    workouts: newWorkoutslist,
+    progressCourse: 0,
   });
 }

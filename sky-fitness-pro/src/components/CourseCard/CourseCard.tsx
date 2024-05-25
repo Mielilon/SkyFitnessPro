@@ -12,7 +12,7 @@ type CourseCardType = {
   imgURL: string;
   title: string;
   isSubscribed: boolean;
-  progress?: number;
+  progress?: string;
   courseId: string;
   course?: CourseType;
 };
@@ -20,7 +20,7 @@ type CourseCardType = {
 export default function CourseCard({
   course,
   courseId,
-  progress = 0,
+  progress = "0",
   isSubscribed,
   imgURL,
   title,
@@ -41,7 +41,7 @@ export default function CourseCard({
 
   return (
     <div onClick={() => router.replace(`/course/${courseId}`)} className="relative w-[343px]  md:w-[360px] bg-[#FFFFFF] rounded-[30px] hover:translate-y-1 hover:scale-105 duration-300 hover:shadow-lg ">
-      <div>
+      <div title="">
         <Image
           className="rounded-[30px] h-[325px]"
           src={`/img/${imgURL}.png`}
@@ -61,6 +61,7 @@ export default function CourseCard({
         ) : (
           <svg onClick={(e) => handlerAddCourse(e)} className="absolute w-8 h-8 right-[20px] top-[20px] z-10">
             <g>
+              <title>Добавить курс</title>
             <use xlinkHref={`/img/sprite.svg#icon-plus`}></use>
             </g>
           </svg>

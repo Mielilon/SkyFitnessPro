@@ -8,13 +8,14 @@ import { User, getAuth } from "firebase/auth";
 import { app, database } from "../firebase";
 import Link from "next/link";
 import { onValue, ref } from "firebase/database";
-import { WorkoutType } from "@/utils/writeUserData";
+import { UserWorkoutType } from "@/utils/writeUserData";
 
 type CourseType = {
   _id: string;
   nameEN: string;
   nameRU: string;
-  workouts: WorkoutType[];
+  progressCourse: number;
+  workouts: UserWorkoutType[];
 };
 
 type CoursesArrayType = [string, CourseType][];
@@ -40,10 +41,10 @@ export default function ProfilePage() {
       ref(database, `users/${auth.currentUser?.uid}/courses`),
       (snapshot) => {
         if (snapshot.exists()) {
-          const arrAllWorkouts: CoursesArrayType = Object.entries(
+          const userCourseList: CoursesArrayType = Object.entries(
             snapshot.val()
           );
-          setCourses(arrAllWorkouts);
+          setCourses(userCourseList);
         } else {
           console.log("No data available");
         }
@@ -102,6 +103,7 @@ export default function ProfilePage() {
         </h2>
         <div className="flex flex-wrap flex-row gap-[41px]">
           {courses.map((course) => {
+            const progress =course[1].progressCourse.toString().concat("%")
             return (
               <CourseCard
                 key={course[0]}
@@ -109,6 +111,7 @@ export default function ProfilePage() {
                 imgURL={course[1].nameEN}
                 isSubscribed={true}
                 courseId={course[0]}
+                progress={progress}
               />
             );
           })}
