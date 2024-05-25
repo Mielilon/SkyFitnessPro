@@ -6,11 +6,7 @@ import ProgressForm from "@/components/ProgressForm/ProgressForm";
 import Title from "@/components/Title/Title";
 import VideoComponent from "@/components/Video/Video";
 import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
-import {
-  ExerciseType,
-  UserWorkoutType,
-  WorkoutType,
-} from "@/utils/writeUserData";
+import { ExerciseType, UserWorkoutType, WorkoutType } from "@/types";
 import { getAuth } from "firebase/auth";
 import { onValue, ref, update } from "firebase/database";
 import { Suspense, useEffect, useState } from "react";
@@ -79,9 +75,8 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
       ),
       (snapshot) => {
         if (snapshot.exists()) {
-          const exercisesData: any = Object.entries(snapshot.val());
+          const exercisesData: ExerciseArrayType[] = Object.entries(snapshot.val());
           setExercises(exercisesData);
-          console.log(exercisesData);
         } else {
           console.log("No data available");
         }
@@ -101,7 +96,6 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
           const workoutsData: UserWorkoutType[] = Object.entries(
             snapshot.val()
           );
-          console.log(workoutsData);
           setWorkoutList(workoutsData);
         } else {
           console.log("No data available");
@@ -167,7 +161,7 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
       ),
       (snapshot) => {
         if (snapshot.exists()) {
-          const workoutData: any = snapshot.val();
+          const workoutData: WorkoutType = snapshot.val();
           setWorkout(workoutData);
         } else {
           console.log("No data available");

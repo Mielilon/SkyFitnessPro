@@ -19,7 +19,7 @@ export default function SelectionPage({ params }: SelectionPageType) {
   const [courseId, setCourseId] = useState("");
   const auth = getAuth(app);
   const [workouts, setWorkouts] = useState<WorkoutType[]>([]);
-  const [courseName, setCourseName] = useState("");
+  const [courseName, setCourseName] = useState<string | number | WorkoutType>("");
   const [selected, setSelected] = useState("");
   const router = useRouter();
 
@@ -33,7 +33,7 @@ export default function SelectionPage({ params }: SelectionPageType) {
       ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/`),
       (snapshot) => {
         if (snapshot.exists()) {
-          const course: any = Object.values(snapshot.val());
+          const course: (string | number | WorkoutType)[] = Object.values(snapshot.val());
           setCourseName(course[1]);
           const workoutList: WorkoutType[] = Object.values(course[4]);
           workoutList.sort((a, b) => (a.name > b.name ? 1 : -1));
