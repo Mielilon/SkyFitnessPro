@@ -9,7 +9,7 @@ type WriteUserDataType = {
 };
 export type UserWorkoutType = [
   string,
-  { name: string; video: string; _id: string; exercises: ExerciseType[] }
+  { name: string; video: string; _id: string; progressWorkout: number; exercises: ExerciseType[] }
 ];
 export type ExerciseType = { name: string; quantity: number, curProgress: number };
 export type WorkoutType = {
@@ -22,7 +22,7 @@ type NewWorkoutContentType = {
   [key: string]: {
     _id: string;
     name: string;
-    progressWorkout: string;
+    progressWorkout: number;
     video: string;
     exercises: ExerciseType[];
   };
@@ -52,7 +52,7 @@ export async function writeUserData({
   );
   let newWorkoutslist: NewWorkoutContentType = {};
   Object.values(workoutsList).forEach((workout) => {
-    const workoutNewContent = { ...workout[1], progressWorkout: "0%" };
+    const workoutNewContent = { ...workout[1], progressWorkout: 0 };
     const newKey: string = workout[0];
     newWorkoutslist[newKey] = workoutNewContent;
   });
@@ -63,6 +63,6 @@ export async function writeUserData({
     nameEN: course.nameEN,
     nameRU: course.nameRU,
     workouts: newWorkoutslist,
-    progressCourse: "0%",
+    progressCourse: 0,
   });
 }

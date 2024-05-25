@@ -47,7 +47,8 @@ export default function ProgressForm({ exercises ,setExercises, handleSaveChange
                   label={exercise[1].name}
                   key={i}
                   id={exercise[0]}
-                  onChange={e => setExercises(prev => prev.map(item => item[1].name === exercise[1].name ? [item[0], {...item[1], curProgress: Number(e.target.value) }] : item))}
+                  value={exercise[1].curProgress}
+                  onChange={e => setExercises(prev => prev.map(item => item[1].name === exercise[1].name ? [item[0],  {...item[1], curProgress: Number(e.target.value) }] : item))}
                 />
               );
             })}

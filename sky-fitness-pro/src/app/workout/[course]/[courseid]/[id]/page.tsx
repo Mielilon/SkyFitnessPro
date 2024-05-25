@@ -6,7 +6,11 @@ import ProgressForm from "@/components/ProgressForm/ProgressForm";
 import Title from "@/components/Title/Title";
 import VideoComponent from "@/components/Video/Video";
 import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
-import { ExerciseType, WorkoutType } from "@/utils/writeUserData";
+import {
+  ExerciseType,
+  UserWorkoutType,
+  WorkoutType,
+} from "@/utils/writeUserData";
 import { getAuth } from "firebase/auth";
 import { onValue, ref, update } from "firebase/database";
 import { Suspense, useEffect, useState } from "react";
@@ -23,21 +27,20 @@ export type ExerciseArrayType = [string, ExerciseType];
 
 export default function WorkoutPage({ params }: WorkoutPageType) {
   const [workoutId, setWorkoutId] = useState("");
-  const [exercises, setExercises] = useState<ExerciseArrayType[]>([]);
-  const courseName = params.course;
-  const courseId = params.courseid;
-  const [isOpen, setIsOpen] = useState(false);
+  const [courseId, setCourseId] = useState("");
+  const [courseName, setCourseName] = useState("");
+  const [workoutList, setWorkoutList] = useState<UserWorkoutType[]>([]);
   const [workout, setWorkout] = useState<WorkoutType | null>(null);
+  const [exercises, setExercises] = useState<ExerciseArrayType[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
   const [rusName, setRusName] = useState("");
   const auth = getAuth(app);
 
   useEffect(() => {
     setWorkoutId(params.id);
+    setCourseId(params.courseid);
+    setCourseName(params.course);
   }, [params]);
-
-  function toggleProgressForm() {
-    setIsOpen((prevState) => !prevState);
-  }
 
   useEffect(() => {
     switch (courseName) {
@@ -80,6 +83,29 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
     );
   }, [auth.currentUser?.uid, workoutId, courseId]);
 
+  useEffect(() => {
+    if (!auth.currentUser?.uid) return;
+    return onValue(
+      ref(
+        database,
+        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/`
+      ),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const workoutsData: UserWorkoutType[] = Object.entries(
+            snapshot.val()
+          );
+          console.log(workoutsData);
+          setWorkoutList(workoutsData);
+        } else {
+          console.log("No data available");
+        }
+      }
+    );
+  }, [auth.currentUser?.uid, workoutId, courseId]);
+  function toggleProgressForm() {
+    setIsOpen((prevState) => !prevState);
+  }
   async function handleSaveChanges() {
     const arrAvr = exercises.map((exercise) =>
       exercise[1].curProgress < exercise[1].quantity
@@ -87,15 +113,39 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
         : 100
     );
 
-    const progressWorkout = arrAvr.reduce((acc, number) => acc + number) / arrAvr.length;
+    const progressWorkout = Math.floor(
+      arrAvr.reduce((acc, number) => acc + number) / arrAvr.length
+    );
 
-    const updatedData = exercises.map(exercise => exercise[1])
+    const updatedData = exercises.map((exercise) => exercise[1]);
 
+    await update(
+      ref(
+        database,
+        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/`
+      ),
+      { progressWorkout: progressWorkout }
+    );
+    await update(
+      ref(
+        database,
+        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/`
+      ),
+      { exercises: updatedData }
+    );
 
-    await update(ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/`), {progressWorkout: Math.floor(progressWorkout)})
-    await update(ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/`), {exercises: updatedData})
+    const progressWorkoutList = workoutList.map((el) =>
+      el[1]._id === workoutId ? progressWorkout : el[1].progressWorkout
+    );
+    const progressCourse = Math.floor(
+      progressWorkoutList.reduce((acc, number) => acc + number) /
+        workoutList.length
+    );
 
-    console.log(Math.floor(progressWorkout));
+    await update(
+      ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/`),
+      { progressCourse: progressCourse }
+    );
   }
 
   useEffect(() => {
@@ -132,21 +182,30 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
           Упражнения тренировки
         </h2>
         <div className="grid grid-flow-row gap-6 items-end md:grid-cols-2 md:gap-5 xl:grid-cols-3">
-          {exercises.length > 0 && exercises.map((exercise, i) => {
-            const arrAvr = exercises.map((exercise) =>
-              exercise[1].curProgress < exercise[1].quantity
-                ? (exercise[1].curProgress / exercise[1].quantity) * 100
-                : 100
-            );
+          {exercises.length > 0 &&
+            exercises.map((exercise, i) => {
+              // const arrAvr = exercises.map((exercise) =>
+              //   exercise[1].curProgress < exercise[1].quantity
+              //     ? (exercise[1].curProgress / exercise[1].quantity) * 100
+              //     : 100
+              // );
+              const progress = Math.floor(
+                exercise[1].curProgress < exercise[1].quantity
+                  ? (exercise[1].curProgress / exercise[1].quantity) * 100
+                  : 100
+              )
+                .toString()
+                .concat("%");
 
-            const progressWorkout = arrAvr.reduce((acc, number) => acc + number) / arrAvr.length;
-        
-            return (
-              <div className="lg:w-[320px] w-[283px]" key={i}>
-                <WorkoutProgress title={exercise[1].name} progress={Math.floor(progressWorkout)} percentage={`${progressWorkout}%`} />
-              </div>
-            );
-          })}
+              return (
+                <div className="lg:w-[320px] w-[283px]" key={i}>
+                  <WorkoutProgress
+                    title={exercise[1].name}
+                    progress={progress}
+                  />
+                </div>
+              );
+            })}
         </div>
         <div className="lg:w-[320px] max-w-[283px] w-auto mt-10">
           <Button

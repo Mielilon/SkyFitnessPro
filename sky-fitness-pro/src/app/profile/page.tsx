@@ -14,7 +14,7 @@ type CourseType = {
   _id: string;
   nameEN: string;
   nameRU: string;
-  progress: string;
+  progressCourse: number;
   workouts: UserWorkoutType[];
 };
 
@@ -103,6 +103,7 @@ export default function ProfilePage() {
         </h2>
         <div className="flex flex-wrap flex-row gap-[41px]">
           {courses.map((course) => {
+            const progress =course[1].progressCourse.toString().concat("%")
             return (
               <CourseCard
                 key={course[0]}
@@ -110,7 +111,7 @@ export default function ProfilePage() {
                 imgURL={course[1].nameEN}
                 isSubscribed={true}
                 courseId={course[0]}
-                progress={course[1].progress}
+                progress={progress}
               />
             );
           })}
