@@ -1,10 +1,10 @@
-"use client";
-import Button from "@/components/Button/Button";
-import CourseCard from "@/components/CourseCard/CourseCard";
-import { onValue, ref } from "firebase/database";
-import Link from "next/link";
-import { database } from "./firebase";
-import { useEffect, useState } from "react";
+'use client';
+import Button from '@/components/Button/Button';
+import CourseCard from '@/components/CourseCard/CourseCard';
+import { onValue, ref } from 'firebase/database';
+import Link from 'next/link';
+import { database } from './firebase';
+import { useEffect, useState } from 'react';
 
 type CoursesArrayType = [string, CourseType][];
 type CourseType = {
@@ -21,13 +21,13 @@ type CourseType = {
 export default function MainCoursesPage() {
   const [courses, setCourses] = useState<CoursesArrayType>([]);
   useEffect(() => {
-    const coursesDB = ref(database, "courses");
-    return onValue(coursesDB, (snapshot) => {
+    const coursesDB = ref(database, 'courses');
+    return onValue(coursesDB, snapshot => {
       if (snapshot.exists()) {
         const coursesArray: CoursesArrayType = Object.entries(snapshot.val());
         setCourses(coursesArray);
       } else {
-        alert("Извините, курсы не найдены, либо нет подключения к интернету");
+        alert('Извините, курсы не найдены, либо нет подключения к интернету');
         return;
       }
     });
@@ -35,7 +35,7 @@ export default function MainCoursesPage() {
 
   return (
     <>
-          {/* <div
+      {/* <div
         id="top"
         className="flex flex-row lg:mb-[50px] mb-[34px] items-end space-x-7"
       >
@@ -59,7 +59,7 @@ export default function MainCoursesPage() {
         </p>
       </div>
       <div className="flex flex-wrap gap-6 lg:gap-x-10 lg:gap-y-8">
-        {courses.map((course) => {
+        {courses.map(course => {
           return (
             <CourseCard
               key={course[1]._id}

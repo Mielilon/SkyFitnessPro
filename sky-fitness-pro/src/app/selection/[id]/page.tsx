@@ -1,13 +1,13 @@
-"use client";
-import { app, database } from "@/app/firebase";
-import Button from "@/components/Button/Button";
-import WorkoutItem from "@/components/WorkoutItem/WorkoutItem";
+'use client';
+import { app, database } from '@/app/firebase';
+import Button from '@/components/Button/Button';
+import WorkoutItem from '@/components/WorkoutItem/WorkoutItem';
 
-import { WorkoutType } from "@/utils/writeUserData";
-import { getAuth } from "firebase/auth";
-import { onValue, ref } from "firebase/database";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { WorkoutType } from '@/utils/writeUserData';
+import { getAuth } from 'firebase/auth';
+import { onValue, ref } from 'firebase/database';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 type SelectionPageType = {
   params: {
@@ -16,11 +16,11 @@ type SelectionPageType = {
 };
 
 export default function SelectionPage({ params }: SelectionPageType) {
-  const [courseId, setCourseId] = useState("");
+  const [courseId, setCourseId] = useState('');
   const auth = getAuth(app);
   const [workouts, setWorkouts] = useState<WorkoutType[]>([]);
-  const [courseName, setCourseName] = useState("");
-  const [selected, setSelected] = useState("");
+  const [courseName, setCourseName] = useState('');
+  const [selected, setSelected] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function SelectionPage({ params }: SelectionPageType) {
     if (!auth.currentUser?.uid) return;
     return onValue(
       ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/`),
-      (snapshot) => {
+      snapshot => {
         if (snapshot.exists()) {
           const course: any = Object.values(snapshot.val());
           setCourseName(course[1]);
@@ -39,9 +39,9 @@ export default function SelectionPage({ params }: SelectionPageType) {
           workoutList.sort((a, b) => (a.name > b.name ? 1 : -1));
           setWorkouts(workoutList);
         } else {
-          console.log("No data available");
+          console.log('No data available');
         }
-      }
+      },
     );
   }, [auth.currentUser?.uid, params.id, courseId]);
 
@@ -55,7 +55,7 @@ export default function SelectionPage({ params }: SelectionPageType) {
           <div className="lg:w-[392px] w-[292px]  lg:h-[380px] h-[354px]">
             <ul className="h-[350px] overflow-auto">
               {workouts?.map((workout, i) => {
-                const shortWorkoutName = workout.name.split("/")[0];
+                const shortWorkoutName = workout.name.split('/')[0];
                 return (
                   <WorkoutItem
                     setSelected={setSelected}

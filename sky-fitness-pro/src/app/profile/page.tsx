@@ -1,14 +1,14 @@
-"use client";
-import Image from "next/image";
-import Button from "@/components/Button/Button";
-import ButtonLink from "@/components/ButtonLink/ButtonLink";
-import CourseCard from "@/components/CourseCard/CourseCard";
-import { useEffect, useState } from "react";
-import { User, getAuth } from "firebase/auth";
-import { app, database } from "../firebase";
-import Link from "next/link";
-import { onValue, ref } from "firebase/database";
-import { UserWorkoutType } from "@/utils/writeUserData";
+'use client';
+import Image from 'next/image';
+import Button from '@/components/Button/Button';
+import ButtonLink from '@/components/ButtonLink/ButtonLink';
+import CourseCard from '@/components/CourseCard/CourseCard';
+import { useEffect, useState } from 'react';
+import { User, getAuth } from 'firebase/auth';
+import { app, database } from '../firebase';
+import Link from 'next/link';
+import { onValue, ref } from 'firebase/database';
+import { UserWorkoutType } from '@/utils/writeUserData';
 
 type CourseType = {
   _id: string;
@@ -26,7 +26,7 @@ export default function ProfilePage() {
   const [courses, setCourses] = useState<CoursesArrayType>([]);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged(user => {
       if (user) {
         setUser(user);
       } else {
@@ -39,16 +39,16 @@ export default function ProfilePage() {
     if (!auth.currentUser?.uid) return;
     return onValue(
       ref(database, `users/${auth.currentUser?.uid}/courses`),
-      (snapshot) => {
+      snapshot => {
         if (snapshot.exists()) {
           const userCourseList: CoursesArrayType = Object.entries(
-            snapshot.val()
+            snapshot.val(),
           );
           setCourses(userCourseList);
         } else {
-          console.log("No data available");
+          console.log('No data available');
         }
-      }
+      },
     );
   }, [auth.currentUser?.uid]);
 
@@ -81,7 +81,7 @@ export default function ProfilePage() {
                         sm:ml-0 ml-[19px]"
             >
               <div className="sm:text-[32px] text-[24px] font-bold">
-                {user?.email?.split("@")[0]}
+                {user?.email?.split('@')[0]}
               </div>
               <div className="flex flex-col gap-[2px]">
                 <p className="sm:text-[18px] text-[16px]">{`Логин: ${user?.email}`}</p>
@@ -102,8 +102,8 @@ export default function ProfilePage() {
           Мои курсы
         </h2>
         <div className="flex flex-wrap flex-row gap-[41px]">
-          {courses.map((course) => {
-            const progress =course[1].progressCourse.toString().concat("%")
+          {courses.map(course => {
+            const progress = course[1].progressCourse.toString().concat('%');
             return (
               <CourseCard
                 key={course[0]}
