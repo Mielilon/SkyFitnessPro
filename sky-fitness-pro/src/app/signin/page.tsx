@@ -7,11 +7,8 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import { signIn } from "../api";
-import ModalNewPassword from "@/components/ModalNewPassword/ModalNewPasword";
-import { error } from "console";
-import { useAppDispatch } from "@/components/hooks/hooks";
-import { setUserDataDuble } from "@/components/store/features/userSlice";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import ModalNewPassword from "@/components/ModalNewPassword/ModalNewPasword";
 
 export type DataUserType = {
   email: string;
@@ -19,7 +16,6 @@ export type DataUserType = {
 };
 
 export default function SignInPage() {
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const [errorText, setError] = useState(false);
   const [isOpen, setIsOpen] = useState(false)
@@ -44,59 +40,64 @@ export default function SignInPage() {
 
   function toSendPasswordResetEmail(userData: DataUserType) {
     if (userData.email) {
-      dispatch(setUserDataDuble(userData));
-      //const userEmail = useAppSelector((store) => store.user.userDataDuble?.email);
-      //console.log("Данные в форме:" + userEmail);
       const auth = getAuth();
       sendPasswordResetEmail(auth, userData.email)
         .then(() => {
-          console.log("проверка");
-          router.replace("/new_password")
+          setIsOpen(true);
+          setTimeout(() => {
+            setIsOpen(false),
+              setError(false);
+          }, 3000);
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          // ..
         });
     } return
   }
 
   return (
     <>
-      <WrapperModal onSubmit={(event) => handleForm(event)}>
-        <div className="mb-[34px]">
-          <FormInput
-            value={userData.email}
-            onChange={(e) => {
-              setUserData({ ...userData, email: e.target.value });
-            }}
-            type="text"
-            name="login"
-            placeholder="Логин"
-          />
+      {isOpen ? <ModalNewPassword email={userData.email} /> :
+        <>
+          <WrapperModal onSubmit={(event) => handleForm(event)}>
+            <div className="mb-[34px]">
+              <FormInput
+                value={userData.email}
+                onChange={(e) => {
+                  setUserData({ ...userData, email: e.target.value });
+                }}
+                type="text"
+                name="login"
+                placeholder="Логин"
+              />
 
-          <FormInput
-            onChange={(e) =>
-              setUserData({ ...userData, password: e.target.value })
-            }
-            value={userData.password}
-            type="password"
-            name="password"
-            placeholder="Пароль"
-          />
+              <FormInput
+                onChange={(e) =>
+                  setUserData({ ...userData, password: e.target.value })
+                }
+                value={userData.password}
+                type="password"
+                name="password"
+                placeholder="Пароль"
+              />
 
-          {errorText && <p className="text-rose-500 text-center mt-1">Логин и пароль не совпадают.
-            <span className="underline"
-              onClick={() => toSendPasswordResetEmail(userData)}
-            >Восстановить пароль?</span></p>}
-          
-        </div>
+              {errorText &&
+                <p className="text-rose-500 text-center mt-1">Логин и пароль не совпадают.
+               <span className="underline cursor-pointer"
+                    onClick={() => toSendPasswordResetEmail(userData)}
+                  > Восстановить пароль?
+                  </span>
+                </p>}
 
-        <div className="space-y-2.5">
-          <Button type="submit" title="Войти" />
-          <ButtonLink title="Зарегистрироваться" link="/signup" />
-        </div>
-      </WrapperModal>
+            </div>
+
+            <div className="space-y-2.5">
+              <Button type="submit" title="Войти" />
+              <ButtonLink title="Зарегистрироваться" link="/signup" />
+            </div>
+          </WrapperModal>
+        </>}
     </>
   );
 }

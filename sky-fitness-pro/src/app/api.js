@@ -1,7 +1,5 @@
-import { useAppDispatch } from "@/components/hooks/hooks";
 import {app} from "./firebase";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { setUser } from "@/components/store/features/userSlice";
 
 const auth = getAuth(app);
 export async function signUp({email, password}) {

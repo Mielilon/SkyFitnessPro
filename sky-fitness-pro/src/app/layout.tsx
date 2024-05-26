@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import localFont from "next/font/local";
-
 import "./globals.css";
 import Wrapper from "@/components/Wrapper/Wrapper";
 import Header from "@/components/Header/Header";
-import ReduxProvider from "@/components/store/ReduxProvider";
 
 
 const roboto_400 = Roboto({
@@ -42,7 +40,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ReduxProvider>
       <body className={`${roboto_400.variable} ${roboto_500.variable} ${stratosSkyeng.variable}`}>
         <Header />
         <Wrapper>
@@ -54,7 +51,6 @@ export default function RootLayout({
           {new_password}
         </Wrapper>
       </body>
-      </ReduxProvider>
     </html>
   );
 }

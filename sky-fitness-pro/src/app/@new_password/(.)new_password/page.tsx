@@ -1,14 +1,12 @@
 "use client"
 import { Modal } from "@/components/Modal/Modal";
 import SVG from "@/components/SVG/SVG";
-import { useAppSelector } from "@/components/hooks/hooks";
 import Link from "next/link";
 import { useState } from "react";
 
 
 export default function NewPasswordPage() {
     const [isOpen, setIsOpen] = useState(true);
-    const userEmail = useAppSelector((store) => store.user.userDataDuble?.email);
     setTimeout(() => setIsOpen(false), 5000);
     return (
         <Modal>
@@ -20,7 +18,7 @@ export default function NewPasswordPage() {
                                 <SVG className="w-[222px] h-[35px] mb-5 mx-auto" icon="icon-form-logo" />
                             </Link>
                             <p className="text-[18px] text-black font-Roboto-400 text-center">
-                                Ссылка для востановления <br /> пароля отправлена <br /> на {userEmail}</p>
+                                Ссылка для востановления <br /> пароля отправлена <br /> на {}</p>
                         </form>
                     </div>
                 </div>

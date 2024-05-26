@@ -8,14 +8,10 @@ import { useEffect, useState } from "react";
 import DropDown from "../DropDown/DropDown";
 import { User, getAuth } from "firebase/auth";
 import { app } from "@/app/firebase";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { setUserData } from "../store/features/userSlice";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const dispatch = useAppDispatch();
-  const userEmail = useAppSelector((store) => store.user.userData?.email);
 
   const toggleDropdown = () => {
     setIsOpen((prevState) => !prevState);
@@ -25,9 +21,7 @@ export default function Header() {
     const auth = getAuth(app);
     auth.onAuthStateChanged((user) => {
       if (user) {
-
         setUser(user);
-        dispatch(setUserData(user));
       } else {
         setUser(user);
       }
@@ -35,7 +29,6 @@ export default function Header() {
   }, []);
 
 
-  console.log("Данные:" + userEmail);
   return (
     <>
       <div className="py-14 flex justify-between mx-auto lg:max-w-[1440px] px-4 lg:px-[140px]">

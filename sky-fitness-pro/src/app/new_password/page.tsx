@@ -2,13 +2,10 @@
 import React from "react";
 import Link from "next/link";
 import SVG from "@/components/SVG/SVG";
-import { useAppSelector } from "@/components/hooks/hooks";
 
 
 export default function NewPasswordPage() {
-    const userEmail = useAppSelector((store) => store.user.userData?.email);
     
-    console.log("Данные:"+userEmail);
     return (
             <div className="mx-auto max-w-[100%]">
                 <div className="mx-auto px-[calc(50%-(366px/2))]">
@@ -17,7 +14,7 @@ export default function NewPasswordPage() {
                             <SVG className="w-[222px] h-[35px] mb-5 mx-auto" icon="icon-form-logo" />
                         </Link>
                         <p className="text-[18px] text-black font-Roboto-400 text-center">
-                            Ссылка для востановления <br /> пароля отправлена <br /> на {userEmail}</p>
+                            Ссылка для востановления <br /> пароля отправлена <br /> на {}</p>
                     </form>
                 </div>
             </div>

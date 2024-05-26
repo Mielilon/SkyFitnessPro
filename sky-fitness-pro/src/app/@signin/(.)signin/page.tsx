@@ -8,11 +8,8 @@ import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import { signIn } from "@/app/api";
 import { Modal } from "@/components/Modal/Modal";
-import { useAppDispatch } from "@/components/hooks/hooks";
-
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import { setUserDataDuble } from "@/components/store/features/userSlice";
-
+import ModalNewPassword from "@/components/ModalNewPassword/ModalNewPasword";
 
 export type DataUserType = {
   email: string;
@@ -20,19 +17,17 @@ export type DataUserType = {
 };
 
 export default function SignInPage() {
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const [errorText, setError] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [userData, setUserData] = useState<DataUserType>({
     email: "",
     password: "",
   });
 
-
-
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!userData.email || !userData.password) return
+    if (!userData.email || !userData.password) return;
 
     const { error } = await signIn(userData);
 
@@ -45,62 +40,66 @@ export default function SignInPage() {
   };
 
 
-
-
   function toSendPasswordResetEmail(userData: DataUserType) {
     if (userData.email) {
-      dispatch(setUserDataDuble(userData));
-      //const userEmail = useAppSelector((store) => store.user.userDataDuble?.email);
-      //console.log("Данные в форме:" + userEmail);
       const auth = getAuth();
       sendPasswordResetEmail(auth, userData.email)
         .then(() => {
-          console.log("проверка");
-          router.replace("/new_password")
+          setIsOpen(true);
+          setTimeout(() => {
+            setIsOpen(false),
+            setError(false);
+          }, 3000);
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          // ..
         });
     } return
   }
 
   return (
+
     <Modal>
-      <WrapperModal onSubmit={(event) => handleForm(event)}>
-        <div className="mb-[34px]">
-          <FormInput
-            value={userData.email}
-            onChange={(e) => {
-              setUserData({ ...userData, email: e.target.value });
-            }}
-            type="text"
-            name="login"
-            placeholder="Логин"
-          />
+      {isOpen ? <ModalNewPassword email={userData.email} /> :
+        <WrapperModal onSubmit={(event) => handleForm(event)}>
+          <div className="mb-[34px]">
+            <FormInput
+              value={userData.email}
+              onChange={(e) => {
+                setUserData({ ...userData, email: e.target.value });
+              }}
+              type="text"
+              name="login"
+              placeholder="Логин"
+            />
 
-          <FormInput
-            onChange={(e) =>
-              setUserData({ ...userData, password: e.target.value })
-            }
-            value={userData.password}
-            type="password"
-            name="password"
-            placeholder="Пароль"
-          />
+            <FormInput
+              onChange={(e) =>
+                setUserData({ ...userData, password: e.target.value })
+              }
+              value={userData.password}
+              type="password"
+              name="password"
+              placeholder="Пароль"
+            />
 
-          {errorText && <p className="text-rose-500 text-center mt-1">Логин и пароль не совпадают.
-            <span className="underline"
-              onClick={() => toSendPasswordResetEmail(userData)}
-            >Восстановить пароль?</span></p>}
-        </div>
+            {errorText &&
+              <p className="text-rose-500 text-center mt-1">Логин и пароль не совпадают. 
+               <span className="underline cursor-pointer"
+                  onClick={() => toSendPasswordResetEmail(userData)}
+                > Восстановить пароль?
+                </span>
+              </p>}
+          </div>
 
-        <div className="space-y-2.5">
-          <Button type="submit" title="Войти" />
-          <ButtonLink title="Зарегистрироваться" link="/signup" />
-        </div>
-      </WrapperModal>
+          <div className="space-y-2.5">
+            <Button type="submit" title="Войти" />
+            <ButtonLink title="Зарегистрироваться" link="/signup" />
+          </div>
+          {isOpen ? <ModalNewPassword email={userData.email} /> : <></>}
+        </WrapperModal>
+      }
     </Modal>
   );
 }
