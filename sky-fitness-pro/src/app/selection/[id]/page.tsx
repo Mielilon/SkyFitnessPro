@@ -3,7 +3,7 @@ import { app, database } from "@/app/firebase";
 import Button from "@/components/Button/Button";
 import WorkoutItem from "@/components/WorkoutItem/WorkoutItem";
 import { WorkoutType } from "@/types";
-import { getAuth } from "firebase/auth";
+import { User, getAuth } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

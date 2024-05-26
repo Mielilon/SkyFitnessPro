@@ -6,7 +6,8 @@ import Link from "next/link";
 import { database } from "./firebase";
 import { useEffect, useState } from "react";
 import { CourseType } from "@/types";
-
+import Image from "next/image";
+import loadingGif from './../assets/gogi-running.gif';
 
 type CoursesArrayType = [string, CourseType][];
 

@@ -7,9 +7,11 @@ import Title from "@/components/Title/Title";
 import VideoComponent from "@/components/Video/Video";
 import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
 import { ExerciseType, UserWorkoutType, WorkoutType } from "@/types";
-import { getAuth } from "firebase/auth";
+import { User, getAuth } from "firebase/auth";
 import { onValue, ref, update } from "firebase/database";
+import Image from "next/image";
 import { Suspense, useEffect, useState } from "react";
+import loadingGif from './../../../../../assets/gogi-running.gif';
 
 type WorkoutPageType = {
   params: {
