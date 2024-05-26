@@ -49,6 +49,8 @@ export default function ProfilePage() {
           setIsLoading(false);
         } else {
           console.log('No data available');
+          setCourses([]);
+          setIsLoading(false);
         }
       },
     );
@@ -108,6 +110,7 @@ export default function ProfilePage() {
             <h2 className="sm:mt-[53px] mt-[23px] sm:mb-[31px] mb-[12px] sm:text-[40px] text-[24px] font-bold">
               Мои курсы
             </h2>
+            {courses.length === 0 && <p className="sm:text-[18px] text-[16px]">У вас нет добавленных курсов </p>}
             <div className="flex flex-wrap flex-row gap-[41px]">
               {courses.map(course => {
                 const progress = course[1].progressCourse.toString().concat('%');
