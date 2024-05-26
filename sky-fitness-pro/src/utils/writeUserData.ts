@@ -1,5 +1,5 @@
-import { CourseType } from "@/app/course/[id]/page";
 import { database } from "@/app/firebase";
+import { CourseType, ExerciseType, UserWorkoutType } from "@/types";
 import { child, get, ref, set } from "firebase/database";
 
 type WriteUserDataType = {
@@ -8,36 +8,50 @@ type WriteUserDataType = {
   course: CourseType;
 };
 
-export type WorkoutType = [string, { name: string; video: string; _id: string, exercises: ExerciseType[] }];
-export type ExerciseType = {name: string, quantity: number };
-export async function writeUserData({ userId, courseId, course }: WriteUserDataType) {
+type NewWorkoutContentType = {
+  [key: string]: {
+    _id: string;
+    name: string;
+    progressWorkout: number;
+    video: string;
+    exercises: ExerciseType[];
+  };
+};
 
-  let arrAllWorkouts: WorkoutType[] = [];
+export async function writeUserData({
+  userId,
+  courseId,
+  course,
+}: WriteUserDataType) {
+  let arrAllWorkouts: UserWorkoutType[] = [];
 
-  await get(child(ref(database), "workouts"))
-    .then((snapshot) => {
+  await get(child(ref(database), 'workouts'))
+    .then(snapshot => {
       if (snapshot.exists()) {
         arrAllWorkouts = Object.entries(snapshot.val());
       } else {
-        console.log("No data available");
+        console.log('No data available');
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
     });
 
-  const workoutsList = arrAllWorkouts.filter((workout) =>
-    course.workouts.includes(workout[0])
+  const workoutsList = arrAllWorkouts.filter(workout =>
+    course.workouts.includes(workout[0]),
   );
+  let newWorkoutslist: NewWorkoutContentType = {};
+  Object.values(workoutsList).forEach(workout => {
+    const workoutNewContent = { ...workout[1], progressWorkout: 0 };
+    const newKey: string = workout[0];
+    newWorkoutslist[newKey] = workoutNewContent;
+  });
 
-  // const workoutNames = workoutsList
-  //   .map((workout) => workout[1].name).sort();
-
-  await set(ref(database, "users/" + userId + "/courses/" + courseId), {
+  await set(ref(database, `users/${userId}/courses/${courseId}`), {
     _id: course._id,
     nameEN: course.nameEN,
     nameRU: course.nameRU,
-    workouts: workoutsList,
-    progress: 0,
+    workouts: newWorkoutslist,
+    progressCourse: 0,
   });
 }

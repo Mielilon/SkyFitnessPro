@@ -1,18 +1,15 @@
 export default function InputCheckbox() {
-    return (
-        <>
+  return (
+    <>
+      <div className="bg-red w-4"></div>
 
-            <div className="bg-red w-4">
-
-            </div>
-
-            {/* <div className="relative flex items-center p-3 rounded-full cursor-pointer">
+      {/* <div className="relative flex items-center p-3 rounded-full cursor-pointer">
                 <input type="checkbox" id="mode" className="peer relative appearance-none w-[23px] h-[23px] border     rounded-full 
                 cursor-pointer checked:text-[#ffff]" />
                 <label htmlFor="mode">Название тренировки</label>
             </div> */}
 
-            {/* <label className="relative flex items-center p-3 rounded-full cursor-pointer" htmlFor="checkbox">
+      {/* <label className="relative flex items-center p-3 rounded-full cursor-pointer" htmlFor="checkbox">
                 <input type="radio" id="selectWorkout"
                     className="peer relative 
                 appearance-none 
@@ -27,6 +24,6 @@ export default function InputCheckbox() {
                     </svg>
                 </span>
             </label> */}
-        </>
-    )
+    </>
+  );
 }

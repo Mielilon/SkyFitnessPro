@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import FormInput from "@/components/FormInput/FormInput";
 import { useState } from "react";
@@ -10,17 +10,13 @@ import { signIn } from "@/app/api";
 import { Modal } from "@/components/Modal/Modal";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import ModalNewPassword from "@/components/ModalNewPassword/ModalNewPasword";
-
-export type DataUserType = {
-  email: string;
-  password: string;
-};
+import { SignInUserDataType } from "@/types";
 
 export default function SignInPage() {
   const router = useRouter();
   const [errorText, setError] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [userData, setUserData] = useState<DataUserType>({
+  const [userData, setUserData] = useState<SignInUserDataType>({
     email: "",
     password: "",
   });

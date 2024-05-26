@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import FormInput from "@/components/FormInput/FormInput";
@@ -9,11 +9,7 @@ import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import { signIn } from "../api";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import ModalNewPassword from "@/components/ModalNewPassword/ModalNewPasword";
-
-export type DataUserType = {
-  email: string;
-  password: string;
-};
+import { SignInUserDataType } from "@/types";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -35,7 +31,7 @@ export default function SignInPage() {
       return setError(true);
     }
 
-    return router.replace("/");
+    return router.replace('/');
   };
 
   function toSendPasswordResetEmail(userData: DataUserType) {
