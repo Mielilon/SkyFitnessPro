@@ -1,9 +1,9 @@
-import { types } from "util";
+import { types } from 'util';
 
 type ButtonType = {
   title?: string;
   onClick?: () => void;
-  type?: "submit";
+  type?: 'submit';
 };
 
 export default function Button({ title, onClick, type }: ButtonType) {
