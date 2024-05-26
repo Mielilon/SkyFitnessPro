@@ -30,6 +30,7 @@ export default function ProfilePage() {
     auth.onAuthStateChanged(user => {
       if (user) {
         setUser(user);
+        
       } else {
         setUser(user);
       }

@@ -29,6 +29,7 @@ export default function Header() {
     });
   }, []);
 
+
   return (
     <>
       <div className="py-10 md:pt-[50px] md:pb-14 flex justify-between mx-auto lg:max-w-[1440px] px-4 lg:px-[140px]">

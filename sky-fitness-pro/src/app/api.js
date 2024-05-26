@@ -28,7 +28,9 @@ export async function signIn({ email, password }) {
     error = e.code;
   }
 
-  return { result, error };
+  return { result, 
+    error 
+    };
 }
 
 export async function logOut() {
