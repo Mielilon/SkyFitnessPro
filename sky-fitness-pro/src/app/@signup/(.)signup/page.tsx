@@ -81,7 +81,6 @@ export default function SignInPage() {
           <Button
             type="submit"
             title="Зарегистрироваться"
-            onClick={() => router.back()}
           />
           <ButtonLink
             onClick={() => router.replace("/signin")}
