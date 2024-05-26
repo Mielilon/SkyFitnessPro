@@ -17,6 +17,7 @@ export type WorkoutType = {
   video: string;
   _id: string;
   exercises: ExerciseType[];
+  progressWorkout?: number;
 };
 type NewWorkoutContentType = {
   [key: string]: {

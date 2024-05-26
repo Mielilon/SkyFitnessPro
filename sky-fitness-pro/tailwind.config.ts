@@ -13,6 +13,7 @@ const config: Config = {
 
       },
       backgroundImage: {
+        "input-radio": "url('/img/ellipse.svg')",
         "notice":"url('/img/notice.png')",
         "user-icon":"url('/img/user-icon.svg')",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -39,6 +40,7 @@ const config: Config = {
         blueLight: "#00C1FF",
         gray: "#D0CECE",
         grayLight: "#F7F7F7",
+        selectionBorder: "#C4C4C4",
       },
       boxShadow: {
         def: "0 4px 67px -12px rgba(0, 0, 0, 0.13)",

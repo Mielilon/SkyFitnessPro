@@ -2,7 +2,6 @@
 import { app, database } from "@/app/firebase";
 import Button from "@/components/Button/Button";
 import WorkoutItem from "@/components/WorkoutItem/WorkoutItem";
-
 import { WorkoutType } from "@/utils/writeUserData";
 import { getAuth } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
@@ -37,6 +36,7 @@ export default function SelectionPage({ params }: SelectionPageType) {
           setCourseName(course[1]);
           const workoutList: WorkoutType[] = Object.values(course[4]);
           workoutList.sort((a, b) => (a.name > b.name ? 1 : -1));
+          console.log(workoutList);
           setWorkouts(workoutList);
         } else {
           console.log("No data available");
@@ -46,37 +46,38 @@ export default function SelectionPage({ params }: SelectionPageType) {
   }, [auth.currentUser?.uid, params.id, courseId]);
 
   return (
-    <>
-      <div className="bg-[#FFFFFF] rounded-[30px]  lg:w-[460px] w-[343px] lg:h-[609px] h-[585px]">
-        <h2 className="lg:ml-[0px] ml-[31px] lg:mt-[35px] mt-[24px] font-StratosSkyeng-400 text-[32px] leading-[36px] lg:text-center text-left">
+    <div className="relative">
+      <div
+        className="fixed top-[calc(50%-(585px/2))] left-[calc(50%-(343px/2))] md:top-[calc(50%-(609px/2))] md:left-[calc(50%-(460px/2))]
+     bg-white  rounded-[30px] shadow-def w-[343px] md:w-[460px]  p-[30px] md:p-[40px] "
+      >
+        <h2 className="font-skyeng text-[32px] leading-[110%] text-center mb-[34px] md:mb-[48px]">
           Выберите тренировку
         </h2>
-        <div className="lg:mt-[37px] mt-[34px] lg:ml-[28px] ml-[21px] flex flex-col gap-[20px]">
-          <div className="lg:w-[392px] w-[292px]  lg:h-[380px] h-[354px]">
-            <ul className="h-[350px] overflow-auto">
-              {workouts?.map((workout, i) => {
-                const shortWorkoutName = workout.name.split("/")[0];
-                return (
-                  <WorkoutItem
-                    setSelected={setSelected}
-                    workoutName={shortWorkoutName}
-                    key={i}
-                    id={workout._id}
-                  />
-                );
-              })}
-            </ul>
-          </div>
-          <div className="lg:w-[390px] w-[283px]">
-            <Button
-              title="Начать"
-              onClick={() =>
-                router.replace(`/workout/${courseName}/${courseId}/${selected}`)
-              }
-            />
-          </div>
-        </div>
+        <ul className="max-h-[360px] mb-[34px]  overflow-y-scroll">
+          {workouts?.map((workout, i) => {
+            const shortWorkoutName = workout.name.split("/")[0];
+            return (
+              <WorkoutItem
+              isDone={workout.progressWorkout === 100}
+                setSelected={setSelected}
+                workoutName={shortWorkoutName}
+                key={i}
+                id={workout._id}
+              />
+            );
+          })}
+        </ul>
+        <Button
+          title="Начать"
+          onClick={() =>
+            router.replace(`/workout/${courseName}/${courseId}/${selected}`)
+          }
+        />
       </div>
-    </>
+    </div>
   );
+  {
+    /* <div className="bg-[#FFFFFF] rounded-[30px]  lg:w-[460px] w-[343px] lg:h-[609px] h-[585px]"> */
+  }
 }
