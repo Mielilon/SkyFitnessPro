@@ -78,7 +78,7 @@ function WorkoutPage({ params }: WorkoutPageType) {
     }
   }, [courseName]);
 
-  const fetchExercises = useCallback(() => {
+  useEffect(() => {
     if (!auth.currentUser?.uid) return;
     return onValue(
       ref(
@@ -94,11 +94,7 @@ function WorkoutPage({ params }: WorkoutPageType) {
         }
       },
     );
-  }, [auth.currentUser?.uid, courseId, workoutId]);
-
-  useEffect(() => {
-    fetchExercises();
-  }, [fetchExercises]);
+  }, [auth.currentUser?.uid, workoutId, courseId]);
 
   useEffect(() => {
     if (!auth.currentUser?.uid) return;

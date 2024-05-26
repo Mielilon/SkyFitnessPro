@@ -4,7 +4,7 @@ import Button from "@/components/Button/Button";
 import { workoutDescription } from "@/lib/data";
 import { app, database } from "@/app/firebase";
 import { onValue, ref } from "firebase/database";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { User, getAuth } from "firebase/auth";
 import { writeUserData } from "@/utils/writeUserData";
 import sendNotification from "@/utils/sendNotification";
@@ -56,9 +56,8 @@ function CoursePage({ params }: CoursePageType) {
     });
   }, [auth]);
 
-  const courseDbRef = useMemo(() => ref(database, 'courses/' + courseId), [courseId]);
-
   useEffect(() => {
+    const courseDbRef = ref(database, 'courses/' + courseId);
     return onValue(courseDbRef, snapshot => {
       if (snapshot.exists()) {
         const courseData = snapshot.val();
@@ -68,7 +67,7 @@ function CoursePage({ params }: CoursePageType) {
         return;
       }
     });
-  }, [courseDbRef]);
+  }, [courseId]);
 
   useEffect(() => {
     if (!auth.currentUser?.uid) return;
@@ -115,7 +114,6 @@ function CoursePage({ params }: CoursePageType) {
         id="notification-box"
         className="flex fixed flex-col items-center justify-center top-0 z-50 p-3"
       >
-        {/* <!-- Notification container --> */}
       </div>
       <section
         className={`relative w-auto h-[389px] lg:h-[310px] rounded-[30px] ${color} overflow-hidden`}

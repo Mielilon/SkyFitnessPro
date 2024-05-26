@@ -14,7 +14,6 @@ import { SignUpUserDataType } from "@/types";
 export default function SignInPage() {
   const router = useRouter();
   const [errorText, setError] = useState('');
-
   const [userData, setUserData] = useState<SignUpUserDataType>({
     email: "",
     password: "",

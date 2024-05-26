@@ -4,7 +4,7 @@ import CourseCard from "@/components/CourseCard/CourseCard";
 import { onValue, ref } from "firebase/database";
 import Link from "next/link";
 import { database } from "./firebase";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 
 type CoursesArrayType = [string, CourseType][];
@@ -22,9 +22,8 @@ type CourseType = {
 export default function MainCoursesPage() {
 
   const [courses, setCourses] = useState<CoursesArrayType>([]);
-  const coursesDB = useMemo(() => ref(database, "courses"), [database]);
-
   useEffect(() => {
+    const coursesDB = ref(database, "courses");
     return onValue(coursesDB, (snapshot) => {
       if (snapshot.exists()) {
         const coursesArray: CoursesArrayType = Object.entries(snapshot.val());
@@ -34,7 +33,7 @@ export default function MainCoursesPage() {
         return;
       }
     });
-  }, [coursesDB]);
+  }, []);
 
   return (
     <>
@@ -54,7 +53,7 @@ export default function MainCoursesPage() {
       <div className="flex flex-wrap gap-x-10 gap-y-8">
         {courses.map((course) => {
           return (
-              <CourseCard key={course[1]._id} courseId={course[1]._id} course={course[1]} isSubscribed={false} imgURL={course[1].nameEN} title={course[1].nameRU} />
+            <CourseCard key={course[1]._id} courseId={course[1]._id} course={course[1]} isSubscribed={false} imgURL={course[1].nameEN} title={course[1].nameRU} />
           );
         })}
       </div>
