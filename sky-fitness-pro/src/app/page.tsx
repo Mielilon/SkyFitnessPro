@@ -4,7 +4,7 @@ import CourseCard from "@/components/CourseCard/CourseCard";
 import { onValue, ref } from "firebase/database";
 import Link from "next/link";
 import { database } from "./firebase";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 
 type CoursesArrayType = [string, CourseType][];
@@ -22,8 +22,9 @@ type CourseType = {
 export default function MainCoursesPage() {
 
   const [courses, setCourses] = useState<CoursesArrayType>([]);
+  const coursesDB = useMemo(() => ref(database, "courses"), [database]);
+
   useEffect(() => {
-    const coursesDB = ref(database, "courses");
     return onValue(coursesDB, (snapshot) => {
       if (snapshot.exists()) {
         const coursesArray: CoursesArrayType = Object.entries(snapshot.val());
@@ -33,7 +34,7 @@ export default function MainCoursesPage() {
         return;
       }
     });
-  }, []);
+  }, [coursesDB]);
 
   return (
     <>

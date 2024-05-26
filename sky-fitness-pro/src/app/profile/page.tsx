@@ -39,20 +39,22 @@ function ProfilePage() {
 
   useEffect(() => {
     if (!auth.currentUser?.uid) return;
-    return onValue(
+    const handleValueChange = (snapshot: { exists: () => any; val: () => { [s: string]: CourseType; } | ArrayLike<CourseType>; }) => {
+      if (snapshot.exists()) {
+        const userCourseList: CoursesArrayType = Object.entries(snapshot.val());
+        setCourses(userCourseList);
+      } else {
+        console.log('No data available');
+        setCourses([]);
+      }
+    };
+    const unsubscribe = onValue(
       ref(database, `users/${auth.currentUser?.uid}/courses`),
-      snapshot => {
-        if (snapshot.exists()) {
-          const userCourseList: CoursesArrayType = Object.entries(
-            snapshot.val(),
-          );
-          setCourses(userCourseList);
-        } else {
-          console.log('No data available');
-          setCourses([]);
-        }
-      },
+      handleValueChange,
     );
+    return () => {
+      unsubscribe();
+    };
   }, [auth.currentUser?.uid]);
 
   return (

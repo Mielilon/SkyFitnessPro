@@ -10,7 +10,7 @@ import WorkoutProgress from "@/components/WorkoutProgress/WorkoutProgress";
 import { ExerciseType, UserWorkoutType, WorkoutType } from "@/types";
 import { User, getAuth } from "firebase/auth";
 import { onValue, ref, update } from "firebase/database";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
 type WorkoutPageType = {
   params: {
@@ -78,7 +78,7 @@ function WorkoutPage({ params }: WorkoutPageType) {
     }
   }, [courseName]);
 
-  useEffect(() => {
+  const fetchExercises = useCallback(() => {
     if (!auth.currentUser?.uid) return;
     return onValue(
       ref(
@@ -94,7 +94,11 @@ function WorkoutPage({ params }: WorkoutPageType) {
         }
       },
     );
-  }, [auth.currentUser?.uid, workoutId, courseId]);
+  }, [auth.currentUser?.uid, courseId, workoutId]);
+
+  useEffect(() => {
+    fetchExercises();
+  }, [fetchExercises]);
 
   useEffect(() => {
     if (!auth.currentUser?.uid) return;

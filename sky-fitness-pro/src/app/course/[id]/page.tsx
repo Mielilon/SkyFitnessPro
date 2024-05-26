@@ -4,7 +4,7 @@ import Button from "@/components/Button/Button";
 import { workoutDescription } from "@/lib/data";
 import { app, database } from "@/app/firebase";
 import { onValue, ref } from "firebase/database";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { User, getAuth } from "firebase/auth";
 import { writeUserData } from "@/utils/writeUserData";
 import sendNotification from "@/utils/sendNotification";
@@ -56,8 +56,9 @@ function CoursePage({ params }: CoursePageType) {
     });
   }, [auth]);
 
+  const courseDbRef = useMemo(() => ref(database, 'courses/' + courseId), [courseId]);
+
   useEffect(() => {
-    const courseDbRef = ref(database, 'courses/' + courseId);
     return onValue(courseDbRef, snapshot => {
       if (snapshot.exists()) {
         const courseData = snapshot.val();
@@ -67,7 +68,7 @@ function CoursePage({ params }: CoursePageType) {
         return;
       }
     });
-  }, [courseId]);
+  }, [courseDbRef]);
 
   useEffect(() => {
     if (!auth.currentUser?.uid) return;
