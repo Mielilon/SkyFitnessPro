@@ -69,7 +69,7 @@ export default function MainCoursesPage() {
                 );
               })}
             </div>
-            <div className="flex self-center w-[140px] mt-8">
+            <div className="flex justify-center mx-[auto] w-[140px] mt-8">
               <Link href="#top">
                 <Button title="Наверх &#8593;" />
               </Link>
