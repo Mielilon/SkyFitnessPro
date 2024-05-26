@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import FormInput from "@/components/FormInput/FormInput";
@@ -24,19 +24,19 @@ export default function SignInPage() {
     const { error } = await signIn(userData);
 
     if (error) {
-      return setError("Логин и пароль не совпадают, попробуйте еще раз");
+      return setError('Логин и пароль не совпадают, попробуйте еще раз');
     }
 
-    return router.replace("/");
+    return router.replace('/');
   };
 
   return (
     <>
-      <WrapperModal onSubmit={(event) => handleForm(event)}>
+      <WrapperModal onSubmit={event => handleForm(event)}>
         <div className="mb-[34px]">
           <FormInput
             value={userData.email}
-            onChange={(e) => {
+            onChange={e => {
               setUserData({ ...userData, email: e.target.value });
             }}
             type="text"
@@ -45,7 +45,7 @@ export default function SignInPage() {
           />
 
           <FormInput
-            onChange={(e) =>
+            onChange={e =>
               setUserData({ ...userData, password: e.target.value })
             }
             value={userData.password}

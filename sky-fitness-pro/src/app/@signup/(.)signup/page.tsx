@@ -13,7 +13,7 @@ import { SignUpUserDataType } from "@/types";
 
 export default function SignInPage() {
   const router = useRouter();
-  const [errorText, setError] = useState("");
+  const [errorText, setError] = useState('');
 
   const [userData, setUserData] = useState<SignUpUserDataType>({
     email: "",
@@ -28,7 +28,7 @@ export default function SignInPage() {
       return;
 
     if (userData.password !== userData.repeatPassword) {
-      return setError("Пароли не совпадают");
+      return setError('Пароли не совпадают');
     }
 
     const { error } = await signUp(userData);
@@ -37,7 +37,7 @@ export default function SignInPage() {
       return getErrorText({ errorCode: error, fncSetErrorText: setError });
     }
 
-    return router.replace("/profile");
+    return router.replace('/profile');
   };
 
   return (

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import FormInput from "@/components/FormInput/FormInput";
@@ -12,7 +12,7 @@ import { SignUpUserDataType } from "@/types";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const [errorText, setError] = useState("");
+  const [errorText, setError] = useState('');
 
   const [userData, setUserData] = useState<SignUpUserDataType>({
     email: "",
@@ -27,7 +27,7 @@ export default function SignUpPage() {
       return;
 
     if (userData.password !== userData.repeatPassword) {
-      return setError("Пароли не совпадают");
+      return setError('Пароли не совпадают');
     }
 
     const { error } = await signUp(userData);
@@ -36,26 +36,24 @@ export default function SignUpPage() {
       return getErrorText({ errorCode: error, fncSetErrorText: setError });
     }
 
-    return router.replace("/profile");
+    return router.replace('/profile');
   };
 
   return (
-    <WrapperModal onSubmit={(event) => handleForm(event)}>
+    <WrapperModal onSubmit={event => handleForm(event)}>
       <div className="mb-[34px]">
         <FormInput
           type="text"
           name="login"
           placeholder="Эл. почта"
           value={userData.email}
-          onChange={(e) => {
+          onChange={e => {
             setUserData({ ...userData, email: e.target.value });
           }}
         />
 
         <FormInput
-          onChange={(e) =>
-            setUserData({ ...userData, password: e.target.value })
-          }
+          onChange={e => setUserData({ ...userData, password: e.target.value })}
           value={userData.password}
           type="password"
           name="password"
@@ -63,7 +61,7 @@ export default function SignUpPage() {
         />
 
         <FormInput
-          onChange={(e) =>
+          onChange={e =>
             setUserData({ ...userData, repeatPassword: e.target.value })
           }
           value={userData.repeatPassword}

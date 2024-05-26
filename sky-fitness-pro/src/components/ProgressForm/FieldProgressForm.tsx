@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef } from 'react';
 
 type FieldProgressFormType = {
   label: string;
@@ -14,7 +14,7 @@ export default function FieldProgressForm({
 }: FieldProgressFormType) {
   function clearInputValue() {
     if (!inputRef.current) return;
-    inputRef.current.value = "";
+    inputRef.current.value = '';
   }
 
   const inputRef = useRef<HTMLInputElement | null>(null);

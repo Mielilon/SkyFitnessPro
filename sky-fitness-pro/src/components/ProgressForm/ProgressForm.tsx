@@ -1,12 +1,12 @@
-"use client";
-import { useEffect, useState } from "react";
-import Button from "../Button/Button";
-import FieldProgressForm from "./FieldProgressForm";
-import SuccessModal from "../SuccessModal/SuccessModal";
-import { ExerciseArrayType } from "@/app/workout/[course]/[courseid]/[id]/page";
+'use client';
+import { useEffect, useState } from 'react';
+import Button from '../Button/Button';
+import FieldProgressForm from './FieldProgressForm';
+import SuccessModal from '../SuccessModal/SuccessModal';
+import { ExerciseArrayType } from '@/app/workout/[course]/[courseid]/[id]/page';
 
 type ProgressFormType = {
-  isOpen :boolean;
+  isOpen: boolean;
   exercises: ExerciseArrayType[];
   setExercises: React.Dispatch<React.SetStateAction<ExerciseArrayType[]>>;
   handleSaveChanges: () => void;
@@ -17,7 +17,6 @@ export default function ProgressForm({
   handleSaveChanges,
   isOpen,
 }: ProgressFormType) {
-
   useEffect(() => setExercises(exercises), [exercises, setExercises]);
 
   return (
@@ -43,9 +42,9 @@ export default function ProgressForm({
                     key={i}
                     id={exercise[0]}
                     value={exercise[1].curProgress}
-                    onChange={(e) =>
-                      setExercises((prev) =>
-                        prev.map((item) =>
+                    onChange={e =>
+                      setExercises(prev =>
+                        prev.map(item =>
                           item[1].name === exercise[1].name
                             ? [
                                 item[0],
@@ -54,18 +53,15 @@ export default function ProgressForm({
                                   curProgress: Number(e.target.value),
                                 },
                               ]
-                            : item
-                        )
+                            : item,
+                        ),
                       )
                     }
                   />
                 );
               })}
             </fieldset>
-            <Button
-              title="Сохранить"
-              onClick={handleSaveChanges}
-            />
+            <Button title="Сохранить" onClick={handleSaveChanges} />
           </div>
         </>
       )}

@@ -1,18 +1,18 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       screens: {
-        'main': '1440px',
-
+        main: '1440px',
       },
       backgroundImage: {
+        "input-radio": "url('/img/ellipse.svg')",
         "notice":"url('/img/notice.png')",
         "user-icon":"url('/img/user-icon.svg')",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -20,9 +20,9 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: {
-        "roboto-400": "var(--font-roboto-400)",
-        "roboto-500": "var(--font-roboto-500)",
-        skyeng: "var(--font-skyeng)",
+        'roboto-400': 'var(--font-roboto-400)',
+        'roboto-500': 'var(--font-roboto-500)',
+        skyeng: 'var(--font-skyeng)',
       },
       colors: {
         background: "#FAFAFA",
@@ -39,9 +39,10 @@ const config: Config = {
         blueLight: "#00C1FF",
         gray: "#D0CECE",
         grayLight: "#F7F7F7",
+        selectionBorder: "#C4C4C4",
       },
       boxShadow: {
-        def: "0 4px 67px -12px rgba(0, 0, 0, 0.13)",
+        def: '0 4px 67px -12px rgba(0, 0, 0, 0.13)',
       },
     },
   },

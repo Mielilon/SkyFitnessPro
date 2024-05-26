@@ -31,8 +31,20 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
   const [workout, setWorkout] = useState<WorkoutType | null>(null);
   const [exercises, setExercises] = useState<ExerciseArrayType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [rusName, setRusName] = useState("");
+  const [rusName, setRusName] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(user);
+      }
+    });
+  }, [auth]);
 
   function closeSuccessModal() {
     setIsSuccess(false);
@@ -46,23 +58,23 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
 
   useEffect(() => {
     switch (courseName) {
-      case "BodyFlex":
-        setRusName("Бодифлекс");
+      case 'BodyFlex':
+        setRusName('Бодифлекс');
         break;
-      case "DanceFitness":
-        setRusName("Танцевальный фитнес");
+      case 'DanceFitness':
+        setRusName('Танцевальный фитнес');
         break;
-      case "StepAirobic":
-        setRusName("Степ-аэробика");
+      case 'StepAirobic':
+        setRusName('Степ-аэробика');
         break;
-      case "Stretching":
-        setRusName("Стретчинг");
+      case 'Stretching':
+        setRusName('Стретчинг');
         break;
-      case "Yoga":
-        setRusName("Йога");
+      case 'Yoga':
+        setRusName('Йога');
         break;
       default:
-        setRusName("");
+        setRusName('');
     }
   }, [courseName]);
 
@@ -71,16 +83,17 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
     return onValue(
       ref(
         database,
-        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/exercises/`
+        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/exercises/`,
       ),
-      (snapshot) => {
+      snapshot => {
         if (snapshot.exists()) {
           const exercisesData: ExerciseArrayType[] = Object.entries(snapshot.val());
           setExercises(exercisesData);
+          setIsLoading(false);      
         } else {
-          console.log("No data available");
+          console.log('No data available');
         }
-      }
+      },
     );
   }, [auth.currentUser?.uid, workoutId, courseId]);
 
@@ -89,64 +102,64 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
     return onValue(
       ref(
         database,
-        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/`
+        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/`,
       ),
-      (snapshot) => {
+      snapshot => {
         if (snapshot.exists()) {
           const workoutsData: UserWorkoutType[] = Object.entries(
-            snapshot.val()
+            snapshot.val(),
           );
           setWorkoutList(workoutsData);
         } else {
-          console.log("No data available");
+          console.log('No data available');
         }
-      }
+      },
     );
   }, [auth.currentUser?.uid, workoutId, courseId]);
 
   function toggleProgressForm() {
-    setIsOpen((prevState) => !prevState);
+    setIsOpen(prevState => !prevState);
   }
 
   async function handleSaveChanges() {
-    const arrAvr = exercises.map((exercise) =>
+    const arrAvr = exercises.map(exercise =>
       exercise[1].curProgress < exercise[1].quantity
         ? (exercise[1].curProgress / exercise[1].quantity) * 100
-        : 100
+        : 100,
     );
 
     const progressWorkout = Math.floor(
-      arrAvr.reduce((acc, number) => acc + number) / arrAvr.length
+      arrAvr.reduce((acc, number) => acc + number) / arrAvr.length,
     );
 
-    const updatedData = exercises.map((exercise) => exercise[1]);
+    const updatedData = exercises.map(exercise => exercise[1]);
 
     await update(
       ref(
         database,
-        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/`
+        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/`,
       ),
-      { progressWorkout: progressWorkout }
+      { progressWorkout: progressWorkout },
     );
     await update(
       ref(
         database,
-        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/`
+        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}/`,
       ),
-      { exercises: updatedData }
+      { exercises: updatedData },
     );
 
-    const progressWorkoutList = workoutList.map((el) =>
-      el[1]._id === workoutId ? progressWorkout : el[1].progressWorkout
+    const progressWorkoutList = workoutList.map(el =>
+      el[1]._id === workoutId ? progressWorkout : el[1].progressWorkout,
     );
     const progressCourse = Math.floor(
       progressWorkoutList.reduce((acc, number) => acc + number) /
-        workoutList.length
+      workoutList.length,
     );
 
     await update(
       ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/`),
-      { progressCourse: progressCourse }
+      { progressCourse: progressCourse },
     );
 
     openSuccessModal();
@@ -157,75 +170,81 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
     return onValue(
       ref(
         database,
-        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}`
+        `users/${auth.currentUser?.uid}/courses/${courseId}/workouts/${workoutId}`,
       ),
-      (snapshot) => {
+      snapshot => {
         if (snapshot.exists()) {
           const workoutData: WorkoutType = snapshot.val();
           setWorkout(workoutData);
         } else {
-          console.log("No data available");
+          console.log('No data available');
         }
-      }
+      },
     );
   }, [auth.currentUser?.uid, workoutId, courseId]);
 
   return (
-    <>
-      <section>
-        <Title label={rusName} />
-        <Breadcrumbs text={workout ? workout.name : ""} />
-        <div className="h-[189px] md:h-[639px] rounded-[30px] mb-6 lg:mb-10">
-          <Suspense fallback={<p>Loading video...</p>}>
-            <VideoComponent videoURL={workout ? workout.video : ""} />
-          </Suspense>
-        </div>
-      </section>
-      <section className="rounded-[30px] p-[30px] lg:p-10 bg-white shadow-def ">
-        <h2 className="text-[32px] text-black font-skyeng font-normal mb-[20px]">
-          Упражнения тренировки
-        </h2>
-        <div className="grid grid-flow-row gap-6 items-end md:grid-cols-2 md:gap-5 xl:grid-cols-3">
-          {exercises.length > 0 &&
-            exercises.map((exercise, i) => {
-              // const arrAvr = exercises.map((exercise) =>
-              //   exercise[1].curProgress < exercise[1].quantity
-              //     ? (exercise[1].curProgress / exercise[1].quantity) * 100
-              //     : 100
-              // );
-              const progress = Math.floor(
-                exercise[1].curProgress < exercise[1].quantity
-                  ? (exercise[1].curProgress / exercise[1].quantity) * 100
-                  : 100
-              )
-                .toString()
-                .concat("%");
+    <div>
+      {isLoading ?
+        (<div className="block ml-[auto] mr-[auto] lg:w-[300px] lg:h-[300px] w-[150px] h-[150px]" >
+          <Image src={loadingGif} alt="wait until the page loads" width={300} height={300} />
+        </div>) :
+        (<>
+          <section>
+            <Title label={rusName} />
+            <Breadcrumbs text={workout ? workout.name : ''} />
+            <div className="h-[189px] md:h-[639px] rounded-[30px] mb-6 lg:mb-10">
+              <Suspense fallback={<p>Loading video...</p>}>
+                <VideoComponent videoURL={workout ? workout.video : ''} />
+              </Suspense>
+            </div>
+          </section>
+          <section className="rounded-[30px] p-[30px] lg:p-10 bg-white shadow-def ">
+            <h2 className="text-[32px] text-black font-skyeng font-normal mb-[20px]">
+              Упражнения тренировки
+            </h2>
+            <div className="grid grid-flow-row gap-6 items-end md:grid-cols-2 md:gap-5 xl:grid-cols-3">
+              {exercises.length > 0 &&
+                exercises.map((exercise, i) => {
+                  // const arrAvr = exercises.map((exercise) =>
+                  //   exercise[1].curProgress < exercise[1].quantity
+                  //     ? (exercise[1].curProgress / exercise[1].quantity) * 100
+                  //     : 100
+                  // );
+                  const progress = Math.floor(
+                    exercise[1].curProgress < exercise[1].quantity
+                      ? (exercise[1].curProgress / exercise[1].quantity) * 100
+                      : 100,
+                  )
+                    .toString()
+                    .concat('%');
 
-              return (
-                <div className="lg:w-[320px] w-[283px]" key={i}>
-                  <WorkoutProgress
-                    title={exercise[1].name}
-                    progress={progress}
-                  />
-                </div>
-              );
-            })}
-        </div>
-        <div className="lg:w-[320px] max-w-[283px] w-auto mt-10">
-          <Button
-            title="Заполнить свой прогресс"
-            onClick={toggleProgressForm}
-          />
-        </div>
-      </section>
-      {isOpen && (
-        <ProgressForm
-          isOpen={isSuccess}
-          setExercises={setExercises}
-          handleSaveChanges={handleSaveChanges}
-          exercises={exercises}
-        />
-      )}
-    </>
-  );
-}
+                  return (
+                    <div className="lg:w-[320px] w-[283px]" key={i}>
+                      <WorkoutProgress
+                        title={exercise[1].name}
+                        progress={progress}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+            <div className="lg:w-[320px] max-w-[283px] w-auto mt-10">
+              <Button
+                title="Заполнить свой прогресс"
+                onClick={toggleProgressForm}
+              />
+            </div>
+          </section>
+          {isOpen && (
+            <ProgressForm
+              isOpen={isSuccess}
+              setExercises={setExercises}
+              handleSaveChanges={handleSaveChanges}
+              exercises={exercises}
+            />
+          )}
+        </>)}
+    </div>
+  )
+};
