@@ -15,12 +15,23 @@ type SelectionPageType = {
 };
 
 export default function SelectionPage({ params }: SelectionPageType) {
-  const [courseId, setCourseId] = useState("");
+  const [courseId, setCourseId] = useState('');
   const auth = getAuth(app);
   const [workouts, setWorkouts] = useState<WorkoutType[]>([]);
-  const [courseName, setCourseName] = useState("");
-  const [selected, setSelected] = useState("");
+  const [courseName, setCourseName] = useState('');
+  const [selected, setSelected] = useState('');
   const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(user);
+      }
+    });
+  }, [auth]);
 
   useEffect(() => {
     setCourseId(params.id);
@@ -30,7 +41,7 @@ export default function SelectionPage({ params }: SelectionPageType) {
     if (!auth.currentUser?.uid) return;
     return onValue(
       ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/`),
-      (snapshot) => {
+      snapshot => {
         if (snapshot.exists()) {
           const course: any = Object.values(snapshot.val());
           setCourseName(course[1]);
@@ -39,9 +50,9 @@ export default function SelectionPage({ params }: SelectionPageType) {
           console.log(workoutList);
           setWorkouts(workoutList);
         } else {
-          console.log("No data available");
+          console.log('No data available');
         }
-      }
+      },
     );
   }, [auth.currentUser?.uid, params.id, courseId]);
 

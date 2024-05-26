@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import WrapperModal from "@/components/WrapperModal/WrapperModal";
-import FormInput from "@/components/FormInput/FormInput";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Button from "@/components/Button/Button";
-import ButtonLink from "@/components/ButtonLink/ButtonLink";
-import { signUp } from "../api";
-import { getErrorText } from "@/utils/getErrorText";
+import WrapperModal from '@/components/WrapperModal/WrapperModal';
+import FormInput from '@/components/FormInput/FormInput';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Button from '@/components/Button/Button';
+import ButtonLink from '@/components/ButtonLink/ButtonLink';
+import { signUp } from '../api';
+import { getErrorText } from '@/utils/getErrorText';
 
 export type RegistrationUserType = {
   email: string;
@@ -17,12 +17,12 @@ export type RegistrationUserType = {
 
 export default function SignUpPage() {
   const router = useRouter();
-  const [errorText, setError] = useState("");
+  const [errorText, setError] = useState('');
 
   const [userData, setUserData] = useState<RegistrationUserType>({
-    email: "",
-    password: "",
-    repeatPassword: "",
+    email: '',
+    password: '',
+    repeatPassword: '',
   });
 
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -32,7 +32,7 @@ export default function SignUpPage() {
       return;
 
     if (userData.password !== userData.repeatPassword) {
-      return setError("Пароли не совпадают");
+      return setError('Пароли не совпадают');
     }
 
     const { error } = await signUp(userData);
@@ -41,26 +41,24 @@ export default function SignUpPage() {
       return getErrorText({ errorCode: error, fncSetErrorText: setError });
     }
 
-    return router.replace("/profile");
+    return router.replace('/profile');
   };
 
   return (
-    <WrapperModal onSubmit={(event) => handleForm(event)}>
+    <WrapperModal onSubmit={event => handleForm(event)}>
       <div className="mb-[34px]">
         <FormInput
           type="text"
           name="login"
           placeholder="Эл. почта"
           value={userData.email}
-          onChange={(e) => {
+          onChange={e => {
             setUserData({ ...userData, email: e.target.value });
           }}
         />
 
         <FormInput
-          onChange={(e) =>
-            setUserData({ ...userData, password: e.target.value })
-          }
+          onChange={e => setUserData({ ...userData, password: e.target.value })}
           value={userData.password}
           type="password"
           name="password"
@@ -68,7 +66,7 @@ export default function SignUpPage() {
         />
 
         <FormInput
-          onChange={(e) =>
+          onChange={e =>
             setUserData({ ...userData, repeatPassword: e.target.value })
           }
           value={userData.repeatPassword}

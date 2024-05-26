@@ -1,8 +1,7 @@
-import Image from "next/image";
-import error404 from "../../public/img/404-2.png";
-import plugs from "../../public/img/plugs.png";
-import Link from "next/link";
-
+import Image from 'next/image';
+import error404 from '../../public/img/404-2.png';
+import plugs from '../../public/img/plugs.png';
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
@@ -14,10 +13,16 @@ export default function NotFound() {
               <h1 className="my-2 text-gray-800 font-bold text-3xl font-skyeng">
                 Ууупс! Такой страницы не существует...
               </h1>
-              <p className="my-2 text-gray-800 text-lg">Мы сожалеем, но страница, на которую Вы пытались перейти, не найдена.</p>
-              <button className="font-roboto-400 rounded-full w-full h-[52px] bg-[#BCEC30] text-lg text-[#000000] hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]
-              my-4 px-8 lg:w-auto focus:outline-none focus:ring-2 focus:ring-opacity-50">
-                <Link href={'/'}>На главную</Link></button>
+              <p className="my-2 text-gray-800 text-lg">
+                Мы сожалеем, но страница, на которую Вы пытались перейти, не
+                найдена.
+              </p>
+              <button
+                className="font-roboto-400 rounded-full w-full h-[52px] bg-[#BCEC30] text-lg text-[#000000] hover:bg-[#C6FF00] active:bg-[#000000] active:text-[#FFFFFF]
+              my-4 px-8 lg:w-auto focus:outline-none focus:ring-2 focus:ring-opacity-50"
+              >
+                <Link href={'/'}>На главную</Link>
+              </button>
             </div>
           </div>
           <div>
