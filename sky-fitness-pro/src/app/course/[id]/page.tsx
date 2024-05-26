@@ -6,7 +6,7 @@ import { app, database } from "@/app/firebase";
 import { onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { User, getAuth } from "firebase/auth";
-import { writeUserData } from "@/utils/writeUserData";
+import { addCourseUser } from "@/utils/writeUserData";
 import sendNotification from "@/utils/sendNotification";
 import { useRouter } from "next/navigation";
 import { CourseType, UserWorkoutType } from "@/types";
@@ -209,7 +209,7 @@ export default function CoursePage({ params }: CoursePageType) {
                   <Button
                     title="Добавить курс"
                     onClick={() => {
-                      writeUserData({ userId: currentUser?.uid, courseId, course });
+                      addCourseUser({ userId: currentUser?.uid, courseId, course });
                       sendNotification('info', 'Вы добавили курс!');
                     }}
                   />
