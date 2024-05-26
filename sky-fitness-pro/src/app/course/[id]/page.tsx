@@ -107,7 +107,6 @@ function CoursePage({ params }: CoursePageType) {
         setColor('bg-white');
     }
   }, [course]);
-
   return (
     <>
       <div
@@ -167,7 +166,7 @@ function CoursePage({ params }: CoursePageType) {
           })}
         </ul>
       </section>
-      <section className="z-10 mt-[156px] xl:mt-[102px] md:mt-[256px]">
+      <div className="z-10 mt-[156px] xl:mt-[102px] md:mt-[256px]">
         <div className="rounded-[30px] p-[40px] md:p-[30px] lg:p-10 bg-white shadow-def">
           <div className="max-w-[465px] flex flex-col xl:relative xl:z-20">
             <h2 className="text-[32px] md:text-5xl text-black font-roboto-500 leading-none mb-[28px]">
@@ -187,88 +186,91 @@ function CoursePage({ params }: CoursePageType) {
                 })}
               </ul>
             </div>
-          </section>
-          <section className="z-10">
-            <h2 className="font-roboto-500 text-black text-2xl md:text-5xl mb-[24px] lg:mb-[40px]">
-              Направления:
-            </h2>
-            <ul className="bg-lime   rounded-[30px] flex flex-col  gap-y-[20px] lg:flex-row flex-wrap md:gap-y-[22px] p-[30px] ">
-              {course.directions.map((el, i) => {
-                return (
-                  <li
-                    className="md:w-1/3  before:content-['\2726'] font-roboto-500 text-lg xl:text-2xl text-black "
-                    key={i}
-                  >
-                    <span className="relative left-2">{el}</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-          <section className="z-10 mt-[156px] xl:mt-[102px] md:mt-[256px]">
-            <div className="rounded-[30px] p-[40px] md:p-[30px] lg:p-10 bg-white shadow-def">
-              <div className="max-w-[465px] flex flex-col xl:relative xl:z-20">
-                <h2 className="text-[32px] md:text-5xl text-black font-roboto-500 leading-none mb-[28px]">
-                  Начните путь <br /> к новому телу
-                </h2>
-                <div className="mb-[28px] h-[178px] relative">
-                  <ul className="flex flex-col list-inside">
-                    {workoutDescription.map(el => {
-                      return (
-                        <li
-                          className="list-disc space-y-3 font-roboto-400 text-[#585959] leading-none text-lg md:text-2xl md:pl-6"
-                          key={el}
-                        >
-                          {el}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-                {!currentUser ? (
-                  <Button
-                    title="Войдите, чтобы добавить курс"
-                    onClick={() => router.replace('/signin')}
-                  />
-                ) : userCourses.find(course => course._id === courseId) ? (
-                  <Button
-                    title="Продолжить"
-                    onClick={() => router.replace(`/selection/${courseId}`)}
-                  />
-                ) : (
-                  <Button
-                    title="Добавить курс"
-                    onClick={() => {
-                      addCourseUser({ userId: currentUser?.uid, courseId, course });
-                      sendNotification('info', 'Вы добавили курс!');
-                    }}
-                  />
-                )}
-              </div>
-              <div
-                className="relative xl:z-10 -z-10 flex justify-end
-            xl:bottom-[550px] md:bottom-[730px] bottom-[650px] 
-            lg:left-[30px] md:left-[0px] left-[60px]"
-          >
-            <Image
-              className="[clip:rect(auto,auto,390px,auto)] lg:[clip:rect(auto,auto,450px,auto)] right-[35px] top-[70px]
-              md:-right-[10px] md:top-[140px] absolute 
-              xl:-right-[40px] xl:top-[140px] lg:-right-[30px] lg:top-[130px] "
-              src="/img/lines.svg"
-              alt="green and black line"
-              width={738}
-              height={574}
-            />
-            <Image
-              className="absolute w-[519px] h-[539px]"
-              src="/img/Runner.svg"
-              alt="runner"
-              width={519}
-              height={539}
-            />
           </div>
         </div>
-      </section>
-    </>)
+        <section className="z-10">
+          <h2 className="font-roboto-500 text-black text-2xl md:text-5xl mb-[24px] lg:mb-[40px]">
+            Направления:
+          </h2>
+          <ul className="bg-lime   rounded-[30px] flex flex-col  gap-y-[20px] lg:flex-row flex-wrap md:gap-y-[22px] p-[30px] ">
+            {course.directions.map((el, i) => {
+              return (
+                <li
+                  className="md:w-1/3  before:content-['\2726'] font-roboto-500 text-lg xl:text-2xl text-black "
+                  key={i}
+                >
+                  <span className="relative left-2">{el}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+        <section className="z-10 mt-[156px] xl:mt-[102px] md:mt-[256px]">
+          <div className="rounded-[30px] p-[40px] md:p-[30px] lg:p-10 bg-white shadow-def">
+            <div className="max-w-[465px] flex flex-col xl:relative xl:z-20">
+              <h2 className="text-[32px] md:text-5xl text-black font-roboto-500 leading-none mb-[28px]">
+                Начните путь <br /> к новому телу
+              </h2>
+              <div className="mb-[28px] h-[178px] relative">
+                <ul className="flex flex-col list-inside">
+                  {workoutDescription.map(el => {
+                    return (
+                      <li
+                        className="list-disc space-y-3 font-roboto-400 text-[#585959] leading-none text-lg md:text-2xl md:pl-6"
+                        key={el}
+                      >
+                        {el}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              {!currentUser ? (
+                <Button
+                  title="Войдите, чтобы добавить курс"
+                  onClick={() => router.replace('/signin')}
+                />
+              ) : userCourses.find(course => course._id === courseId) ? (
+                <Button
+                  title="Продолжить"
+                  onClick={() => router.replace(`/selection/${courseId}`)}
+                />
+              ) : (
+                <Button
+                  title="Добавить курс"
+                  onClick={() => {
+                    addCourseUser({ userId: currentUser?.uid, courseId, course });
+                    sendNotification('info', 'Вы добавили курс!');
+                  }}
+                />
+              )}
+            </div>
+            <div
+              className="relative xl:z-10 -z-10 flex justify-end
+            xl:bottom-[550px] md:bottom-[730px] bottom-[650px] 
+            lg:left-[30px] md:left-[0px] left-[60px]"
+            >
+              <Image
+                className="[clip:rect(auto,auto,390px,auto)] lg:[clip:rect(auto,auto,450px,auto)] right-[35px] top-[70px]
+              md:-right-[10px] md:top-[140px] absolute 
+              xl:-right-[40px] xl:top-[140px] lg:-right-[30px] lg:top-[130px] "
+                src="/img/lines.svg"
+                alt="green and black line"
+                width={738}
+                height={574}
+              />
+              <Image
+                className="absolute w-[519px] h-[539px]"
+                src="/img/Runner.svg"
+                alt="runner"
+                width={519}
+                height={539}
+              />
+            </div>
+          </div>
+        </section>
+      </div >
+    </>
+  )
 }
 export default withPrivateRoute(CoursePage);

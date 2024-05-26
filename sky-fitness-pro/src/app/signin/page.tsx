@@ -1,5 +1,4 @@
 'use client';
-'use client';
 
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import FormInput from "@/components/FormInput/FormInput";
@@ -8,10 +7,9 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/Button/Button";
 import ButtonLink from "@/components/ButtonLink/ButtonLink";
 import { signIn } from "../api";
-import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import ModalNewPassword from "@/components/ModalNewPassword/ModalNewPasword";
 import { SignInUserDataType } from "@/types";
-import { app } from "../firebase";
 
 export default function SignInPage() {
   const router = useRouter();
