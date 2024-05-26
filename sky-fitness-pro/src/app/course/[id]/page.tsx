@@ -5,11 +5,12 @@ import { workoutDescription } from "@/lib/data";
 import { app, database } from "@/app/firebase";
 import { onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
-import { UserWorkoutType, writeUserData } from "@/utils/writeUserData";
+import { User, getAuth } from "firebase/auth";
+import { writeUserData } from "@/utils/writeUserData";
 import sendNotification from "@/utils/sendNotification";
 import { useRouter } from "next/navigation";
-import { CourseType } from "@/types";
+import { CourseType, UserWorkoutType } from "@/types";
+import loadingGif from './../../../assets/gogi-running.gif'
 
 type CoursePageType = {
   params: {

@@ -9,7 +9,7 @@ import { app, database } from "../firebase";
 import Link from "next/link";
 import { onValue, ref } from "firebase/database";
 import { UserWorkoutType } from "@/types";
-
+import loadingGif from './../../assets/gogi-running.gif'
 type CourseType = {
   _id: string;
   nameEN: string;
