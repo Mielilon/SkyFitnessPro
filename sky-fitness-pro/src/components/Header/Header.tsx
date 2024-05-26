@@ -66,8 +66,8 @@ export default function Header() {
                     icon="icon-arrow"
                     className={
                       isOpen
-                        ? 'w-[14px] h-[9px] rotate-180 cursor-pointer'
-                        : 'w-[14px] h-[9px] cursor-pointer'
+                        ? 'w-[14px] h-[9px] rotate-180 cursor-custom'
+                        : 'w-[14px] h-[9px] cursor-custom'
                     }
                   />
                 </div>
