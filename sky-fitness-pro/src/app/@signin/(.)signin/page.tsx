@@ -1,25 +1,21 @@
 'use client';
 
-import FormInput from '@/components/FormInput/FormInput';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Button from '@/components/Button/Button';
-import ButtonLink from '@/components/ButtonLink/ButtonLink';
-import WrapperModal from '@/components/WrapperModal/WrapperModal';
-import { signIn } from '@/app/api';
-import { Modal } from '@/components/Modal/Modal';
-
-export type DataUserType = {
-  email: string;
-  password: string;
-};
+import FormInput from "@/components/FormInput/FormInput";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Button from "@/components/Button/Button";
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import WrapperModal from "@/components/WrapperModal/WrapperModal";
+import { signIn } from "@/app/api";
+import { Modal } from "@/components/Modal/Modal";
+import { SignInUserDataType } from "@/types";
 
 export default function SignInPage() {
   const router = useRouter();
-  const [errorText, setError] = useState('');
-  const [userData, setUserData] = useState<DataUserType>({
-    email: '',
-    password: '',
+  const [errorText, setError] = useState("");
+  const [userData, setUserData] = useState<SignInUserDataType>({
+    email: "",
+    password: "",
   });
 
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -65,7 +61,7 @@ export default function SignInPage() {
         <div className="space-y-2.5">
           <Button type="submit" title="Войти" />
           <ButtonLink
-            onClick={() => router.replace('/signup')}
+            onClick={() => router.replace("/signup")}
             title="Зарегистрироваться"
             link="/signup"
           />

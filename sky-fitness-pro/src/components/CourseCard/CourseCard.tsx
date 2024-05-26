@@ -1,12 +1,12 @@
-import Image from 'next/image';
-import Button from '../Button/Button';
-import Link from 'next/link';
-import WorkoutProgress from '../WorkoutProgress/WorkoutProgress';
-import { removeSubscribedCourse } from '@/utils/removeSubscribedCourse';
-import { writeUserData } from '@/utils/writeUserData';
-import { getAuth } from 'firebase/auth';
-import { CourseType } from '@/app/course/[id]/page';
-import { useRouter } from 'next/navigation';
+import Image from "next/image";
+import Button from "../Button/Button";
+import Link from "next/link";
+import WorkoutProgress from "../WorkoutProgress/WorkoutProgress";
+import { removeSubscribedCourse } from "@/utils/removeSubscribedCourse";
+import { writeUserData } from "@/utils/writeUserData";
+import { getAuth } from "firebase/auth";
+import { CourseType } from "@/types";
+import { useRouter } from "next/navigation";
 
 type CourseCardType = {
   imgURL: string;

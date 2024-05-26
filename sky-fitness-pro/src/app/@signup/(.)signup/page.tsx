@@ -1,29 +1,24 @@
-'use client';
+"use client";
 
-import FormInput from '@/components/FormInput/FormInput';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Button from '@/components/Button/Button';
-import ButtonLink from '@/components/ButtonLink/ButtonLink';
-import WrapperModal from '@/components/WrapperModal/WrapperModal';
-import { signUp } from '@/app/api';
-import { Modal } from '@/components/Modal/Modal';
-import { getErrorText } from '@/utils/getErrorText';
-
-export type RegistrationUserType = {
-  email: string;
-  password: string;
-  repeatPassword: string;
-};
+import FormInput from "@/components/FormInput/FormInput";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Button from "@/components/Button/Button";
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import WrapperModal from "@/components/WrapperModal/WrapperModal";
+import { signUp } from "@/app/api";
+import { Modal } from "@/components/Modal/Modal";
+import { getErrorText } from "@/utils/getErrorText";
+import { SignUpUserDataType } from "@/types";
 
 export default function SignInPage() {
   const router = useRouter();
   const [errorText, setError] = useState('');
 
-  const [userData, setUserData] = useState<RegistrationUserType>({
-    email: '',
-    password: '',
-    repeatPassword: '',
+  const [userData, setUserData] = useState<SignUpUserDataType>({
+    email: "",
+    password: "",
+    repeatPassword: "",
   });
 
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -47,20 +42,20 @@ export default function SignInPage() {
 
   return (
     <Modal>
-      <WrapperModal onSubmit={event => handleForm(event)}>
+      <WrapperModal onSubmit={(event) => handleForm(event)}>
         <div className="mb-[34px]">
           <FormInput
             type="text"
             name="login"
             placeholder="Эл. почта"
             value={userData.email}
-            onChange={e => {
+            onChange={(e) => {
               setUserData({ ...userData, email: e.target.value });
             }}
           />
 
           <FormInput
-            onChange={e =>
+            onChange={(e) =>
               setUserData({ ...userData, password: e.target.value })
             }
             value={userData.password}
@@ -70,7 +65,7 @@ export default function SignInPage() {
           />
 
           <FormInput
-            onChange={e =>
+            onChange={(e) =>
               setUserData({ ...userData, repeatPassword: e.target.value })
             }
             value={userData.repeatPassword}
@@ -89,7 +84,7 @@ export default function SignInPage() {
             onClick={() => router.back()}
           />
           <ButtonLink
-            onClick={() => router.replace('/signin')}
+            onClick={() => router.replace("/signin")}
             title="Войти"
             link="/signin"
           />

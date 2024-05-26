@@ -1,24 +1,20 @@
 'use client';
 
-import WrapperModal from '@/components/WrapperModal/WrapperModal';
-import FormInput from '@/components/FormInput/FormInput';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Button from '@/components/Button/Button';
-import ButtonLink from '@/components/ButtonLink/ButtonLink';
-import { signIn } from '../api';
-
-export type DataUserType = {
-  email: string;
-  password: string;
-};
+import WrapperModal from "@/components/WrapperModal/WrapperModal";
+import FormInput from "@/components/FormInput/FormInput";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Button from "@/components/Button/Button";
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import { signIn } from "../api";
+import { SignInUserDataType } from "@/types";
 
 export default function SignInPage() {
   const router = useRouter();
-  const [errorText, setError] = useState('');
-  const [userData, setUserData] = useState<DataUserType>({
-    email: '',
-    password: '',
+  const [errorText, setError] = useState("");
+  const [userData, setUserData] = useState<SignInUserDataType>({
+    email: "",
+    password: "",
   });
 
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {

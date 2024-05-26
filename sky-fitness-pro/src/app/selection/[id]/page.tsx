@@ -2,8 +2,8 @@
 import { app, database } from "@/app/firebase";
 import Button from "@/components/Button/Button";
 import WorkoutItem from "@/components/WorkoutItem/WorkoutItem";
-import { WorkoutType } from "@/utils/writeUserData";
-import { User, getAuth } from "firebase/auth";
+import { WorkoutType } from "@/types";
+import { getAuth } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -18,8 +18,8 @@ export default function SelectionPage({ params }: SelectionPageType) {
   const [courseId, setCourseId] = useState('');
   const auth = getAuth(app);
   const [workouts, setWorkouts] = useState<WorkoutType[]>([]);
-  const [courseName, setCourseName] = useState('');
-  const [selected, setSelected] = useState('');
+  const [courseName, setCourseName] = useState<string | number | WorkoutType>("");
+  const [selected, setSelected] = useState("");
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
 
@@ -43,7 +43,7 @@ export default function SelectionPage({ params }: SelectionPageType) {
       ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/`),
       snapshot => {
         if (snapshot.exists()) {
-          const course: any = Object.values(snapshot.val());
+          const course: (string | number | WorkoutType)[] = Object.values(snapshot.val());
           setCourseName(course[1]);
           const workoutList: WorkoutType[] = Object.values(course[4]);
           workoutList.sort((a, b) => (a.name > b.name ? 1 : -1));

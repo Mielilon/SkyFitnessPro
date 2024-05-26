@@ -1,15 +1,14 @@
-'use client';
-import Image from 'next/image';
-import Button from '@/components/Button/Button';
-import ButtonLink from '@/components/ButtonLink/ButtonLink';
-import CourseCard from '@/components/CourseCard/CourseCard';
-import { useEffect, useState } from 'react';
-import { User, getAuth } from 'firebase/auth';
-import { app, database } from '../firebase';
-import Link from 'next/link';
-import { onValue, ref } from 'firebase/database';
-import { UserWorkoutType } from '@/utils/writeUserData';
-import loadingGif from './../../assets/gogi-running.gif'
+"use client";
+import Image from "next/image";
+import Button from "@/components/Button/Button";
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import CourseCard from "@/components/CourseCard/CourseCard";
+import { useEffect, useState } from "react";
+import { User, getAuth } from "firebase/auth";
+import { app, database } from "../firebase";
+import Link from "next/link";
+import { onValue, ref } from "firebase/database";
+import { UserWorkoutType } from "@/types";
 
 type CourseType = {
   _id: string;

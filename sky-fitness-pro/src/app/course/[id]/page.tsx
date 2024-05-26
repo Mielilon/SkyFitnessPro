@@ -1,15 +1,15 @@
-'use client';
-import Image from 'next/image';
-import Button from '@/components/Button/Button';
-import { workoutDescription } from '@/lib/data';
-import { app, database } from '@/app/firebase';
-import { onValue, ref } from 'firebase/database';
-import { useEffect, useState } from 'react';
-import { User, getAuth } from 'firebase/auth';
-import { UserWorkoutType, writeUserData } from '@/utils/writeUserData';
-import sendNotification from '@/utils/sendNotification';
-import { useRouter } from 'next/navigation';
-import loadingGif from './../../../assets/gogi-running.gif'
+"use client";
+import Image from "next/image";
+import Button from "@/components/Button/Button";
+import { workoutDescription } from "@/lib/data";
+import { app, database } from "@/app/firebase";
+import { onValue, ref } from "firebase/database";
+import { useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
+import { UserWorkoutType, writeUserData } from "@/utils/writeUserData";
+import sendNotification from "@/utils/sendNotification";
+import { useRouter } from "next/navigation";
+import { CourseType } from "@/types";
 
 type CoursePageType = {
   params: {
@@ -17,16 +17,6 @@ type CoursePageType = {
   };
 };
 
-export type CourseType = {
-  _id: string;
-  description: string;
-  directions: string[];
-  fitting: string[];
-  nameEN: string;
-  nameRU: string;
-  order: number;
-  workouts: string[];
-};
 type UserCourseType = {
   _id: string;
   nameEN: string;
@@ -35,7 +25,6 @@ type UserCourseType = {
   workouts: UserWorkoutType[];
 };
 
-type UserCoursesArrayType = [string, UserCourseType][];
 export default function CoursePage({ params }: CoursePageType) {
   const courseId = params.id;
   const router = useRouter();

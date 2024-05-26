@@ -1,24 +1,14 @@
-'use client';
-import Button from '@/components/Button/Button';
-import CourseCard from '@/components/CourseCard/CourseCard';
-import { onValue, ref } from 'firebase/database';
-import Link from 'next/link';
-import { database } from './firebase';
-import { useEffect, useState } from 'react';
-import loadingGif from './../assets/gogi-running.gif'
-import Image from 'next/image';
+"use client";
+import Button from "@/components/Button/Button";
+import CourseCard from "@/components/CourseCard/CourseCard";
+import { onValue, ref } from "firebase/database";
+import Link from "next/link";
+import { database } from "./firebase";
+import { useEffect, useState } from "react";
+import { CourseType } from "@/types";
+
 
 type CoursesArrayType = [string, CourseType][];
-type CourseType = {
-  _id: string;
-  description: string;
-  directions: string[];
-  fitting: string[];
-  nameEN: string;
-  nameRU: string;
-  order: number;
-  workouts: string[];
-};
 
 export default function MainCoursesPage() {
   const [isLoading, setIsLoading] = useState(true);

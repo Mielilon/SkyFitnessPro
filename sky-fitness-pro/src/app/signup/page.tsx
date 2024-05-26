@@ -1,28 +1,23 @@
 'use client';
 
-import WrapperModal from '@/components/WrapperModal/WrapperModal';
-import FormInput from '@/components/FormInput/FormInput';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Button from '@/components/Button/Button';
-import ButtonLink from '@/components/ButtonLink/ButtonLink';
-import { signUp } from '../api';
-import { getErrorText } from '@/utils/getErrorText';
-
-export type RegistrationUserType = {
-  email: string;
-  password: string;
-  repeatPassword: string;
-};
+import WrapperModal from "@/components/WrapperModal/WrapperModal";
+import FormInput from "@/components/FormInput/FormInput";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Button from "@/components/Button/Button";
+import ButtonLink from "@/components/ButtonLink/ButtonLink";
+import { signUp } from "../api";
+import { getErrorText } from "@/utils/getErrorText";
+import { SignUpUserDataType } from "@/types";
 
 export default function SignUpPage() {
   const router = useRouter();
   const [errorText, setError] = useState('');
 
-  const [userData, setUserData] = useState<RegistrationUserType>({
-    email: '',
-    password: '',
-    repeatPassword: '',
+  const [userData, setUserData] = useState<SignUpUserDataType>({
+    email: "",
+    password: "",
+    repeatPassword: "",
   });
 
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
