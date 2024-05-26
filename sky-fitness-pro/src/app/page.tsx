@@ -1,32 +1,57 @@
-"use client";
-import Button from "@/components/Button/Button";
-import CourseCard from "@/components/CourseCard/CourseCard";
-import { onValue, ref } from "firebase/database";
-import Link from "next/link";
-import { database } from "./firebase";
-import { useEffect, useState } from "react";
-import { CourseType } from "@/types";
-import Image from "next/image";
+'use client';
+import Button from '@/components/Button/Button';
+import CourseCard from '@/components/CourseCard/CourseCard';
+import { onValue, ref } from 'firebase/database';
+import Link from 'next/link';
+import { app, database } from './firebase';
+import { useEffect, useState } from 'react';
+import { CourseType } from '@/types';
+import Image from 'next/image';
 import loadingGif from './../assets/gogi-running.gif';
+import { User, getAuth } from 'firebase/auth';
+import { NEXT_CACHE_REVALIDATE_TAG_TOKEN_HEADER } from 'next/dist/lib/constants';
 
 type CoursesArrayType = [string, CourseType][];
 
 export default function MainCoursesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState<CoursesArrayType>([]);
+  const [userAuth, setUserAuth] = useState<User | null>(null);
+  const [userSubscriptions, setUserSubscriptions] = useState<string[]>([]);
+
   useEffect(() => {
     const coursesDB = ref(database, 'courses');
     return onValue(coursesDB, snapshot => {
       if (snapshot.exists()) {
         const coursesArray: CoursesArrayType = Object.entries(snapshot.val());
         setCourses(coursesArray);
-        setIsLoading(false)
+        setIsLoading(false);
       } else {
         alert('Извините, курсы не найдены, либо нет подключения к интернету');
         return;
       }
     });
   }, []);
+
+  const auth = getAuth(app);
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      setUserAuth(user);
+    });
+  }, [auth]);
+
+  useEffect(() => {
+    if (!userAuth) return;
+
+    const userCoursesDB = ref(database, 'users/' + userAuth.uid + '/courses');
+    return onValue(userCoursesDB, snapshot => {
+      if (snapshot.exists()) {
+        const userCoursesArray: string[] = Object.keys(snapshot.val());
+        setUserSubscriptions(userCoursesArray);
+      } else setUserSubscriptions([]);
+    });
+  }, [userAuth]);
 
   return (
     <div>
@@ -49,12 +74,15 @@ export default function MainCoursesPage() {
             </div>
             <div className="flex flex-wrap gap-6 lg:gap-x-10 lg:gap-y-8">
               {courses.map(course => {
+                const isUserIncludedCourse = userSubscriptions.includes(
+                  course[0],
+                );
                 return (
                   <CourseCard
                     key={course[1]._id}
                     courseId={course[1]._id}
                     course={course[1]}
-                    isSubscribed={false}
+                    isSubscribed={isUserIncludedCourse}
                     imgURL={course[1].nameEN}
                     title={course[1].nameRU} />
                 );
