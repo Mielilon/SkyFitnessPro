@@ -1,4 +1,5 @@
 'use client';
+'use client';
 
 import WrapperModal from "@/components/WrapperModal/WrapperModal";
 import FormInput from "@/components/FormInput/FormInput";

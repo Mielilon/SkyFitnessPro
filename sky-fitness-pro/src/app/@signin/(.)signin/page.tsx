@@ -1,4 +1,5 @@
 'use client';
+'use client';
 
 import FormInput from "@/components/FormInput/FormInput";
 import { useState } from "react";
