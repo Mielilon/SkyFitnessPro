@@ -6,7 +6,7 @@ import { WorkoutType } from "@/types";
 import { User, getAuth } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type SelectionPageType = {
   params: {
@@ -37,7 +37,7 @@ export default function SelectionPage({ params }: SelectionPageType) {
     setCourseId(params.id);
   }, [params]);
 
-  useEffect(() => {
+  const fetchCourse = useCallback(() => {
     if (!auth.currentUser?.uid) return;
     return onValue(
       ref(database, `users/${auth.currentUser?.uid}/courses/${courseId}/`),
@@ -54,7 +54,11 @@ export default function SelectionPage({ params }: SelectionPageType) {
         }
       },
     );
-  }, [auth.currentUser?.uid, params.id, courseId]);
+  }, [auth.currentUser?.uid, courseId]);
+  
+  useEffect(() => {
+    fetchCourse();
+  }, [fetchCourse]);
 
   return (
     <div className="relative">
