@@ -113,7 +113,6 @@ export default function ProfilePage() {
             </h2>
             {courses.length === 0 && <p className="sm:text-[18px] text-[16px]">У вас нет добавленных курсов </p>}
             <div className="grid grid-flow-row gap-6 md:grid-cols-2 xl:grid-cols-3 md:gap-x-[calc(100%-343px*2)] lg:gap-x-[calc(100%-360px*2)]  xl:gap-x-[calc((100%-360px*3)/2)] md:gap-y-8 main:gap-x-10 main:gap-y-8 item-start">
-            {/* <div className="flex flex-wrap flex-row gap-[41px]"> */}
               {courses.map(course => {
                 const progress = course[1].progressCourse.toString().concat('%');
                 return (
