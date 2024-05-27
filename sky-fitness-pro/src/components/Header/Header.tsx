@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import logoImg from '../../../public/img/logo.svg';
-import Button from '../Button/Button';
 import SVG from '../SVG/SVG';
 import { useEffect, useState } from 'react';
 import DropDown from '../DropDown/DropDown';
@@ -32,7 +31,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="py-10 md:pt-[50px] md:pb-14 flex justify-between mx-auto lg:max-w-[1440px] px-4 lg:px-[140px]">
+      <div className="flex justify-between mx-auto py-10 md:pt-[50px] md:pb-14  lg:max-w-[1440px] px-4 md:px-8 main:px-[140px]">
         <div>
           <Link href={'/'}>
             <div>
