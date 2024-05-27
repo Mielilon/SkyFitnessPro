@@ -1,66 +1,42 @@
-'use client';
-import Button from '@/components/Button/Button';
-import CourseCard from '@/components/CourseCard/CourseCard';
-import { onValue, ref } from 'firebase/database';
-import Link from 'next/link';
-import { app, database } from './firebase';
-import { useEffect, useState } from 'react';
-import { CourseType } from '@/types';
-import Image from 'next/image';
-import loadingGif from './../assets/gogi-running.gif';
-import { User, getAuth } from 'firebase/auth';
-import { NEXT_CACHE_REVALIDATE_TAG_TOKEN_HEADER } from 'next/dist/lib/constants';
+"use client";
+import Button from "@/components/Button/Button";
+import CourseCard from "@/components/CourseCard/CourseCard";
+import { onValue, ref } from "firebase/database";
+import Link from "next/link";
+import { database } from "./firebase";
+import { useEffect, useState } from "react";
+
 
 type CoursesArrayType = [string, CourseType][];
+type CourseType = {
+  _id: string;
+  description: string;
+  directions: string[];
+  fitting: string[];
+  nameEN: string;
+  nameRU: string;
+  order: number;
+  workouts: string[];
+};
 
 export default function MainCoursesPage() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [courses, setCourses] = useState<CoursesArrayType>([]);
-  const [userAuth, setUserAuth] = useState<User | null>(null);
-  const [userSubscriptions, setUserSubscriptions] = useState<string[]>([]);
 
+  const [courses, setCourses] = useState<CoursesArrayType>([]);
   useEffect(() => {
-    const coursesDB = ref(database, 'courses');
-    return onValue(coursesDB, snapshot => {
+    const coursesDB = ref(database, "courses");
+    return onValue(coursesDB, (snapshot) => {
       if (snapshot.exists()) {
         const coursesArray: CoursesArrayType = Object.entries(snapshot.val());
         setCourses(coursesArray);
-        setIsLoading(false);
       } else {
-        alert('Извините, курсы не найдены, либо нет подключения к интернету');
+        alert("Извините, курсы не найдены, либо нет подключения к интернету");
         return;
       }
     });
   }, []);
 
-  const auth = getAuth(app);
-
-  useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      setUserAuth(user);
-    });
-  }, [auth]);
-
-  useEffect(() => {
-    if (!userAuth) return;
-
-    const userCoursesDB = ref(database, 'users/' + userAuth.uid + '/courses');
-    return onValue(userCoursesDB, snapshot => {
-      if (snapshot.exists()) {
-        const userCoursesArray: string[] = Object.keys(snapshot.val());
-        setUserSubscriptions(userCoursesArray);
-      } else setUserSubscriptions([]);
-    });
-  }, [userAuth]);
-
   return (
-    <div>
-      {isLoading ?
-        (<div className="block ml-[auto] mr-[auto] lg:w-[300px] lg:h-[300px] w-[150px] h-[150px]">
-          <Image src={loadingGif} alt="wait until the page loads" width={300} height={300} />
-        </div>) :
-         (
-          <>
+    <>
             <div
               id="top"
               className="flex flex-col md:flex-row "
@@ -72,29 +48,18 @@ export default function MainCoursesPage() {
                 Измени своё тело за полгода!
               </p>
             </div>
-            <div className="grid grid-flow-row gap-6 md:grid-cols-2 xl:grid-cols-3 md:gap-x-[calc(100%-343px*2)]   xl:gap-x-[calc((100%-360px*3)/2)] md:gap-y-8 main:gap-x-10 main:gap-y-8 item-start">
-              {courses.map(course => {
-                const isUserIncludedCourse = userSubscriptions.includes(
-                  course[0],
-                );
-                return (
-                  <CourseCard
-                    key={course[1]._id}
-                    courseId={course[1]._id}
-                    course={course[1]}
-                    isSubscribed={isUserIncludedCourse}
-                    imgURL={course[1].nameEN}
-                    title={course[1].nameRU} />
-                );
-              })}
-            </div>
-            <div className="flex justify-center mx-[auto] w-[140px] mt-8">
-              <Link href="#top">
-                <Button title="Наверх &#8593;" />
-              </Link>
-            </div>
-            </>
-        )}
-    </div>
-)}
-
+        <div className="grid grid-flow-row gap-6 md:grid-cols-2 xl:grid-cols-3 md:gap-x-[calc(100%-343px*2)]   xl:gap-x-[calc((100%-360px*3)/2)] md:gap-y-8 main:gap-x-10 main:gap-y-8 item-start">
+        {courses.map((course) => {
+          return (
+            <CourseCard key={course[1]._id} courseId={course[1]._id} course={course[1]} isSubscribed={false} imgURL={course[1].nameEN} title={course[1].nameRU} />
+          );
+        })}
+      </div>
+      <div className="flex self-center w-[140px] mt-8">
+        <Link href="#top">
+          <Button title="Наверх &#8593;" />
+        </Link>
+      </div>
+    </>
+  );
+}
