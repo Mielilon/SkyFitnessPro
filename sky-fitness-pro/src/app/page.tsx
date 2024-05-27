@@ -63,16 +63,16 @@ export default function MainCoursesPage() {
           <>
             <div
               id="top"
-              className="flex flex-col md:flex-row  items-start main:gap-5"
-            >
-              <h1 className="mb-[34px] lg:mb-[50px] font-roboto-500 w-min-[327px] lg:w-[700px] main:w-[850px] text-[32px] md:text-[40px] main:text-[60px]  leading-[110%]">
+              className="flex flex-col md:flex-row "
+            >           
+              <h1 className="mb-[34px] lg:mb-[50px] font-roboto-500 md:w-[calc(100% - 308px)] main:w-[850px] text-[32px] md:text-[40px] main:text-[60px]  leading-[100%]">
                 Начните заниматься спортом и улучшите качество жизни
               </h1>
               <p className="hidden lg:block w-[288px] h-[120px] py-4 main:px-5 px-4 font-roboto-400 main:text-[32px] leading-none  text-[28px] bg-notice bg-cover bg-no-repeat bg-center pb-8 align-middle">
                 Измени своё тело за полгода!
               </p>
             </div>
-            <div className="flex flex-wrap gap-6 lg:gap-x-10 lg:gap-y-8">
+            <div className="grid grid-flow-row gap-6 md:grid-cols-2 xl:grid-cols-3 md:gap-x-[calc(100%-360px*2)]   xl:gap-x-[calc((100%-360px*3)/2)] md:gap-y-8 main:gap-x-10 main:gap-y-8 item-start">
               {courses.map(course => {
                 const isUserIncludedCourse = userSubscriptions.includes(
                   course[0],

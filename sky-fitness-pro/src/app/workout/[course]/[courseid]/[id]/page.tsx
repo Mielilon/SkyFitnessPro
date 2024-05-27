@@ -205,7 +205,7 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
             <h2 className="text-[32px] text-black font-skyeng font-normal mb-[20px]">
               Упражнения тренировки
             </h2>
-            <div className="grid grid-flow-row gap-6 items-end md:grid-cols-2 md:gap-5 xl:grid-cols-3">
+            <div className="grid grid-flow-row gap-6 md:gap-5 items-end md:grid-cols-2 xl:grid-cols-3">
               {exercises.length > 0 &&
                 exercises.map((exercise, i) => {
                   // const arrAvr = exercises.map((exercise) =>
@@ -222,7 +222,7 @@ export default function WorkoutPage({ params }: WorkoutPageType) {
                     .concat('%');
 
                   return (
-                    <div className="lg:w-[320px] w-[283px]" key={i}>
+                    <div className=" w-[283px] lg:w-[320px]" key={i}>
                       <WorkoutProgress
                         title={exercise[1].name}
                         progress={progress}
